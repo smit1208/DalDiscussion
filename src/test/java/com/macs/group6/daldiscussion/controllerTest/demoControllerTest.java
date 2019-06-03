@@ -10,6 +10,6 @@ public class demoControllerTest {
     public void testHomeController() {
         demoController dc = new demoController();
         String result = dc.demo();
-        assertEquals(result, "Testing works");
+        assertEquals(result, "Hi Welcome");
     }
 }
