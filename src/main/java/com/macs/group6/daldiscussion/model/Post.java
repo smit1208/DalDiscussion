@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class post {
+public class Post {
     private int id;
     private String post_title;
     private String post_description;
@@ -12,14 +12,14 @@ public class post {
     private boolean isAlive;
     private boolean report;
     private int upVote;
-    private List<comment> comments;
+    private List<Comment> Comments;
 
-    public List<comment> getComments() {
-        return comments;
+    public List<Comment> getComments() {
+        return Comments;
     }
 
-    public void setComments(List<comment> comments) {
-        this.comments = comments;
+    public void setComments(List<Comment> Comments) {
+        this.Comments = Comments;
     }
 
     public int getId() {
