@@ -1,6 +1,6 @@
 package com.macs.group6.daldiscussion.model;
 
-public class comment {
+public class Comment {
     private int id;
     private String comment_description;
     private int commentUp;
