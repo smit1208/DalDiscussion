@@ -1,6 +1,6 @@
 package com.macs.group6.daldiscussion.model;
 
-public class reply {
+public class Reply {
     private int id;
     private String reply_description;
 
