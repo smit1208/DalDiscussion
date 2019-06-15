@@ -10,33 +10,12 @@
 </head>
 <body>
 <h3 style="text-align: center">Welcome to Dal Discussion</h3>
-<%--https://getbootstrap.com/docs/4.0/components/modal/--%>
 <div class="container" style="text-align: center; margin-top: 3%">
     <input type="text" placeholder="Search your posts" class="col-sm-5">
     <button type="submit" class="btn-primary">Search</button>
             <c:forEach items="${posts}" var="post">
                 <div class="card" style="margin-top: 3%">
-                    <a class="card-header" data-toggle="modal" href="#id${post.id}" >${post.post_title}</a>
-                    <!-- Modal -->
-                    <div class="modal fade" id="id${post.id}" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalTitle">${post.post_title}</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                        ${post.post_description}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a class="card-header" href="/getPosts/${post.id}" >${post.post_title}</a>
                     <div class="card-text">${post.post_description}</div>
                 </div>
             </c:forEach>

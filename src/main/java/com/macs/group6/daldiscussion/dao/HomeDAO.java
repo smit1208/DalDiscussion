@@ -1,5 +1,6 @@
 package com.macs.group6.daldiscussion.dao;
 
+import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
 
@@ -10,16 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeDAO{
+    Connection connection = null;
+    Statement statement = null;
+    ResultSet resultSet = null;
+
     public List<Post> getAllPosts(){
         List<Post> posts = new ArrayList<>();
 
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
-
         try{
-            DatabaseConfig databaseConfig = new DatabaseConfig();
-            connection = databaseConfig.loadDatabase();
+            DatabaseConfig.getInstance();
+            connection = DatabaseConfig.getInstance().loadDatabase();
             statement = connection.createStatement();
             resultSet = statement.executeQuery("SELECT * FROM post;");
 
@@ -34,20 +35,31 @@ public class HomeDAO{
         }catch (Exception e) {
             e.printStackTrace();
         }finally {
-            try {
-                if(statement!=null){
-                    statement.close();
-                }
-                if(resultSet!=null){
-                    resultSet.close();
-                }
-                if(connection!=null){
-                    connection.close();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }
         return posts;
     }
+    public List<Comment> getComments(int postId){
+        List<Comment> commentList = new ArrayList<>();
+        try{
+            connection = DatabaseConfig.getInstance().loadDatabase();
+            statement = connection.createStatement();
+            String query = "SELECT * FROM comments where post_id ="+postId;
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()){
+                Comment comment = new Comment();
+                comment.setId(resultSet.getInt("id"));
+                comment.setComment_description(resultSet.getString("comment_body"));
+                commentList.add(comment);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
+        }
+    return commentList;
+    }
+
 }

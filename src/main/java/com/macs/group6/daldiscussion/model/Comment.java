@@ -1,10 +1,21 @@
 package com.macs.group6.daldiscussion.model;
 
+import java.util.List;
+
 public class Comment {
     private int id;
     private String comment_description;
     private int commentUp;
     private int commentDown;
+    private List<Reply> replies;
+
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
 
     public int getId() {
         return id;

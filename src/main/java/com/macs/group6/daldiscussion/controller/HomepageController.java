@@ -13,10 +13,13 @@ import java.util.List;
 public class HomepageController {
     private HomeDAO homeDAO = new HomeDAO();
     private List<Post> posts = new ArrayList<>();
+
     @RequestMapping("/home")
     public String Home(Model model){
+
         posts = homeDAO.getAllPosts();
         model.addAttribute("posts",posts);
         return Views.HOMEPAGE;
+
         }
 }
