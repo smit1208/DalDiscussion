@@ -1,48 +1,21 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Login Page</title>
-</head>
-<body>
-<form name="loginForm" method="post" action="login.php">
-    <table width="20%" bgcolor="0099CC" align="center">
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
 
-        <tr>
-            <td colspan=2><center><font size=4><b>HTML Login Page</b></font></center></td>
-        </tr>
+<form method="post" action="index.html">
+    <div class="box">
+        <h1>Dashboard</h1>
 
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" size=25 name="userid"></td>
-        </tr>
+        <input type="email" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" />
 
-        <tr>
-            <td>Password:</td>
-            <td><input type="Password" size=25 name="pwd"></td>
-        </tr>
+        <input type="password" name="email" value="email" onFocus="field_focus(this, 'email');" onblur="field_blur(this, 'email');" class="email" />
 
-        <tr>
-            <td ><input type="Reset"></td>
-            <td><input type="submit" onclick="return check(this.form)" value="Login"></td>
-        </tr>
+        <a href="#"><div class="btn">Sign In</div></a> <!-- End Btn -->
 
-    </table>
+        <a href="#"><div id="btn2">Register</div></a> <!-- End Btn2 -->
+
+    </div> <!-- End Box -->
+
 </form>
-<script language="javascript">
-    function check(form)
-    {
 
-        if(form.userid.value == "Roseindia" && form.pwd.value == "Roseindia")
-        {
-            return true;
-        }
-        else
-        {
-            alert("Error Password or Username")
-            return false;
-        }
-    }
-</script>
+<p>Forgot your password? <u style="color:#f1c40f;">Click Here!</u></p>
 
-</body>
-</html>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
