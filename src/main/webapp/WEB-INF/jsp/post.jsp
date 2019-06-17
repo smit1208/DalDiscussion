@@ -23,9 +23,13 @@
     <button type="button" style="color: white;background-color: red; ">Post to private group</button>
 </div>
 <div>
-    <form>
+    <form method="post" action ="/savePost">
         Add a post<br>
-        <input type="text" name="addPost"><br>
+        <input type="text" name="postTitle"><br>
+        Add a post<br>
+        <input type="text" name="postDesc"><br>
+        <h2>Post title : ${postTitle}</h2>
+        <h2>Post title : ${postDesc}</h2>
         <input style="color: white; background-color: darkcyan" type="submit" value="POST">
     </form>
 </div>
