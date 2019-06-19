@@ -22,7 +22,7 @@ public class SendForgotPasswordEmailService {
 
     private static SendForgotPasswordEmailService __instance;
 
-    public static SendForgotPasswordEmailService instance() {
+    public static SendForgotPasswordEmailService getInstance() {
         if (__instance == null) {
             __instance = new SendForgotPasswordEmailService();
         }
@@ -32,11 +32,11 @@ public class SendForgotPasswordEmailService {
     public SendForgotPasswordEmailResponse run(SendForgotPasswordEmailRequest request) {
         SendForgotPasswordEmailResponse response = new SendForgotPasswordEmailResponse();
         try {
-            if (request.email.trim().length() == 0) {
+            if (request.getEmail().trim().length() == 0) {
                 response.setError("SendForgotPassword.EmailRequired", "Email is required!");
                 return response;
             }
-            List<User> userList = UserDAO.instance().findByEmail(request.email);
+            List<User> userList = UserDAO.getInstance().findByEmail(request.getEmail());
             if (userList.size() == 0) {
                 response.setError("SendForgotPassword.EmailNotFound", "Email is not found!");
                 return response;
@@ -47,46 +47,46 @@ public class SendForgotPasswordEmailService {
             for (int i = 0; i < userList.size(); i++) {
                 User user = userList.get(i);
                 Verification verification = new Verification();
-                verification.code = UUID.randomUUID().toString().replaceAll("-", "");
-                verification.verifiedToken = " ";
-                verification.verifyToken = UUID.randomUUID().toString().replaceAll("-", "");
-                verification.jsonData = "{}";
-                verification.tokenCode = user.code;
-                verification.tokenText = " ";
-                verification.kind = Verification.KIND_FORGOT_PASSWORD;
-                VerificationDAO.instance().save(verification);
+                verification.setCode(UUID.randomUUID().toString().replaceAll("-", ""));
+                verification.setVerifiedToken(" ");
+                verification.setVerifyToken(UUID.randomUUID().toString().replaceAll("-", ""));
+                verification.setJsonData("{}");
+                verification.setTokenCode(user.getCode());
+                verification.setTokenText(" ");
+                verification.setKind(Verification.KIND_FORGOT_PASSWORD);
+                VerificationDAO.getInstance().save(verification);
                 SendEmailRequest sendEmailRequest = new SendEmailRequest();
-                sendEmailRequest.bodyHtmlTemplate = bodyHtmlTemplate;
-                sendEmailRequest.bodyTextTemplate = bodyTextTemplate;
-                sendEmailRequest.subjectTemplate = subjectTemplate;
-                sendEmailRequest.templateVariables.put("token", verification.verifyToken);
-                sendEmailRequest.templateVariables.put("changePasswordLink", AppConfig.instance().resetPasswordUrl);
-                sendEmailRequest.templateVariables.put("usercode", user.code);
-                sendEmailRequest.templateVariables.put("username", user.username);
-                sendEmailRequest.templateVariables.put("firstName", user.firstName);
-                sendEmailRequest.templateVariables.put("lastName", user.lastName);
-                sendEmailRequest.templateVariables.put("middleName", user.middleName);
-                sendEmailRequest.templateVariables.put("email", user.email);
-                sendEmailRequest.toName = user.firstName + " " + user.middleName + (user.middleName.length() > 0 ? " " : "") + user.lastName;
-                sendEmailRequest.toEmail = user.email;
-                sendEmailRequest.smtpHost = AppConfig.instance().smtpHost;
-                sendEmailRequest.smtpPort = AppConfig.instance().smtpPort;
-                sendEmailRequest.smtpUsername = AppConfig.instance().smtpUsername;
-                sendEmailRequest.smtpPassword = AppConfig.instance().smtpPassword;
-                sendEmailRequest.fromName = AppConfig.instance().smtpFromName;
-                sendEmailRequest.fromEmail = AppConfig.instance().smtpFromEmail;
-                SendEmailResponse sendEmailResponse = SendEmailService.instance().run(sendEmailRequest);
-                if (sendEmailResponse.isError) {
-                    response.setError(sendEmailResponse.errorCode, sendEmailResponse.errorMessage);
+                sendEmailRequest.setBodyHtmlTemplate(bodyHtmlTemplate);
+                sendEmailRequest.setBodyTextTemplate(bodyTextTemplate);
+                sendEmailRequest.setSubjectTemplate(subjectTemplate);
+                sendEmailRequest.getTemplateVariables().put("token", verification.getVerifyToken());
+                sendEmailRequest.getTemplateVariables().put("changePasswordLink", AppConfig.getInstance().getResetPasswordUrl());
+                sendEmailRequest.getTemplateVariables().put("usercode", user.getCode());
+                sendEmailRequest.getTemplateVariables().put("username", user.getUsername());
+                sendEmailRequest.getTemplateVariables().put("firstName", user.getFirstName());
+                sendEmailRequest.getTemplateVariables().put("lastName", user.getLastName());
+                sendEmailRequest.getTemplateVariables().put("middleName", user.getMiddleName());
+                sendEmailRequest.getTemplateVariables().put("email", user.getEmail());
+                sendEmailRequest.setToName(user.getFirstName() + " " + user.getMiddleName() + (user.getMiddleName().length() > 0 ? " " : "") + user.getLastName());
+                sendEmailRequest.setToEmail(user.getEmail());
+                sendEmailRequest.setSmtpHost(AppConfig.getInstance().getSmtpHost());
+                sendEmailRequest.setSmtpPort(AppConfig.getInstance().getSmtpPort());
+                sendEmailRequest.setSmtpUsername(AppConfig.getInstance().getSmtpUsername());
+                sendEmailRequest.setSmtpPassword(AppConfig.getInstance().getSmtpPassword());
+                sendEmailRequest.setFromName(AppConfig.getInstance().getSmtpFromName());
+                sendEmailRequest.setFromEmail(AppConfig.getInstance().getSmtpFromEmail());
+                SendEmailResponse sendEmailResponse = SendEmailService.getInstance().run(sendEmailRequest);
+                if (sendEmailResponse.getIsError()) {
+                    response.setError(sendEmailResponse.getErrorCode(), sendEmailResponse.getErrorMessage());
                     return response;
                 }
-                response.tokenList.add(verification.verifyToken);
-                response.usercodeList.add(user.code);
-                response.sentBodyHtmlList.add(sendEmailResponse.sentBodyHtml);
-                response.sentBodyTextList.add(sendEmailResponse.sentBodyText);
-                response.sentSubjectList.add(sendEmailResponse.sentSubject);
-                response.sentEmailList.add(sendEmailResponse.sentEmail);
-                response.sentNameList.add(sendEmailResponse.sentName);
+                response.getTokenList().add(verification.getVerifyToken());
+                response.getUsercodeList().add(user.getCode());
+                response.getSentBodyHtmlList().add(sendEmailResponse.getSentBodyHtml());
+                response.getSentBodyTextList().add(sendEmailResponse.getSentBodyText());
+                response.getSentSubjectList().add(sendEmailResponse.getSentSubject());
+                response.getSentEmailList().add(sendEmailResponse.getSentEmail());
+                response.getSentNameList().add(sendEmailResponse.getSentName());
             }
         } catch (Exception e) {
             response.setError("SendForgotPassword.Failed", e);

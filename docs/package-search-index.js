@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"com.macs.group6.daldiscussion"},{"l":"com.macs.group6.daldiscussion.controller"},{"l":"com.macs.group6.daldiscussion.dao"},{"l":"com.macs.group6.daldiscussion.entities"},{"l":"com.macs.group6.daldiscussion.model"},{"l":"com.macs.group6.daldiscussion.service"},{"l":"database"}]

@@ -10,7 +10,7 @@ import java.util.List;
 public class LoginService {
     private static LoginService __instance;
 
-    public static LoginService instance() {
+    public static LoginService getInstance() {
         if (__instance == null) {
             __instance = new LoginService();
         }
@@ -20,15 +20,15 @@ public class LoginService {
     public LoginResponse run(LoginRequest request) {
         LoginResponse response = new LoginResponse();
         try {
-            if (request.username.trim().length() == 0) {
+            if (request.getUsername().trim().length() == 0) {
                 response.setError("Login.UsernameRequired", "Username is required!");
                 return response;
             }
-            if (request.password.trim().length() == 0) {
+            if (request.getPassword().trim().length() == 0) {
                 response.setError("Login.PasswordRequired", "Password is required!");
                 return response;
             }
-            List<User> userList = UserDAO.instance().findByUsername(request.username);
+            List<User> userList = UserDAO.getInstance().findByUsername(request.getUsername());
             if (userList.size() == 0) {
                 response.setError("Login.UserNotFound", "User is not found!");
                 return response;
@@ -38,11 +38,11 @@ public class LoginService {
                 return response;
             }
             User user = userList.get(0);
-            if (!user.password.equals(request.password)) {
+            if (!user.getPassword().equals(request.getPassword())) {
                 response.setError("Login.PasswordNotMatch", "Password is not match!");
                 return response;
             }
-            response.usercode = user.code;
+            response.setUsercode(user.getCode());
         } catch (Exception e) {
             response.setError("Login.Failed", e);
         }

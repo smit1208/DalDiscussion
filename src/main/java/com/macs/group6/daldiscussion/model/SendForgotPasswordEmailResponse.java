@@ -1,35 +1,70 @@
 package com.macs.group6.daldiscussion.model;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SendForgotPasswordEmailResponse {
-    public boolean isError = false;
-    public String errorCode = "";
-    public String errorMessage = "";
+public class SendForgotPasswordEmailResponse extends BasicResponse {
+    private List<String> _sentEmailList = new ArrayList<>();
+    private List<String> _sentNameList = new ArrayList<>();
+    private List<String> _sentSubjectList = new ArrayList<>();
+    private List<String> _sentBodyTextList = new ArrayList<>();
+    private List<String> _sentBodyHtmlList = new ArrayList<>();
+    private List<String> _tokenList = new ArrayList<>();
+    private List<String> _usercodeList = new ArrayList<>();
 
-    public List<String> sentEmailList = new ArrayList<>();
-    public List<String> sentNameList = new ArrayList<>();
-    public List<String> sentSubjectList = new ArrayList<>();
-    public List<String> sentBodyTextList = new ArrayList<>();
-    public List<String> sentBodyHtmlList = new ArrayList<>();
-    public List<String> tokenList = new ArrayList<>();
-    public List<String> usercodeList = new ArrayList<>();
-
-    public SendForgotPasswordEmailResponse setError(String errorCode, String errorMessage) {
-        this.isError = true;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-        return this;
+    public List<String> getUsercodeList() {
+        return _usercodeList;
     }
 
-    public SendForgotPasswordEmailResponse setError(String errorCode, Throwable t) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        t.printStackTrace(pw);
-        this.setError(errorCode, sw.toString());
-        return this;
+    public void setUsercodeList(List<String> usercodeList) {
+        _usercodeList = usercodeList;
+    }
+
+    public List<String> getTokenList() {
+        return _tokenList;
+    }
+
+    public void setTokenList(List<String> tokenList) {
+        _tokenList = tokenList;
+    }
+
+    public List<String> getSentBodyHtmlList() {
+        return _sentBodyHtmlList;
+    }
+
+    public void setSentBodyHtmlList(List<String> sentBodyHtmlList) {
+        _sentBodyHtmlList = sentBodyHtmlList;
+    }
+
+    public List<String> getSentBodyTextList() {
+        return _sentBodyTextList;
+    }
+
+    public void setSentBodyTextList(List<String> sentBodyTextList) {
+        _sentBodyTextList = sentBodyTextList;
+    }
+
+    public List<String> getSentSubjectList() {
+        return _sentSubjectList;
+    }
+
+    public void setSentSubjectList(List<String> sentSubjectList) {
+        _sentSubjectList = sentSubjectList;
+    }
+
+    public List<String> getSentNameList() {
+        return _sentNameList;
+    }
+
+    public void setSentNameList(List<String> sentNameList) {
+        _sentNameList = sentNameList;
+    }
+
+    public List<String> getSentEmailList() {
+        return _sentEmailList;
+    }
+
+    public void setSentEmailList(List<String> sentEmailList) {
+        _sentEmailList = sentEmailList;
     }
 }

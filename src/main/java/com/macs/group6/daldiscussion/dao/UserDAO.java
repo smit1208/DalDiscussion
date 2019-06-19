@@ -11,28 +11,70 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * DAO class for User entity.
+ * @author Kush Rao
+ */
 public class UserDAO {
+    /**
+     * Creating table SQL script of User entity
+     */
     private static final String SQL_CREATE_TABLE = "CREATE TABLE users (code VARCHAR(36) PRIMARY KEY, kind INT NOT NULL, username VARCHAR(100) NOT NULL, password VARCHAR(200) NOT NULL, first_name VARCHAR(100) NOT NULL, last_name VARCHAR(100) NOT NULL, middle_name VARCHAR(100) NOT NULL, email VARCHAR(500) NOT NULL);";
+    /**
+     * Checking table existing SQL script of User entity
+     */
     private static final String SQL_TABLE_EXISTS = "SELECT code, kind, username, password, first_name, last_name, middle_name, email FROM users LIMIT 1;";
 
+    /**
+     * Checking row existing SQL script of User entity
+     */
     private static final String SQL_RECORD_EXISTS = "SELECT code from users WHERE code = ? LIMIT 1;";
+    /**
+     * Updating row SQL script of User entity
+     */
     private static final String SQL_UPDATE_RECORD = "UPDATE users SET kind = ?, username = ?, password = ?, first_name = ?, last_name = ?, middle_name = ?, email = ? WHERE code = ?;";
+    /**
+     * Deleting row SQL script of User entity
+     */
     private static final String SQL_DELETE_RECORD = "DELETE FROM users WHERE code = ?;";
+    /**
+     * Inserting row SQL script of User entity
+     */
     private static final String SQL_INSERT_RECORD = "INSERT INTO users (code, kind, username, password, first_name, last_name, middle_name, email) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    /**
+     * Finding row by code SQL script of User entity
+     */
     private static final String SQL_FIND_BY_CODE = "SELECT code, kind, username, password, first_name, last_name, middle_name, email FROM users WHERE code = ? LIMIT 1;";
+    /**
+     * Finding row by email SQL script of User entity
+     */
     private static final String SQL_FIND_BY_EMAIL = "SELECT code, kind, username, password, first_name, last_name, middle_name, email FROM users WHERE email = ?;";
+    /**
+     * Finding row by username SQL script of User entity
+     */
     private static final String SQL_FIND_BY_USERNAME = "SELECT code, kind, username, password, first_name, last_name, middle_name, email FROM users WHERE username = ?;";
 
     private static UserDAO __instance;
 
-    public static UserDAO instance() {
+    /**
+     * Singleton implementation of DAO class of User entity
+     * @return a DAO instance of User entity
+     */
+    public static UserDAO getInstance() {
         if (__instance == null) {
             __instance = new UserDAO();
         }
         return __instance;
     }
 
+    /**
+     * Delete user row by usercode
+     * @param code a usercode
+     * @return a DAO instance of User entity
+     * @throws Exception is thrown when deleting user failed
+     */
     public UserDAO delete(String code) throws Exception {
+        createIfNotExists();
         Connection connection = DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
         preparedStatement.setString(1, code);
@@ -42,6 +84,12 @@ public class UserDAO {
         return this;
     }
 
+    /**
+     * Find user row by usercode
+     * @param code a usercode
+     * @return a NULL if not found, User instance if found
+     * @throws Exception is thrown when finding user failed
+     */
     public User findByCode(String code) throws Exception {
         createIfNotExists();
         DatabaseConfig.getInstance();
@@ -63,6 +111,12 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Find user row by username
+     * @param username a username
+     * @return a list user instance found
+     * @throws Exception is thrown if finding user failed
+     */
     public List<User> findByUsername(String username) throws Exception {
         createIfNotExists();
         List<User> target = new ArrayList<>();
@@ -81,6 +135,12 @@ public class UserDAO {
         return target;
     }
 
+    /**
+     * Find user row by email
+     * @param email a email
+     * @return a list of User instance found
+     * @throws Exception is thrown if finding user failed
+     */
     public List<User> findByEmail(String email) throws Exception {
         createIfNotExists();
         List<User> target = new ArrayList<>();
@@ -99,41 +159,53 @@ public class UserDAO {
         return target;
     }
 
+    /**
+     * Parse result set to User instance
+     * @param resultSet a result set
+     * @return a User instance
+     * @throws Exception is thrown if parsing failed
+     */
     public User parse(ResultSet resultSet) throws Exception {
         User target = new User();
-        target.code = resultSet.getString(1);
-        target.kind = resultSet.getInt(2);
-        target.username = resultSet.getString(3);
-        target.password = resultSet.getString(4);
-        target.firstName = resultSet.getString(5);
-        target.lastName = resultSet.getString(6);
-        target.middleName = resultSet.getString(7);
-        target.email = resultSet.getString(8);
+        target.setCode(resultSet.getString(1));
+        target.setKind(resultSet.getInt(2));
+        target.setUsername(resultSet.getString(3));
+        target.setPassword(resultSet.getString(4));
+        target.setFirstName(resultSet.getString(5));
+        target.setLastName(resultSet.getString(6));
+        target.setMiddleName(resultSet.getString(7));
+        target.setEmail(resultSet.getString(8));
         return target;
     }
 
+    /**
+     * Insert or update User instance
+     * @param data a User instance
+     * @return a DAO instance of User entity
+     * @throws Exception is thrown if upserting failed
+     */
     public UserDAO save(User data) throws Exception {
         createIfNotExists();
-        if (data.code == null || data.code.trim().length() == 0) {
-            data.code = UUID.randomUUID().toString().replaceAll("-", "");
+        if (data.getCode() == null || data.getCode().trim().length() == 0) {
+            data.setCode(UUID.randomUUID().toString().replaceAll("-", ""));
         }
         DatabaseConfig.getInstance();
         Connection connection = DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
-        preparedStatement.setString(1, data.code);
+        preparedStatement.setString(1, data.getCode());
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             resultSet.close();
             preparedStatement.close();
             preparedStatement = connection.prepareStatement(SQL_UPDATE_RECORD);
-            preparedStatement.setInt(1, data.kind);
-            preparedStatement.setString(2, data.username);
-            preparedStatement.setString(3, data.password);
-            preparedStatement.setString(4, data.firstName);
-            preparedStatement.setString(5, data.lastName);
-            preparedStatement.setString(6, data.middleName);
-            preparedStatement.setString(7, data.email);
-            preparedStatement.setString(8, data.code);
+            preparedStatement.setInt(1, data.getKind());
+            preparedStatement.setString(2, data.getUsername());
+            preparedStatement.setString(3, data.getPassword());
+            preparedStatement.setString(4, data.getFirstName());
+            preparedStatement.setString(5, data.getLastName());
+            preparedStatement.setString(6, data.getMiddleName());
+            preparedStatement.setString(7, data.getEmail());
+            preparedStatement.setString(8, data.getCode());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -141,14 +213,14 @@ public class UserDAO {
             resultSet.close();
             preparedStatement.close();
             preparedStatement = connection.prepareStatement(SQL_INSERT_RECORD);
-            preparedStatement.setString(1, data.code);
-            preparedStatement.setInt(2, data.kind);
-            preparedStatement.setString(3, data.username);
-            preparedStatement.setString(4, data.password);
-            preparedStatement.setString(5, data.firstName);
-            preparedStatement.setString(6, data.lastName);
-            preparedStatement.setString(7, data.middleName);
-            preparedStatement.setString(8, data.email);
+            preparedStatement.setString(1, data.getCode());
+            preparedStatement.setInt(2, data.getKind());
+            preparedStatement.setString(3, data.getUsername());
+            preparedStatement.setString(4, data.getPassword());
+            preparedStatement.setString(5, data.getFirstName());
+            preparedStatement.setString(6, data.getLastName());
+            preparedStatement.setString(7, data.getMiddleName());
+            preparedStatement.setString(8, data.getEmail());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -156,6 +228,10 @@ public class UserDAO {
         return this;
     }
 
+    /**
+     * Create User table if there is not
+     * @return a DAO instance of User entity
+     */
     public UserDAO createIfNotExists() {
         try {
             if (!isTableExists()) {
@@ -166,12 +242,17 @@ public class UserDAO {
                 statement.close();
                 connection.close();
             }
+            createTestUsers();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return this;
     }
 
+    /**
+     * Check if User table exists or not
+     * @return a true if User table exists, a false if not
+     */
     public boolean isTableExists() {
         try {
             DatabaseConfig.getInstance();
@@ -193,18 +274,21 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Create tested user if there is not
+     */
     public void createTestUsers() {
         try {
             User user = findByCode("geetopod");
             if (user == null) {
                 user = new User();
-                user.code = "geetopod";
-                user.username = "geetopod";
-                user.password = "geetopod";
-                user.email = "support@geetopod.com";
-                user.firstName = "geeto";
-                user.lastName = "Pod";
-                user.middleName = "";
+                user.setCode("geetopod");
+                user.setUsername("geetopod");
+                user.setPassword("geetopod");
+                user.setEmail("support@geetopod.com");
+                user.setFirstName("geeto");
+                user.setLastName("Pod");
+                user.setMiddleName("");
                 save(user);
             }
         } catch (Exception e) {

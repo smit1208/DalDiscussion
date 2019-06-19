@@ -81,12 +81,12 @@ public class PublicController {
         String message = "";
 
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
-        resetPasswordRequest.password = password;
-        resetPasswordRequest.passwordRetype = passwordRetype;
-        resetPasswordRequest.token = token;
-        ResetPasswordResponse resetPasswordResponse = ResetPasswordService.instance().run(resetPasswordRequest);
-        if (resetPasswordResponse.isError) {
-            message = resetPasswordResponse.errorMessage;
+        resetPasswordRequest.setPassword(password);
+        resetPasswordRequest.setPasswordRetype(passwordRetype);
+        resetPasswordRequest.setToken(token);
+        ResetPasswordResponse resetPasswordResponse = ResetPasswordService.getInstance().run(resetPasswordRequest);
+        if (resetPasswordResponse.getIsError()) {
+            message = resetPasswordResponse.getErrorMessage();
         } else {
             message = "Password has been changed!";
         }
@@ -110,10 +110,10 @@ public class PublicController {
         String message = "";
 
         SendForgotPasswordEmailRequest sendForgotPasswordEmailRequest = new SendForgotPasswordEmailRequest();
-        sendForgotPasswordEmailRequest.email = email;
-        SendForgotPasswordEmailResponse sendForgotPasswordEmailResponse = SendForgotPasswordEmailService.instance().run(sendForgotPasswordEmailRequest);
-        if (sendForgotPasswordEmailResponse.isError) {
-            message = sendForgotPasswordEmailResponse.errorMessage;
+        sendForgotPasswordEmailRequest.setEmail(email);
+        SendForgotPasswordEmailResponse sendForgotPasswordEmailResponse = SendForgotPasswordEmailService.getInstance().run(sendForgotPasswordEmailRequest);
+        if (sendForgotPasswordEmailResponse.getIsError()) {
+            message = sendForgotPasswordEmailResponse.getErrorMessage();
         } else {
             message = "Instruction email has been sent to your mailbox.";
         }
@@ -168,11 +168,11 @@ public class PublicController {
         }
         try {
             if (usercode.length() > 0) {
-                authUser = UserDAO.instance().findByCode(usercode);
+                authUser = UserDAO.getInstance().findByCode(usercode);
             }
             if (authUser == null) {
                 authUser = new User();
-                authUser.code = usercode;
+                authUser.setCode(usercode);
             }
         } catch (Exception e) {
             e.printStackTrace();
