@@ -11,8 +11,11 @@
 <body>
 <h3 style="text-align: center">Welcome to Dal Discussion</h3>
 <div class="container" style="text-align: center; margin-top: 3%">
-    <input type="text" placeholder="Search your posts" class="col-sm-5">
-    <button type="submit" class="btn-primary">Search</button>
+    <form id="myForm">
+        <input type="text" placeholder="Search your posts" class="col-sm-5 input-lg">
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
             <c:forEach items="${posts}" var="post">
                 <div class="card" style="margin-top: 3%">
                     <a class="card-header" href="/getPosts/${post.id}" >${post.post_title}</a>
