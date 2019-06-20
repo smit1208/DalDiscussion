@@ -1,6 +1,7 @@
 package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.dao.CommentDAO;
+import com.macs.group6.daldiscussion.dao.DAOFactory;
 import com.macs.group6.daldiscussion.dao.ReplyDAO;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
@@ -9,8 +10,18 @@ import com.macs.group6.daldiscussion.model.Reply;
 import java.util.List;
 
 public class PostService implements IPostService {
-    CommentDAO commentDAO = new CommentDAO();
-    ReplyDAO replyDAO = new ReplyDAO();
+
+    CommentDAO commentDAO = (CommentDAO) DAOFactory.getInstance().getCommentDAO();
+    ReplyDAO replyDAO = (ReplyDAO) DAOFactory.getInstance().getReplyDAO();
+
+    private static IPostService iPostService;
+
+    public static IPostService getInstance(){
+        if(iPostService == null){
+            iPostService = new PostService();
+        }
+        return iPostService;
+    }
 
     @Override
     public List<Comment> getComments(int postId) {

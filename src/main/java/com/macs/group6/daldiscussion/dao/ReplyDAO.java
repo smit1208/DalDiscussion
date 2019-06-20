@@ -16,7 +16,17 @@ public class ReplyDAO implements IReplyDAO{
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
+    private static IReplyDAO iReplyDAO;
+
     private final String ADDREPLY = "{call addReply(?,?,?)}";
+
+    public static IReplyDAO getInstance(){
+        if(iReplyDAO == null){
+            iReplyDAO = new ReplyDAO();
+        }
+        return iReplyDAO;
+    }
+
     @Override
     public List<Reply> getReplies(int commentId) {
 

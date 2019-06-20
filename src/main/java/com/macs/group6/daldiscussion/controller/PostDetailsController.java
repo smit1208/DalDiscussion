@@ -4,6 +4,7 @@ import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.service.PostService;
+import com.macs.group6.daldiscussion.service.ServiceFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -14,7 +15,7 @@ import java.util.List;
 
 @Controller
 public class PostDetailsController {
-    PostService postService = new PostService();
+    PostService postService = (PostService) ServiceFactory.getInstance().getPostService();
     List<Comment> commentList = new ArrayList<>();
     Post post = new Post();
 
