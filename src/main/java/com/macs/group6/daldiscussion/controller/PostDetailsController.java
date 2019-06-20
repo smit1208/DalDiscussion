@@ -1,84 +1,29 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.dao.HomeDAO;
 import com.macs.group6.daldiscussion.model.Comment;
-import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.model.Reply;
-import com.macs.group6.daldiscussion.service.PostService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/getPosts")
 public class PostDetailsController {
-    PostService postService = new PostService();
-    List<Comment> commentList = new ArrayList<>();
-    Post post = new Post();
 
-    @RequestMapping(value = "/getPosts/{id}", method = RequestMethod.GET)
-    public String viewPostDetails(Model model, @PathVariable("id") int post_id) {
-        post = postService.getPostById(post_id);
+    private HomeDAO homeDAO = new HomeDAO();
+    private List<Comment> commentList = new ArrayList<>();
 
-        commentList = postService.getComments(post_id);
-        List<Reply> replyList = null;
+     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+     public String viewPostDetails(Model model, @PathVariable("id") int post_id){
 
-        for (int i = 0; i < commentList.size(); i++) {
-            replyList = postService.getReplies(commentList.get(i).getId());
-            commentList.get(i).setReplies(replyList);
-
-        }
-        model.addAttribute("comments", commentList);
-        model.addAttribute("post", post);
+        commentList = homeDAO.getComments(post_id);
+        model.addAttribute("comments",commentList);
 
         return Views.POSTDETAILS;
     }
-
-
-    @PostMapping("/getPosts/{id}")
-    public String addComment(@RequestParam("comment") String comment, ModelMap model,@PathVariable("id") int post_id) {
-        Comment c = new Comment();
-        c.setComment_description(comment);
-        postService.addComment(c,post_id);
-        commentList = postService.getComments(post_id);
-        post = postService.getPostById(post_id);
-
-        List<Reply> replyList = null;
-
-        for (int i = 0; i < commentList.size(); i++) {
-            replyList = postService.getReplies(commentList.get(i).getId());
-            commentList.get(i).setReplies(replyList);
-
-        }
-
-        model.addAttribute("post", post);
-        model.addAttribute("comments", commentList);
-        return Views.POSTDETAILS;
-    }
-    @PostMapping("/getPosts/{id}/{c_id}")
-    public String addReply(@RequestParam("reply") String reply,  ModelMap model,@PathVariable("id") int post_id, @PathVariable("c_id") int comment_id) {
-        Reply replies = new Reply();
-        replies.setReply_description(reply);
-
-        postService.addReply(replies,comment_id);
-        commentList = postService.getComments(post_id);
-        post = postService.getPostById(post_id);
-
-        List<Reply> replyList = null;
-
-        for (int i = 0; i < commentList.size(); i++) {
-            replyList = postService.getReplies(commentList.get(i).getId());
-            commentList.get(i).setReplies(replyList);
-        }
-
-        model.addAttribute("post", post);
-        model.addAttribute("comments", commentList);
-        System.out.println(reply);
-
-        return "redirect:/getPosts/{id}";
-
-    }
-
 }
