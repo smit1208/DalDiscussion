@@ -1,6 +1,5 @@
-package com.macs.group6.daldiscussion.dao.impl;
+package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Reply;
 import database.DatabaseConfig;
 

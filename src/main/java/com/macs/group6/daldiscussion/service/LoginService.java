@@ -1,6 +1,6 @@
-package com.macs.group6.daldiscussion.service.impl;
+package com.macs.group6.daldiscussion.service;
 
-import com.macs.group6.daldiscussion.dao.impl.UserDAO;
+import com.macs.group6.daldiscussion.dao.UserDAO;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.LoginRequest;
 import com.macs.group6.daldiscussion.model.LoginResponse;
