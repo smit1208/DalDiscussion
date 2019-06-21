@@ -4,6 +4,4 @@ public class Views {
     // Jsp views
     public static final String HOMEPAGE = "homepage";
     public static final String POSTDETAILS = "PostDetails";
-    public static final String DASHBOARD = "dashboard";
-    public static final String SUBSCRIPTION = "subscription";
 }
