@@ -1,13 +1,9 @@
-package com.macs.group6.daldiscussion.service.impl;
+package com.macs.group6.daldiscussion.service;
 
-import com.macs.group6.daldiscussion.dao.impl.CommentDAO;
-import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.impl.ReplyDAO;
-import com.macs.group6.daldiscussion.dao.impl.PostDao;
+import com.macs.group6.daldiscussion.dao.*;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
-import com.macs.group6.daldiscussion.service.IPostService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
@@ -20,7 +16,7 @@ public class PostService implements IPostService {
 
     CommentDAO commentDAO = (CommentDAO) DAOFactory.getInstance().getCommentDAO();
     ReplyDAO replyDAO = (ReplyDAO) DAOFactory.getInstance().getReplyDAO();
-    com.macs.group6.daldiscussion.dao.IPostDao IPostDao = new PostDao();
+    PostDAO postDAO = (PostDAO) DAOFactory.getInstance().getPostDAO();
     private static IPostService iPostService;
 
     public static IPostService getInstance(){
@@ -32,7 +28,7 @@ public class PostService implements IPostService {
 
     @Override
     public void create(Post post) {
-        IPostDao.create(post);
+        postDAO.create(post);
     }
 
     @Override
@@ -42,7 +38,7 @@ public class PostService implements IPostService {
         try{
             imageBytes = file.getBytes();
             Blob postImageBlob = new javax.sql.rowset.serial.SerialBlob(imageBytes);
-            IPostDao.createPostWithImage(post, postImageBlob);
+            postDAO.createPostWithImage(post, postImageBlob);
         } catch (SerialException e) {
             e.printStackTrace();
         } catch (SQLException e) {

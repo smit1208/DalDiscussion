@@ -1,6 +1,5 @@
-package com.macs.group6.daldiscussion.dao.impl;
+package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.dao.IPostDao;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
 import org.apache.logging.log4j.LogManager;
@@ -9,13 +8,21 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
 
-public class PostDao implements IPostDao {
-    private static final Logger LOGGER = LogManager.getLogger(PostDao.class);
+public class PostDAO implements IPostDAO {
+    private static final Logger LOGGER = LogManager.getLogger(PostDAO.class);
 
     Connection connection = null;
     PreparedStatement insertStatement = null;
     CallableStatement callableStatement = null;
     int result ;
+    private static IPostDAO iPostDAO;
+
+    public static IPostDAO getInstance(){
+        if(iPostDAO == null){
+            iPostDAO = new PostDAO();
+        }
+        return iPostDAO;
+    }
 
     @Override
     public void create(Post post) {

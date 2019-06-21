@@ -4,7 +4,7 @@ package com.macs.group6.daldiscussion.controller;
 //https://www.baeldung.com/spring-file-upload
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.service.IPostService;
-import com.macs.group6.daldiscussion.service.impl.PostService;
+import com.macs.group6.daldiscussion.service.PostService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

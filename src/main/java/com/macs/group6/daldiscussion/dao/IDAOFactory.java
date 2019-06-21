@@ -4,4 +4,5 @@ public interface IDAOFactory {
     IHomeDAO getHomeDAO();
     ICommentDAO getCommentDAO();
     IReplyDAO getReplyDAO();
+    IPostDAO getPostDAO();
 }
