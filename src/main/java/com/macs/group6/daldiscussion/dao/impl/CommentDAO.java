@@ -1,5 +1,6 @@
-package com.macs.group6.daldiscussion.dao;
+package com.macs.group6.daldiscussion.dao.impl;
 
+import com.macs.group6.daldiscussion.dao.ICommentDAO;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
@@ -10,7 +11,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentDAO implements ICommentDAO{
+public class CommentDAO implements ICommentDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;

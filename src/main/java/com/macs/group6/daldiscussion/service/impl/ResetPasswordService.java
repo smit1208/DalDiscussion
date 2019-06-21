@@ -1,7 +1,7 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion.service.impl;
 
-import com.macs.group6.daldiscussion.dao.UserDAO;
-import com.macs.group6.daldiscussion.dao.VerificationDAO;
+import com.macs.group6.daldiscussion.dao.impl.UserDAO;
+import com.macs.group6.daldiscussion.dao.impl.VerificationDAO;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.entities.Verification;
 import com.macs.group6.daldiscussion.model.*;
