@@ -1,32 +1,42 @@
-
-
-<!DOCTYPE html>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
-    <title> Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Login | DAL Discussion</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+<body>
 
-<body style="background-color:#ededed;">
-<div style="background-color:#337ab7;height:50px;"></div>
-<div class="container-fluid">
-    <div class="row col-lg-4 col-lg-offset-4" style="margin-top: 80px;background-color:#fff;padding:20px;border:solid 1px #ddd;">
-
-        <form th:action="@{/login}" method="POST" class="form-signin">
-            <h3 class="form-signin-heading" th:text="Login"></h3>
-            <label>Login name</label>
-            <br /> <input type="text" id="email" name="email" th:placeholder="Email" class="form-control" /> <br />
-            <label>Password</label>
-            <input type="password" th:placeholder="Password" id="password" name="password" class="form-control" /> <br />
-
-            <div align="center" th:if="${param.error}">
-                <p style="font-color: #FF1C19;">Email or Password is invalid.</p>
+    <div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">Login</h5>
+        </div>
+        <div class="card-body">
+            <form action="/login" method="POST">
+            <div class="form-group">
+                <lable>Username</lable>
+                <input type="text" class="form-control" name="username" value="${username}" />
             </div>
-            <button class="btn btn-lg btn-primary" name="Submit" value="Login" type="Submit" th:text="Login" style="margin-right:10px;"></button>
-            <a href="/recover-password">Forgot password?</a>
-        </form>
+            <div class="form-group">
+                <lable>Password</lable>
+                <input type="password" class="form-control" name="password" value="${password}" />
+            </div>
+            <div class="form-group text-center text-danger">
+                ${message}
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-primary" value="Login" />
+                &nbsp;
+                <a href="/forgot-password">Forgot Password</a>
+            </div>
+            </form>
+        </div>
     </div>
-</div>
+    </div>
+
 </body>
 </html>

@@ -1,20 +1,19 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.UserRegister;
-import com.macs.group6.daldiscussion.service.UserService;
 import database.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class RegisterDaoImpl implements RegisterDao {
+public class RegisterDaoImpl implements IRegisterDao {
     @Override
     public void create(UserRegister userRegister ) {
         Connection connection = null;
         Statement statement = null;
 
-        DatabaseConfig databaseConfig = new DatabaseConfig();
+        DatabaseConfig databaseConfig =  DatabaseConfig.getInstance();
         connection = databaseConfig.loadDatabase();
         try {
             statement = connection.createStatement();

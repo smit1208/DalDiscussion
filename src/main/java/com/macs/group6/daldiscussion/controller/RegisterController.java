@@ -1,18 +1,10 @@
 package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.UserRegister;
-import com.macs.group6.daldiscussion.service.RegisterService;
 import com.macs.group6.daldiscussion.service.RegisterServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import javax.validation.Valid;
-import com.macs.group6.daldiscussion.model.User;
-import com.macs.group6.daldiscussion.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -46,7 +38,7 @@ import java.util.Map;
         logger.info("set reg fields");*/
         RegisterServiceImpl callService = new RegisterServiceImpl();
         callService.create(userReg);
-        return "success.jsp";
+        return Views.REGISTER;
     }
 
     }

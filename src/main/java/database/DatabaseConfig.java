@@ -21,7 +21,7 @@ public class DatabaseConfig {
     private static String password;
     private static String driver;
 
-    public DatabaseConfig(){
+    private DatabaseConfig(){
         try(InputStream inputStream = new FileInputStream("src/main/resources/application.properties")){
             Properties properties = new Properties();
             properties.load(inputStream);
