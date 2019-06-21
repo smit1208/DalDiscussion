@@ -1,4 +1,4 @@
-package com.macs.group6.daldiscussion.dao.impl;
+package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.entities.Verification;
 import database.DatabaseConfig;

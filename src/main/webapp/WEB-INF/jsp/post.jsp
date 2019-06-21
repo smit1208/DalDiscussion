@@ -1,15 +1,15 @@
-<%--
-  Created by
-  User: Sharon Alva
-  Date: 2019-06-05
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Title</title>
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <link href="../css/sb-admin.css" rel="stylesheet">
     <style>
         .post-title{
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -17,6 +17,12 @@
     </style>
 </head>
 <body>
+<jsp:include page="navbar.jsp"></jsp:include>
+<div id="wrapper">
+    <jsp:include page="sidebar.jsp"></jsp:include>
+    <div id="content-wrapper">
+
+        <div class="container-fluid">
 
 <div style="text-align: right"> </div>
 <section id ="header" class = "section-padding" style="padding-top: 20px">
@@ -66,7 +72,14 @@
 <div style="text-align: center">
 
 </div>
+        </div>
+    </div>
 
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <script src="../js/sb-admin.min.js"></script>
+</div>
 
 </body>
 </html>

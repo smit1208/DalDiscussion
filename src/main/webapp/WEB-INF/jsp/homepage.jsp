@@ -31,6 +31,9 @@
                     <input type="text" placeholder="Search your posts" class="col-sm-5 input-lg">
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
+                <form id="addPost" action="/addPost">
+                    <button type="submit" class="btn btn-primary">Add Post</button>
+                </form>
 
                 <c:forEach items="${posts}" var="post">
                     <div class="card" style="margin-top: 3%">
