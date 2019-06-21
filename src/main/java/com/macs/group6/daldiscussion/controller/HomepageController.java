@@ -15,7 +15,7 @@ public class HomepageController {
     HomeService homeService = (HomeService) ServiceFactory.getInstance().getHomeService();
     List<Post> posts = new ArrayList<>();
 
-    @RequestMapping("/getPosts")
+    @RequestMapping("/home")
     public String Home(Model model){
 
         posts = homeService.getAllPosts();
