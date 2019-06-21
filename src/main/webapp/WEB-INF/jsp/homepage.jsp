@@ -5,14 +5,10 @@
 <head>
 
     <title>Dal Discussion</title>
-
-    <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
 
-    <!-- Page level plugin CSS-->
     <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
 
-    <!-- Custom styles for this template-->
     <link href="../css/sb-admin.css" rel="stylesheet">
 
 </head>
@@ -50,7 +46,6 @@
 <script src="../vendor/jquery/jquery.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-<!-- Custom scripts for all pages-->
 <script src="../js/sb-admin.min.js"></script>
 
 </div>

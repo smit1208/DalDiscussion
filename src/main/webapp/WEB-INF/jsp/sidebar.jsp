@@ -13,13 +13,13 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/dashboard">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
         </a>
     </li>
     <li class="nav-item ">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="/subscription">
             <i class="fas fa-thumbtack"></i>
             <span>Subscription</span>
         </a>

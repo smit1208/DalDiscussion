@@ -29,7 +29,6 @@ public class PostDetailsController {
         for (int i = 0; i < commentList.size(); i++) {
             replyList = postService.getReplies(commentList.get(i).getId());
             commentList.get(i).setReplies(replyList);
-
         }
         model.addAttribute("comments", commentList);
         model.addAttribute("post", post);
@@ -76,7 +75,6 @@ public class PostDetailsController {
 
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
-        System.out.println(reply);
 
         return "redirect:/getPosts/{id}";
 
