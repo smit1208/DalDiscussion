@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.dao;
 
+import com.macs.group6.daldiscussion.dao.impl.CommentDAO;
+import com.macs.group6.daldiscussion.dao.impl.HomeDAO;
+import com.macs.group6.daldiscussion.dao.impl.ReplyDAO;
+
 public class DAOFactory implements IDAOFactory {
 
     private static DAOFactory daoFactory;

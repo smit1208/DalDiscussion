@@ -1,7 +1,7 @@
 package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.UserRegister;
-import com.macs.group6.daldiscussion.service.RegisterServiceImpl;
+import com.macs.group6.daldiscussion.service.RegisterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -36,7 +36,7 @@ import java.util.Map;
         userReg.setPassword(password);
   /*      System.out.println("User data");
         logger.info("set reg fields");*/
-        RegisterServiceImpl callService = new RegisterServiceImpl();
+        RegisterService callService = new RegisterService();
         callService.create(userReg);
         return Views.REGISTER;
     }

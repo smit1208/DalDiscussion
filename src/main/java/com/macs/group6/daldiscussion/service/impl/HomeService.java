@@ -1,8 +1,9 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion.service.impl;
 
 import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.HomeDAO;
+import com.macs.group6.daldiscussion.dao.impl.HomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.service.IHomeService;
 
 import java.util.List;
 

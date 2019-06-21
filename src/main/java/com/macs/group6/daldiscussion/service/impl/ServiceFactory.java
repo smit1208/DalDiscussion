@@ -1,4 +1,8 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion.service.impl;
+
+import com.macs.group6.daldiscussion.service.IHomeService;
+import com.macs.group6.daldiscussion.service.IPostService;
+import com.macs.group6.daldiscussion.service.IServiceFactory;
 
 public class ServiceFactory implements IServiceFactory {
 

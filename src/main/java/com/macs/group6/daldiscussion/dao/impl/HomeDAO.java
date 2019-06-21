@@ -1,5 +1,6 @@
-package com.macs.group6.daldiscussion.dao;
+package com.macs.group6.daldiscussion.dao.impl;
 
+import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
 

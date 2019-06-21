@@ -11,18 +11,18 @@
 
         <tr>
             <td><label for="fname">First Name: </label></td>
-            <td><input id="fname" maxlength="50" name="fname" type="text" /></td>
+            <td><input id="fname" maxlength="50" name="fname" type="text" required/></td>
         </tr>
 
         <tr>
             <td><label for="lname">Last Name: </label></td>
-            <td><input id="lname" maxlength="50" name="lname" type="text" /></td>
+            <td><input id="lname" maxlength="50" name="lname" type="text" required/></td>
         </tr>
 
 
         <tr>
             <td><label for="email">Email_Address:</label></td>
-            <td><input id="email" maxlength="50" name="email" type="text" /></td>
+            <td><input id="email" maxlength="50" name="email" type="text" required/></td>
         </tr>
 
         <tr>
@@ -45,9 +45,13 @@
         var lname=document.myform.lname.value;
         var password=document.myform.password.value;
 
-        if (fname==null || fname==""){
+        if (fname==null || fname=="") {
             alert(" First name can't be blank");
             return false;
+        }
+        else if (lname==null || lname==""){
+                alert(" Last name can't be blank");
+                return false;
         }else if(password.length<6){
             alert("Password must be at least 6 characters long.");
             return false;

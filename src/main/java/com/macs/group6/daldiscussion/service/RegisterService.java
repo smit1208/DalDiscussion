@@ -4,7 +4,7 @@ import com.macs.group6.daldiscussion.dao.IRegisterDao;
 import com.macs.group6.daldiscussion.dao.RegisterDaoImpl;
 import com.macs.group6.daldiscussion.model.UserRegister;
 
-public class RegisterServiceImpl implements IRegisterService {
+public class RegisterService implements IRegisterService {
 
     IRegisterDao registerDao = new RegisterDaoImpl();
     @Override
