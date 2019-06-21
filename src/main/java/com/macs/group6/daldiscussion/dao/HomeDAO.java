@@ -9,10 +9,13 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeDAO implements IHomeDao {
+public class HomeDAO implements IHomeDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
+
+    private static IHomeDAO iHomeDAO;
+
     private static final String GETALLPOST = "{call getAllPosts()}";
 
     @Override
@@ -39,5 +42,11 @@ public class HomeDAO implements IHomeDao {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
         return posts;
+    }
+    public static IHomeDAO getInstance(){
+        if(iHomeDAO == null){
+            iHomeDAO = new HomeDAO();
+        }
+        return iHomeDAO;
     }
 }

@@ -7,20 +7,26 @@ import database.DatabaseConfig;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDAO implements ICommentDAO{
     Connection connection = null;
-    Statement statement = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
+    private static ICommentDAO iCommentDAO;
+
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
     private static final String GETPOSTBYID = "{call getPostById(?)}";
-    private static final String GETREPLYBYCOMMENTID = "{call getReplyByCommentId(?)}";
     private static final String ADDCOMMENT = "{call addComment(?,?,?)}";
+
+    public static ICommentDAO getInstance(){
+        if(iCommentDAO == null){
+            iCommentDAO = new CommentDAO();
+        }
+        return iCommentDAO;
+    }
 
     @Override
     public List<Comment> getComments(int postId) {
