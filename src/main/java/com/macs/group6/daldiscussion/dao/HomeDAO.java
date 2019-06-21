@@ -3,27 +3,32 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeDAO{
-    public List<Post> getAllPosts(){
+public class HomeDAO implements IHomeDAO {
+    Connection connection = null;
+    CallableStatement callableStatement = null;
+    ResultSet resultSet = null;
+
+    private static IHomeDAO iHomeDAO;
+
+    private static final String GETALLPOST = "{call getAllPosts()}";
+
+    @Override
+    public List<Post> getAllPosts() {
         List<Post> posts = new ArrayList<>();
 
-        Connection connection = null;
-        Statement statement = null;
-        ResultSet resultSet = null;
+        try {
+            connection = DatabaseConfig.getInstance().loadDatabase();
 
-        try{
-            DatabaseConfig databaseConfig = new DatabaseConfig();
-            connection = databaseConfig.loadDatabase();
-            statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM post;");
+            callableStatement = connection.prepareCall(GETALLPOST);
+            resultSet = callableStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Post post = new Post();
                 post.setId(resultSet.getInt("id"));
                 post.setPost_title(resultSet.getString("post_title"));
@@ -31,23 +36,17 @@ public class HomeDAO{
                 posts.add(post);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
-            try {
-                if(statement!=null){
-                    statement.close();
-                }
-                if(resultSet!=null){
-                    resultSet.close();
-                }
-                if(connection!=null){
-                    connection.close();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
         return posts;
+    }
+    public static IHomeDAO getInstance(){
+        if(iHomeDAO == null){
+            iHomeDAO = new HomeDAO();
+        }
+        return iHomeDAO;
     }
 }
