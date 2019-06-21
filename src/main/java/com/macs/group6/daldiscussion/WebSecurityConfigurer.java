@@ -31,6 +31,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .and()
                     .formLogin()
                     .loginPage("/prelogin")
+                    .successForwardUrl("/home")
                     .permitAll();
         } else {
             http.authorizeRequests().anyRequest().permitAll();
