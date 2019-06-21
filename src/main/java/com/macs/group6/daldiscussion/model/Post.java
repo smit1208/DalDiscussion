@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +14,42 @@ public class Post {
     private boolean isAlive;
     private boolean report;
     private int upVote;
-    private List<Comment> Comments;
+    private int downVote;
+    private int category;
+    private List<Comment> comments;
+    private String group;
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public int getCategory() {
+        return category;
+    }
+
+    public void setCategory(int category) {
+        this.category = category;
+    }
 
     public List<Comment> getComments() {
-        return Comments;
+        return comments;
     }
 
     public void setComments(List<Comment> Comments) {
-        this.Comments = Comments;
+        this.comments = Comments;
     }
 
     public int getId() {
@@ -85,8 +115,5 @@ public class Post {
     public void setDownVote(int downVote) {
         this.downVote = downVote;
     }
-
-    private int downVote;
-
 
 }
