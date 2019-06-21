@@ -29,7 +29,7 @@ public class loginController {
 
     @RequestMapping(method = RequestMethod.POST)
     public String submit(Model model,
-                         @ModelAttribute("loginBean") User login) {
+                         @ModelAttribute("login") User login) {
         if (login != null && login.getUserName() != null
                 & login.getPassword() != null) {
             if (login.getUserName().equals("vivek")
