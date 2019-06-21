@@ -1,8 +1,8 @@
 package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.service.HomeService;
-import com.macs.group6.daldiscussion.service.ServiceFactory;
+import com.macs.group6.daldiscussion.service.impl.HomeService;
+import com.macs.group6.daldiscussion.service.impl.ServiceFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
