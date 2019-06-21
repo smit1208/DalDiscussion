@@ -1,11 +1,13 @@
-package com.macs.group6.daldiscussion.service.impl;
+package com.macs.group6.daldiscussion.service;
 
+import com.macs.group6.daldiscussion.dao.CommentDAO;
+import com.macs.group6.daldiscussion.dao.DAOFactory;
 import com.macs.group6.daldiscussion.dao.IPostDao;
+import com.macs.group6.daldiscussion.dao.ReplyDAO;
 import com.macs.group6.daldiscussion.dao.impl.PostDao;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
-import com.macs.group6.daldiscussion.service.IPostService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
@@ -16,7 +18,17 @@ import java.util.List;
 
 public class PostService implements IPostService {
 
-    IPostDao IPostDao = new PostDao();
+    CommentDAO commentDAO = (CommentDAO) DAOFactory.getInstance().getCommentDAO();
+    ReplyDAO replyDAO = (ReplyDAO) DAOFactory.getInstance().getReplyDAO();
+    com.macs.group6.daldiscussion.dao.IPostDao IPostDao = new PostDao();
+    private static IPostService iPostService;
+
+    public static IPostService getInstance(){
+        if(iPostService == null){
+            iPostService = new PostService();
+        }
+        return iPostService;
+    }
 
     @Override
     public void create(Post post) {
@@ -38,32 +50,30 @@ public class PostService implements IPostService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     @Override
     public List<Comment> getComments(int postId) {
-        return null;
+        return commentDAO.getComments(postId);
     }
 
     @Override
     public List<Reply> getReplies(int commentId) {
-        return null;
+        return replyDAO.getReplies(commentId);
     }
 
     @Override
     public Post getPostById(int postId) {
-        return null;
+        return commentDAO.getPostById(postId);
     }
 
     @Override
     public void addComment(Comment c, int post_id) {
-
+        commentDAO.addComment(c,post_id);
     }
 
     @Override
     public void addReply(Reply reply, int comment_id) {
-
+        replyDAO.addReply(reply,comment_id);
     }
 }
