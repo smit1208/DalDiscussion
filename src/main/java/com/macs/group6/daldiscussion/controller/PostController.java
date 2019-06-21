@@ -54,7 +54,7 @@ public class PostController {
             IPostService.create(post);
         }
 
-        return "redirect:/getPosts";
+        return "redirect:/home";
     }
 
 }
