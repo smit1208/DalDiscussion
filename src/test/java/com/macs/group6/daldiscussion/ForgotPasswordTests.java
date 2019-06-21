@@ -1,12 +1,11 @@
 package com.macs.group6.daldiscussion;
 
-import com.macs.group6.daldiscussion.dao.UserDAO;
-import com.macs.group6.daldiscussion.dao.VerificationDAO;
+import com.macs.group6.daldiscussion.dao.impl.UserDAO;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.*;
-import com.macs.group6.daldiscussion.service.ResetPasswordService;
-import com.macs.group6.daldiscussion.service.SendEmailService;
-import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import com.macs.group6.daldiscussion.service.impl.ResetPasswordService;
+import com.macs.group6.daldiscussion.service.impl.SendEmailService;
+import com.macs.group6.daldiscussion.service.impl.SendForgotPasswordEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;

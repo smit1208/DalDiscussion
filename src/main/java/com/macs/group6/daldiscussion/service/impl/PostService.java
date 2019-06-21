@@ -1,13 +1,13 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion.service.impl;
 
-import com.macs.group6.daldiscussion.dao.CommentDAO;
+import com.macs.group6.daldiscussion.dao.impl.CommentDAO;
 import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.IPostDao;
-import com.macs.group6.daldiscussion.dao.ReplyDAO;
+import com.macs.group6.daldiscussion.dao.impl.ReplyDAO;
 import com.macs.group6.daldiscussion.dao.impl.PostDao;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import com.macs.group6.daldiscussion.service.IPostService;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;

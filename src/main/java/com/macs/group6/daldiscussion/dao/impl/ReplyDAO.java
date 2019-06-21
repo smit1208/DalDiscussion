@@ -1,5 +1,6 @@
-package com.macs.group6.daldiscussion.dao;
+package com.macs.group6.daldiscussion.dao.impl;
 
+import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Reply;
 import database.DatabaseConfig;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplyDAO implements IReplyDAO{
+public class ReplyDAO implements IReplyDAO {
     Connection connection = null;
     Statement statement = null;
     CallableStatement callableStatement = null;

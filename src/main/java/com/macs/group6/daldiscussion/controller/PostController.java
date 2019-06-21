@@ -54,9 +54,7 @@ public class PostController {
             IPostService.create(post);
         }
 
-
-
-        return Views.HOMEPAGE;
+        return "redirect:/getPosts";
     }
 
 }

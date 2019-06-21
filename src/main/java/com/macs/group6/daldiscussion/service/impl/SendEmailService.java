@@ -1,4 +1,4 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion.service.impl;
 
 import com.macs.group6.daldiscussion.model.SendEmailRequest;
 import com.macs.group6.daldiscussion.model.SendEmailResponse;

@@ -2,7 +2,7 @@ package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.model.LoginRequest;
 import com.macs.group6.daldiscussion.model.LoginResponse;
-import com.macs.group6.daldiscussion.service.LoginService;
+import com.macs.group6.daldiscussion.service.impl.LoginService;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

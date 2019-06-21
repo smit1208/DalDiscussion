@@ -1,13 +1,13 @@
 package com.macs.group6.daldiscussion.controller;
 
-import com.macs.group6.daldiscussion.dao.UserDAO;
+import com.macs.group6.daldiscussion.dao.impl.UserDAO;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.ResetPasswordRequest;
 import com.macs.group6.daldiscussion.model.ResetPasswordResponse;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
-import com.macs.group6.daldiscussion.service.ResetPasswordService;
-import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import com.macs.group6.daldiscussion.service.impl.ResetPasswordService;
+import com.macs.group6.daldiscussion.service.impl.SendForgotPasswordEmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

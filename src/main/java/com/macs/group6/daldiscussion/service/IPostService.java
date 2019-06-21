@@ -1,5 +1,4 @@
 package com.macs.group6.daldiscussion.service;
-git
 import com.macs.group6.daldiscussion.model.Post;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
