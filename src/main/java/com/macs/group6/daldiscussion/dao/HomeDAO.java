@@ -1,34 +1,30 @@
 package com.macs.group6.daldiscussion.dao;
 
+import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import database.DatabaseConfig;
 
-import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeDAO implements IHomeDAO {
+public class HomeDAO{
     Connection connection = null;
-    CallableStatement callableStatement = null;
+    Statement statement = null;
     ResultSet resultSet = null;
 
-    private static IHomeDAO iHomeDAO;
-
-    private static final String GETALLPOST = "{call getAllPosts()}";
-
-    @Override
-    public List<Post> getAllPosts() {
+    public List<Post> getAllPosts(){
         List<Post> posts = new ArrayList<>();
 
-        try {
+        try{
+            DatabaseConfig.getInstance();
             connection = DatabaseConfig.getInstance().loadDatabase();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT * FROM post;");
 
-            callableStatement = connection.prepareCall(GETALLPOST);
-            resultSet = callableStatement.executeQuery();
-
-            while (resultSet.next()) {
+            while (resultSet.next()){
                 Post post = new Post();
                 post.setId(resultSet.getInt("id"));
                 post.setPost_title(resultSet.getString("post_title"));
@@ -36,17 +32,34 @@ public class HomeDAO implements IHomeDAO {
                 posts.add(post);
             }
 
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }
         return posts;
     }
-    public static IHomeDAO getInstance(){
-        if(iHomeDAO == null){
-            iHomeDAO = new HomeDAO();
+    public List<Comment> getComments(int postId){
+        List<Comment> commentList = new ArrayList<>();
+        try{
+            connection = DatabaseConfig.getInstance().loadDatabase();
+            statement = connection.createStatement();
+            String query = "SELECT * FROM comments where post_id ="+postId;
+            resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()){
+                Comment comment = new Comment();
+                comment.setId(resultSet.getInt("id"));
+                comment.setComment_description(resultSet.getString("comment_body"));
+                commentList.add(comment);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }
-        return iHomeDAO;
+    return commentList;
     }
+
 }
