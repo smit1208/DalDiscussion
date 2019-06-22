@@ -81,12 +81,12 @@ public class PublicController {
         String message = "";
 
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
-        resetPasswordRequest.password = password;
-        resetPasswordRequest.passwordRetype = passwordRetype;
-        resetPasswordRequest.token = token;
-        ResetPasswordResponse resetPasswordResponse = ResetPasswordService.instance().run(resetPasswordRequest);
-        if (resetPasswordResponse.isError) {
-            message = resetPasswordResponse.errorMessage;
+        resetPasswordRequest.setPassword(password);
+        resetPasswordRequest.setPasswordRetype(passwordRetype);
+        resetPasswordRequest.setToken(token);
+        ResetPasswordResponse resetPasswordResponse = ResetPasswordService.getInstance().run(resetPasswordRequest);
+        if (resetPasswordResponse.getIsError()) {
+            message = resetPasswordResponse.getErrorMessage();
         } else {
             message = "Password has been changed!";
         }
@@ -110,10 +110,10 @@ public class PublicController {
         String message = "";
 
         SendForgotPasswordEmailRequest sendForgotPasswordEmailRequest = new SendForgotPasswordEmailRequest();
-        sendForgotPasswordEmailRequest.email = email;
-        SendForgotPasswordEmailResponse sendForgotPasswordEmailResponse = SendForgotPasswordEmailService.instance().run(sendForgotPasswordEmailRequest);
-        if (sendForgotPasswordEmailResponse.isError) {
-            message = sendForgotPasswordEmailResponse.errorMessage;
+        sendForgotPasswordEmailRequest.setEmail(email);
+        SendForgotPasswordEmailResponse sendForgotPasswordEmailResponse = SendForgotPasswordEmailService.getInstance().run(sendForgotPasswordEmailRequest);
+        if (sendForgotPasswordEmailResponse.getIsError()) {
+            message = sendForgotPasswordEmailResponse.getErrorMessage();
         } else {
             message = "Instruction email has been sent to your mailbox.";
         }
@@ -124,7 +124,7 @@ public class PublicController {
     @GetMapping("/login")
     public String getLogin(Model model, HttpSession session) {
         fillCommonModel(model, session);
-        model.addAttribute("username", "");
+        model.addAttribute("email", "");
         model.addAttribute("password", "");
         model.addAttribute("message", "");
         return "login";
@@ -132,14 +132,14 @@ public class PublicController {
 
     @PostMapping("/login")
     public String postLogin(Model model, HttpSession session, HttpServletRequest request,
-                            @RequestParam(name = "username") String username, @RequestParam(name = "password") String password) {
+                            @RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
         fillCommonModel(model, session);
-        model.addAttribute("username", username);
+        model.addAttribute("email", email);
         model.addAttribute("password", password);
         String message = "";
 
         try {
-            request.login(username, password);
+            request.login(email, password);
             return "redirect:/";
         } catch (Exception e) {
             message = e.getMessage();
@@ -150,7 +150,7 @@ public class PublicController {
 
     private void fillCommonModel(Model model, HttpSession session) {
         boolean online = false;
-        String usercode = "";
+        int userid = 0;
         User authUser = new User();
         try {
             if ("true".equals(session.getAttribute("online"))) {
@@ -160,26 +160,25 @@ public class PublicController {
             e.printStackTrace();
         }
         try {
-            if (session.getAttribute("usercode") != null) {
-                usercode = session.getAttribute("usercode") + "";
+            if (session.getAttribute("userid") != null) {
+                userid = Integer.parseInt(session.getAttribute("userid") + "");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            if (usercode.length() > 0) {
-                authUser = UserDAO.instance().findByCode(usercode);
+            if (userid > 0) {
+                authUser = UserDAO.getInstance().findById(userid);
             }
             if (authUser == null) {
                 authUser = new User();
-                authUser.code = usercode;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         model.addAttribute("online", online);
-        model.addAttribute("usercode", usercode);
+        model.addAttribute("userid", userid);
         model.addAttribute("authUser", authUser);
     }
 }
