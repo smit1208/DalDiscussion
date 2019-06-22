@@ -18,8 +18,8 @@
         <div class="card-body">
             <form action="/login" method="POST">
             <div class="form-group">
-                <lable>Username</label>
-                <input type="text" class="form-control" name="username" value="${username}" />
+                <lable>Email</label>
+                <input type="text" class="form-control" name="email" value="${email}" />
             </div>
             <div class="form-group">
                 <lable>Password</label>
