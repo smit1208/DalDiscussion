@@ -10,7 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReplyDAO implements IReplyDAO{
+public class ReplyDAO implements IReplyDAO {
     Connection connection = null;
     Statement statement = null;
     CallableStatement callableStatement = null;

@@ -25,4 +25,9 @@ public class DAOFactory implements IDAOFactory {
     public IReplyDAO getReplyDAO() {
         return ReplyDAO.getInstance();
     }
+
+    @Override
+    public IPostDAO getPostDAO() {
+        return PostDAO.getInstance();
+    }
 }

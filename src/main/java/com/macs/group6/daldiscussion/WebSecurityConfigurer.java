@@ -50,6 +50,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .formLogin()
                     /** Configure LoginPage of this application which will be redirected to if URL having not access right. */
                     .loginPage("/prelogin")
+                    .successForwardUrl("/home")
                     .permitAll();
         } else {
             http.authorizeRequests().anyRequest().permitAll();

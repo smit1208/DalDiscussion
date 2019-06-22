@@ -10,7 +10,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentDAO implements ICommentDAO{
+public class CommentDAO implements ICommentDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
