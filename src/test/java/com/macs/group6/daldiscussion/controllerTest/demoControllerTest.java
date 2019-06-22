@@ -1,6 +1,5 @@
 package com.macs.group6.daldiscussion.controllerTest;
 
-import com.macs.group6.daldiscussion.controller.demoController;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

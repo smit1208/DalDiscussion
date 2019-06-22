@@ -1,34 +1,81 @@
 <html>
 <head>
     <title>Registration form</title>
+
+    <script>
+        function validateform(){
+            var emailReg = /^[A-Za-z0-9._]*\@[A-Za-z]*\.[A-Za-z]{2,5}$/;
+            var fname=document.forms["myform"]["fname"];
+            var lname=document.forms["myform"]["lname"];
+            var email=document.forms["myform"]["email"];
+            var password=document.forms["myform"]["password"];
+
+            if (fname.value == null || fname.value == "") {
+                document.getElementById('firstname').style.borderColor = "red";
+                document.getElementById('firstname').innerHTML = "First name is required";
+                return false;
+            }
+            else{
+                document.getElementById('fname').style.borderColor = "green";
+            }
+            if (lname.value == null || lname.value == ""){
+                document.getElementById('lname').style.borderColor = "red";
+                document.getElementById('lastname').innerHTML = "Last name is required";
+                return false;
+            }
+            else{
+                document.getElementById('lname').style.borderColor = "green";
+            }
+
+            if (email.value == ""){
+                document.getElementById("emailvalue").innerHTML = "Enter the email";
+                return false;
+            }else if(!emailReg.test(email)){
+                document.getElementById("emailvalue").innerHTML = "enter the valid email";
+            }
+
+            if(password.value.length<6){
+                document.getElementById('passwordvalue').innerHTML = "Password is required";
+                return false;
+            }
+        }
+
+    </script>
+
+
 </head>
 
 <h2 ALIGN="CENTER">Registration form</h2>
 
-<form action="/user/details" method="post" name="myform">
+<form action="/register" onsubmit="return validateform()" method="post" name="myform">
     <table border="0" align="center">
         <tbody>
 
         <tr>
+
             <td><label for="fname">First Name: </label></td>
-            <td><input id="fname" maxlength="50" name="fname" type="text" required/></td>
+            <td><input id="fname" maxlength="50" name="fname" type="text" placeholder="Enter first name" />
+                <div id = "firstname"></div></td>
         </tr>
 
         <tr>
             <td><label for="lname">Last Name: </label></td>
-            <td><input id="lname" maxlength="50" name="lname" type="text" required/></td>
+            <td><input id="lname" maxlength="50" name="lname" type="text" placeholder="Enter last name" />
+                <div id = "lastname"></div></td>
         </tr>
 
 
         <tr>
             <td><label for="email">Email_Address:</label></td>
-            <td><input id="email" maxlength="50" name="email" type="text" required/></td>
+            <td><input id="email" maxlength="50" name="email" type="email" placeholder="Enter email address" />
+                <div id = "emailvalue"></div></td>
         </tr>
 
         <tr>
             <td><label for="password">Password:</label></td>
             <td><input id="password" maxlength="50" name="password"
-                       type="password" /></td>
+                       type="password"  />
+                <div id = "passwordvalue"></div></td>
         </tr>
 
         <tr>
@@ -38,94 +85,4 @@
         </tbody>
     </table>
 </form>
-
-<script>
-    function validateform(){
-        var fname=document.myform.fname.value;
-        var lname=document.myform.lname.value;
-        var password=document.myform.password.value;
-
-        if (fname==null || fname=="") {
-            alert(" First name can't be blank");
-            return false;
-        }
-        else if (lname==null || lname==""){
-                alert(" Last name can't be blank");
-                return false;
-        }else if(password.length<6){
-            alert("Password must be at least 6 characters long.");
-            return false;
-        }
-    }
-</script>
-
-
-
-
 </html>
-
-
-
-
-<%--
-!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{fragments/main_layout}">
-<head>
-    <title>Register Form</title>
-</head>
-<body>
-
-<div layout:fragment="content" class="container mySpace">
-    <div class="alert alert-info" th:if="${exist}">
-        <p class="text text-center">
-            User with this Email already Exist
-        </p>
-    </div>
-    <form th:action="@{/register}" th:object="${user}" method="post">
-
-        <div class="form-group">
-
-            <label for="firstname" class="form-control-label">firstname</label> <input
-                type="text" class="form-control" th:field="*{email}" id="firstname" />
-            <div class="text text-danger" th:if="${#fields.hasErrors('email')}"
-                 th:errors="*{email}"></div>
-        </div>
-
-        <div class="form-group">
-
-            <label for="lastname" class="form-control-label">firstname</label> <input
-                type="text" class="form-control" th:field="*{email}" id="lastname" />
-            <div class="text text-danger" th:if="${#fields.hasErrors('email')}"
-                 th:errors="*{email}"></div>
-        </div>
-
-        <div class="form-group">
-
-            <label for="email" class="form-control-label">Email</label> <input
-                type="text" class="form-control" th:field="*{email}" id="email" />
-            <div class="text text-danger" th:if="${#fields.hasErrors('email')}"
-                 th:errors="*{email}"></div>
-        </div>
-        <div class="form-group">
-            <label for="password" class="form-control-label">Password</label> <input
-                type="password" class="form-control" th:field="*{password}"
-                id="password" />
-            <div class="text text-danger"
-                 th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
-
-        </div>
-        <div class="form-group">
-            <label for="name" class="form-control-label">name</label> <input
-                type="text" class="form-control" th:field="*{name}" id="name" />
-            <div class="text text-danger" th:if="${#fields.hasErrors('name')}"
-                 th:errors="*{name}"></div>
-
-        </div>
-        <input type="submit" value="Submit" class="btn btn-primary" />
-
-    </form>
-</div>
-</body>
-</html>--%>

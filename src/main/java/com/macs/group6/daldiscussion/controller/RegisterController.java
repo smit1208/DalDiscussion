@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@Controller
+    @Controller
     public class RegisterController {
 
-    Logger logger = LoggerFactory.getLogger(RegisterController.class);
+   Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Map<String, Object> map) {
@@ -20,50 +20,23 @@ import java.util.Map;
         return "/registerForm";
     }
 
-    @RequestMapping(value = "/user/details", method = RequestMethod.POST)
-    public String details(@RequestParam("fname") String fname,
-                          @RequestParam("lname") String lname,
-                          @RequestParam("email") String email,
-                          @RequestParam("password") String password, Map<String, Object> map) {
+    @PostMapping(value = "/register")
+    public String register(UserRegister userReg,
+                           @RequestParam("fname") String fname,
+                           @RequestParam("lname") String lname,
+                           @RequestParam("email") String email,
+                           @RequestParam("password") String password, Map<String, Object> map) {
         map.put("fname", fname);
         map.put("lname", lname);
         map.put("email", email);
         map.put("password", password);
-        UserRegister userReg = new UserRegister();
         userReg.setFname(fname);
         userReg.setLname(lname);
         userReg.setEmail(email);
         userReg.setPassword(password);
-  /*      System.out.println("User data");
-        logger.info("set reg fields");*/
         RegisterService callService = new RegisterService();
         callService.create(userReg);
         return Views.REGISTER;
     }
 
     }
-        /*    @Autowired
-        private UserService userService;
-
-        @GetMapping("/register")
-        public String registerForm(Model model) {
-
-            model.addAttribute("user", new User());
-            return "views/registerForm";
-        }
-
-
-        @PostMapping("/register")
-        public String registerUser(@Valid User user, BindingResult bindingResult, Model model) {
-            if(bindingResult.hasErrors()) {
-                return "views/registerForm";
-            }
-
-            userService.createUser(user);
-
-            return "views/success";
-
-        }
-
-    }*/
-
