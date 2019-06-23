@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class PostService implements IPostService {
 
@@ -49,7 +50,7 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<Comment> getComments(int postId) {
+    public Map<String, Object> getComments(int postId) {
         return commentDAO.getComments(postId);
     }
 

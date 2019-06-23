@@ -2,9 +2,8 @@ package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.dao.DAOFactory;
 import com.macs.group6.daldiscussion.dao.HomeDAO;
-import com.macs.group6.daldiscussion.model.Post;
 
-import java.util.List;
+import java.util.Map;
 
 public class HomeService implements IHomeService {
 
@@ -20,7 +19,7 @@ public class HomeService implements IHomeService {
     HomeDAO homeDAO = (HomeDAO) DAOFactory.getInstance().getHomeDAO();
 
     @Override
-    public List<Post> getAllPosts() {
+    public Map<String, Object> getAllPosts() {
         return homeDAO.getAllPosts();
     }
 }

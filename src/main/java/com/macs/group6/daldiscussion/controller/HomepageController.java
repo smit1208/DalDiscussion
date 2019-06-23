@@ -7,19 +7,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class HomepageController {
     HomeService homeService = (HomeService) ServiceFactory.getInstance().getHomeService();
-    List<Post> posts = new ArrayList<>();
+    Map<String,Object> postMap = new HashMap<>();
 
     @RequestMapping("/home")
     public String Home(Model model){
 
-        posts = homeService.getAllPosts();
-        model.addAttribute("posts",posts);
+        postMap = homeService.getAllPosts();
+        List<Post> postList = (List<Post>) postMap.get("posts");
+        model.addAttribute("posts", postList);
         return Views.HOMEPAGE;
 
         }

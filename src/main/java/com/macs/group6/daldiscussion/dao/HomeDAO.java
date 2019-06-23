@@ -7,7 +7,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeDAO implements IHomeDAO {
     Connection connection = null;
@@ -19,15 +21,15 @@ public class HomeDAO implements IHomeDAO {
     private static final String GETALLPOST = "{call getAllPosts()}";
 
     @Override
-    public List<Post> getAllPosts() {
-        List<Post> posts = new ArrayList<>();
+    public Map<String,Object> getAllPosts() {
+        Map<String,Object> postMap = new HashMap<>();
 
         try {
             connection = DatabaseConfig.getInstance().loadDatabase();
 
             callableStatement = connection.prepareCall(GETALLPOST);
             resultSet = callableStatement.executeQuery();
-
+            List<Post> posts = new ArrayList<>();
             while (resultSet.next()) {
                 Post post = new Post();
                 post.setId(resultSet.getInt("id"));
@@ -35,13 +37,13 @@ public class HomeDAO implements IHomeDAO {
                 post.setPost_description(resultSet.getString("post_desc"));
                 posts.add(post);
             }
-
+            postMap.put("posts",posts);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
-        return posts;
+        return postMap;
     }
     public static IHomeDAO getInstance(){
         if(iHomeDAO == null){

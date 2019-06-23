@@ -1,18 +1,18 @@
 package com.macs.group6.daldiscussion.service;
-import com.macs.group6.daldiscussion.model.Post;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
+import java.util.Map;
 
 public interface IPostService {
-    public void create(Post post);
+    void create(Post post);
 
-    public void createPostWithImage(Post post, MultipartFile file);
+    void createPostWithImage(Post post, MultipartFile file);
 
-    List<Comment> getComments(int postId);
+    Map<String,Object> getComments(int postId);
 
     List<Reply> getReplies(int commentId);
 
