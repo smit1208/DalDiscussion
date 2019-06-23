@@ -8,7 +8,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommentDAO implements ICommentDAO {
     Connection connection = null;
@@ -29,12 +31,13 @@ public class CommentDAO implements ICommentDAO {
     }
 
     @Override
-    public List<Comment> getComments(int postId) {
-        List<Comment> commentList = new ArrayList<>();
+    public Map<String, Object> getComments(int postId) {
+        Map<String,Object> commentMap = new HashMap<>();
+
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(GETCOMMENTSBYPOSTID);
-
+            List<Comment> commentList = new ArrayList<>();
             callableStatement.setInt(1,postId);
             resultSet = callableStatement.executeQuery();
 
@@ -43,18 +46,19 @@ public class CommentDAO implements ICommentDAO {
                 comment.setId(resultSet.getInt("id"));
                 comment.setComment_description(resultSet.getString("comment_body"));
                 commentList.add(comment);
+
             }
+                commentMap.put("commentList",commentList);
+
 
         }catch (Exception e){
             e.printStackTrace();
+            commentMap.put("Error","Error in fetching the comments");
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
-        return commentList;
+        return commentMap;
     }
-
-
-
 
     @Override
     public Post getPostById(int postId) {

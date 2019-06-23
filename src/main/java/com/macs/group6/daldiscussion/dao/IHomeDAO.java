@@ -1,10 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.model.Post;
-
-import java.util.List;
+import java.util.Map;
 
 public interface IHomeDAO {
-    List<Post> getAllPosts();
+    Map<String,Object> getAllPosts();
 
 }

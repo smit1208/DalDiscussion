@@ -11,24 +11,28 @@ import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public class PostService implements IPostService {
 
-    CommentDAO commentDAO = (CommentDAO) DAOFactory.getInstance().getCommentDAO();
-    ReplyDAO replyDAO = (ReplyDAO) DAOFactory.getInstance().getReplyDAO();
-    PostDAO postDAO = (PostDAO) DAOFactory.getInstance().getPostDAO();
     private static IPostService iPostService;
-
-    public static IPostService getInstance(){
+    private IReplyDAO iReplyDAO;
+    private ICommentDAO iCommentDAO;
+    private IPostDAO iPostDAO;
+    public static IPostService getInstance(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
         if(iPostService == null){
-            iPostService = new PostService();
+            iPostService = new PostService(iPostDAO,iCommentDAO,iReplyDAO);
         }
         return iPostService;
     }
-
+    private PostService(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
+        this.iCommentDAO = iCommentDAO;
+        this.iPostDAO = iPostDAO;
+        this.iReplyDAO = iReplyDAO;
+    }
     @Override
     public void create(Post post) {
-        postDAO.create(post);
+        iPostDAO.create(post);
     }
 
     @Override
@@ -40,7 +44,7 @@ public class PostService implements IPostService {
         try{
             imageBytes = file.getBytes();
             Blob postImageBlob = new javax.sql.rowset.serial.SerialBlob(imageBytes);
-            postDAO.createPostWithImage(post, postImageBlob);
+            iPostDAO.createPostWithImage(post, postImageBlob);
         } catch (SerialException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -51,27 +55,27 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public List<Comment> getComments(int postId) {
-        return commentDAO.getComments(postId);
+    public Map<String, Object> getComments(int postId) {
+        return iCommentDAO.getComments(postId);
     }
 
     @Override
     public List<Reply> getReplies(int commentId) {
-        return replyDAO.getReplies(commentId);
+        return iReplyDAO.getReplies(commentId);
     }
 
     @Override
     public Post getPostById(int postId) {
-        return commentDAO.getPostById(postId);
+        return iCommentDAO.getPostById(postId);
     }
 
     @Override
     public void addComment(Comment c, int post_id) {
-        commentDAO.addComment(c,post_id);
+        iCommentDAO.addComment(c,post_id);
     }
 
     @Override
     public void addReply(Reply reply, int comment_id) {
-        replyDAO.addReply(reply,comment_id);
+        iReplyDAO.addReply(reply,comment_id);
     }
 }
