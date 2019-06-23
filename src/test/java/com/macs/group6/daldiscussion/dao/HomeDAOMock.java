@@ -6,13 +6,13 @@ import com.macs.group6.daldiscussion.model.Reply;
 
 import java.util.*;
 
-public class HomeFactoryMock implements IHomeDAO {
+public class HomeDAOMock implements IHomeDAO {
 
     private Map<String,Object> postMap;
     private List<Comment> commentList;
     private List<Reply> replyList;
 
-    public HomeFactoryMock(){
+    public HomeDAOMock(){
         postMap = new HashMap<>();
         commentList = new ArrayList<>();
         replyList = new ArrayList<>();

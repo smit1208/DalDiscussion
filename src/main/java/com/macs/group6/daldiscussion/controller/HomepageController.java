@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.dao.DAOFactory;
+import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.service.HomeService;
 import com.macs.group6.daldiscussion.service.ServiceFactory;
@@ -13,7 +15,7 @@ import java.util.Map;
 
 @Controller
 public class HomepageController {
-    HomeService homeService = (HomeService) ServiceFactory.getInstance().getHomeService();
+    HomeService homeService = (HomeService) ServiceFactory.getInstance().getHomeService((IHomeDAO) DAOFactory.getInstance().getHomeDAO());
     Map<String,Object> postMap = new HashMap<>();
 
     @RequestMapping("/home")

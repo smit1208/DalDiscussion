@@ -46,10 +46,10 @@ public class CommentDAO implements ICommentDAO {
                 comment.setId(resultSet.getInt("id"));
                 comment.setComment_description(resultSet.getString("comment_body"));
                 commentList.add(comment);
+
             }
-            if(!commentList.isEmpty()){
                 commentMap.put("commentList",commentList);
-            }
+
 
         }catch (Exception e){
             e.printStackTrace();

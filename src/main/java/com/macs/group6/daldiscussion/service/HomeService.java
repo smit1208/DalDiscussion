@@ -1,23 +1,22 @@
 package com.macs.group6.daldiscussion.service;
 
-import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.HomeDAO;
+import com.macs.group6.daldiscussion.dao.IHomeDAO;
 
 import java.util.Map;
 
 public class HomeService implements IHomeService {
 
     private static IHomeService iHomeService;
-
-    public static IHomeService getInstance(){
+    private IHomeDAO homeDAO;
+    public static IHomeService getInstance(IHomeDAO iHomeDAO){
         if(iHomeService == null){
-            iHomeService = new HomeService();
+            iHomeService = new HomeService(iHomeDAO);
         }
         return iHomeService;
     }
-
-    HomeDAO homeDAO = (HomeDAO) DAOFactory.getInstance().getHomeDAO();
-
+    private HomeService(IHomeDAO homeDAO){
+        this.homeDAO = homeDAO;
+    }
     @Override
     public Map<String, Object> getAllPosts() {
         return homeDAO.getAllPosts();
