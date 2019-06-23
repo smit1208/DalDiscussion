@@ -40,7 +40,7 @@ public class ForgotPasswordTests {
     private static final String HTML_TEMPLATE = "<p>Dear $firstName</p><p></p><p>You requested to change password. Please follow <a target=\"blank\" href=\"$changePasswordLink?token=$token\">this link</a></p><p></p><p>Best regards</p><p>Support Team</p>";
     private static final String HTML_TARGET = "<p>Dear geetoPod</p><p></p><p>You requested to change password. Please follow <a target=\"blank\" href=\"http://cs.dal.ca/change-password?token=geetoPod\">this link</a></p><p></p><p>Best regards</p><p>Support Team</p>";
 
-    @Test
+  /*  @Test
     public void createUser_Success() {
         String username = "Smit";
         String password = "Smit";
@@ -64,7 +64,7 @@ public class ForgotPasswordTests {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
     
     @Test
     public void sendEmail_Success() {

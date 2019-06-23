@@ -15,39 +15,31 @@ import java.util.List;
  * @author Kush Rao
  */
 public class UserDAO {
-    /**
-     * Creating table SQL script of User entity
-     */
-    private static final String SQL_CREATE_TABLE = "CREATE TABLE `member` (id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, first_name VARCHAR(100) NOT NULL, last_name VARCHAR(100) NOT NULL, email VARCHAR(500) NOT NULL, password VARCHAR(200) NOT NULL, karma_points TINYINT NOT NULL, subscription_limit TINYINT NOT NULL, current_status TINYINT NOT NULL);";
-    /**
-     * Checking table existing SQL script of User entity
-     */
-    private static final String SQL_TABLE_EXISTS = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM `member` LIMIT 1;";
 
     /**
      * Checking row existing SQL script of User entity
      */
-    private static final String SQL_RECORD_EXISTS = "SELECT id from `member` WHERE id = ? LIMIT 1;";
+    private static final String SQL_RECORD_EXISTS = "SELECT id from ` user` WHERE id = ? LIMIT 1;";
     /**
      * Updating row SQL script of User entity
      */
-    private static final String SQL_UPDATE_RECORD = "UPDATE `member` SET first_name = ?, last_name = ?, email = ?, password = ?, karma_points = ?, subscription_limit = ?, current_status = ? WHERE id = ?;";
+    private static final String SQL_UPDATE_RECORD = "UPDATE ` user` SET first_name = ?, last_name = ?, email = ?, password = ?, karma_points = ?, subscription_limit = ?, current_status = ? WHERE id = ?;";
     /**
      * Deleting row SQL script of User entity
      */
-    private static final String SQL_DELETE_RECORD = "DELETE FROM `member` WHERE id = ?;";
+    private static final String SQL_DELETE_RECORD = "DELETE FROM ` user` WHERE id = ?;";
     /**
      * Inserting row SQL script of User entity
      */
-    private static final String SQL_INSERT_RECORD = "INSERT INTO `member` (first_name, last_name, email, password, karma_points, subscription_limit, current_status) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static final String SQL_INSERT_RECORD = "INSERT INTO ` user` (first_name, last_name, email, password, karma_points, subscription_limit, current_status) VALUES (?, ?, ?, ?, ?, ?, ?);";
     /**
      * Finding row by id SQL script of User entity
      */
-    private static final String SQL_FIND_BY_ID = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM `member` WHERE id = ? LIMIT 1;";
+    private static final String SQL_FIND_BY_ID = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM ` user` WHERE id = ? LIMIT 1;";
     /**
      * Finding row by email SQL script of User entity
      */
-    private static final String SQL_FIND_BY_EMAIL = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM `member` WHERE email = ?;";
+    private static final String SQL_FIND_BY_EMAIL = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM ` user` WHERE email = ?;";
 
     private static UserDAO __instance;
 
@@ -69,8 +61,8 @@ public class UserDAO {
      * @throws Exception is thrown when deleting user failed
      */
     public UserDAO delete(int id) throws Exception {
-        createIfNotExists();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
+       /* createIfNotExists();*/
+        Connection connection =  DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
@@ -86,8 +78,8 @@ public class UserDAO {
      * @throws Exception is thrown when finding user failed
      */
     public User findById(int id) throws Exception {
-        createIfNotExists();
-        DatabaseConfig.getInstance();
+       /* createIfNotExists();*/
+
         Connection connection = DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID);
         preparedStatement.setInt(1, id);
@@ -113,9 +105,9 @@ public class UserDAO {
      * @throws Exception is thrown if finding user failed
      */
     public List<User> findByEmail(String email) throws Exception {
-        createIfNotExists();
+        /*createIfNotExists();*/
         List<User> target = new ArrayList<>();
-        DatabaseConfig.getInstance();
+
         Connection connection = DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_EMAIL);
         preparedStatement.setString(1, email);
@@ -158,8 +150,8 @@ public class UserDAO {
      * @throws Exception is thrown if upserting failed
      */
     public UserDAO save(User data) throws Exception {
-        createIfNotExists();
-        DatabaseConfig.getInstance();
+       /* createIfNotExists();*/
+
         Connection connection = DatabaseConfig.getInstance().loadDatabase();
         PreparedStatement preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
         preparedStatement.setInt(1, data.getId());
@@ -172,10 +164,6 @@ public class UserDAO {
             preparedStatement.setString(2, data.getLastName());
             preparedStatement.setString(3, data.getEmail());
             preparedStatement.setString(4, data.getPassword());
-            preparedStatement.setInt(5, data.getKarmaPoints());
-            preparedStatement.setInt(6, data.getSubscriptionLimit());
-            preparedStatement.setInt(7, data.getCurrentStatus());
-            preparedStatement.setInt(8, data.getId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -187,9 +175,6 @@ public class UserDAO {
             preparedStatement.setString(2, data.getLastName());
             preparedStatement.setString(3, data.getEmail());
             preparedStatement.setString(4, data.getPassword());
-            preparedStatement.setInt(5, data.getKarmaPoints());
-            preparedStatement.setInt(6, data.getSubscriptionLimit());
-            preparedStatement.setInt(7, data.getCurrentStatus());
             preparedStatement.executeUpdate();
             try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
@@ -200,52 +185,6 @@ public class UserDAO {
             connection.close();
         }
         return this;
-    }
-
-    /**
-     * Create User table if there is not
-     * @return a DAO instance of User entity
-     */
-    public UserDAO createIfNotExists() {
-        try {
-            if (!isTableExists()) {
-                DatabaseConfig.getInstance();
-                Connection connection = DatabaseConfig.getInstance().loadDatabase();
-                Statement statement = connection.createStatement();
-                statement.execute(SQL_CREATE_TABLE);
-                statement.close();
-                connection.close();
-            }
-            createTestUsers();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return this;
-    }
-
-    /**
-     * Check if User table exists or not
-     * @return a true if User table exists, a false if not
-     */
-    public boolean isTableExists() {
-        try {
-            DatabaseConfig.getInstance();
-            Connection connection = DatabaseConfig.getInstance().loadDatabase();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_TABLE_EXISTS);
-
-            if (resultSet.next()) {
-            }
-
-            resultSet.close();
-            statement.close();
-            connection.close();
-
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     /**

@@ -33,6 +33,8 @@ public class PostService implements IPostService {
 
     @Override
     public void createPostWithImage(Post post, MultipartFile file) {
+       double size = (double) file.getSize();
+       System.out.println(size);
         byte[] imageBytes;
 
         try{
