@@ -61,21 +61,14 @@ public class PostDAO implements IPostDAO {
             insertStatement.setInt(4,post.getCategory());
             insertStatement.setBlob(5,postImageBlob);
             int result = insertStatement.executeUpdate();
+
             LOGGER.info("create successful! rows updated "+result);
         }catch (Exception e) {
             e.printStackTrace();
         }finally {
-            try {
-                if(insertStatement!=null){
-                    insertStatement.close();
-                }
-                if(connection!=null){
-                    connection.close();
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }
+
 
 
     }
