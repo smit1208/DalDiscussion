@@ -1,30 +1,49 @@
 package com.macs.group6.daldiscussion.model;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+public class SendEmailResponse extends BasicResponse {
+    private String _sentEmail = "";
+    private String _sentName = "";
+    private String _sentSubject = "";
+    private String _sentBodyText = "";
+    private String _sentBodyHtml = "";
 
-public class SendEmailResponse {
-    public boolean isError = false;
-    public String errorCode = "";
-    public String errorMessage = "";
-    public String sentEmail = "";
-    public String sentName = "";
-    public String sentSubject = "";
-    public String sentBodyText = "";
-    public String sentBodyHtml = "";
-
-    public SendEmailResponse setError(String errorCode, String errorMessage) {
-        this.isError = true;
-        this.errorCode = errorCode;
-        this.errorMessage = errorMessage;
-        return this;
+    public String getSentBodyHtml() {
+        return _sentBodyHtml;
     }
 
-    public SendEmailResponse setError(String errorCode, Throwable t) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        t.printStackTrace(pw);
-        this.setError(errorCode, sw.toString());
-        return this;
+    public void setSentBodyHtml(String sentBodyHtml) {
+        _sentBodyHtml = sentBodyHtml;
+    }
+
+    public String getSentBodyText() {
+        return _sentBodyText;
+    }
+
+    public void setSentBodyText(String sentBodyText) {
+        _sentBodyText = sentBodyText;
+    }
+
+    public String getSentSubject() {
+        return _sentSubject;
+    }
+
+    public void setSentSubject(String sentSubject) {
+        _sentSubject = sentSubject;
+    }
+
+    public String getSentName() {
+        return _sentName;
+    }
+
+    public void setSentName(String sentName) {
+        _sentName = sentName;
+    }
+
+    public String getSentEmail() {
+        return _sentEmail;
+    }
+
+    public void setSentEmail(String sentEmail) {
+        _sentEmail = sentEmail;
     }
 }

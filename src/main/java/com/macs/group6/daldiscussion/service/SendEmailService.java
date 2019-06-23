@@ -17,7 +17,7 @@ import java.util.Properties;
 public class SendEmailService {
     private static SendEmailService __instance;
 
-    public static SendEmailService instance() {
+    public static SendEmailService getInstance() {
         if (__instance == null) {
             __instance = new SendEmailService();
         }
@@ -27,26 +27,26 @@ public class SendEmailService {
     public SendEmailResponse run(SendEmailRequest request) {
         SendEmailResponse response = new SendEmailResponse();
         try {
-            String subject = merge(request.subjectTemplate, request.templateVariables);
-            String text = merge(request.bodyTextTemplate, request.templateVariables);
-            String html = merge(request.bodyHtmlTemplate, request.templateVariables);
+            String subject = merge(request.getSubjectTemplate(), request.getTemplateVariables());
+            String text = merge(request.getBodyTextTemplate(), request.getTemplateVariables());
+            String html = merge(request.getBodyHtmlTemplate(), request.getTemplateVariables());
 
             System.out.println("=== Email ===");
-            System.out.println("From: " + request.fromName + " <" + request.fromEmail + ">");
-            System.out.println("To: " + request.toName + " <" + request.toEmail + ">");
+            System.out.println("From: " + request.getFromName() + " <" + request.getFromEmail() + ">");
+            System.out.println("To: " + request.getToName() + " <" + request.getToEmail() + ">");
             System.out.println("Subject: " + subject);
             System.out.println("Text: " + text);
             System.out.println("Html: " + html);
 
             Properties props = new Properties();
-            props.put("mail.smtp.host", request.smtpHost);
-            props.put("mail.smtp.port", request.smtpPort);
+            props.put("mail.smtp.host", request.getSmtpHost());
+            props.put("mail.smtp.port", request.getSmtpPort());
             props.put("mail.smtp.auth", "true"); //enable authentication
             props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
             //create Authenticator object to pass in Session.getInstance argument
-            final String smtpUsernameF = request.smtpUsername;
-            final String smtpPasswordF = request.smtpPassword;
+            final String smtpUsernameF = request.getSmtpUsername();
+            final String smtpPasswordF = request.getSmtpPassword();
             Authenticator auth = new Authenticator() {
                 //override the getPasswordAuthentication method
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -61,22 +61,22 @@ public class SendEmailService {
             msg.addHeader("format", "flowed");
             msg.addHeader("Content-Transfer-Encoding", "8bit");
 
-            msg.setFrom(new InternetAddress(request.fromEmail, request.fromName));
-            msg.setReplyTo(InternetAddress.parse(request.fromEmail, false));
+            msg.setFrom(new InternetAddress(request.getFromEmail(), request.getFromName()));
+            msg.setReplyTo(InternetAddress.parse(request.getFromEmail(), false));
 
             msg.setSubject(subject, "UTF-8");
             msg.setText(text, "UTF-8");
             msg.setContent(html, "text/html; charset=utf-8");
             msg.setSentDate(new Date());
-            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(request.toEmail, false));
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(request.getToEmail(), false));
             Transport.send(msg);
             System.out.println("Message is ready");
 
-            response.sentEmail = request.toEmail;
-            response.sentName = request.toName;
-            response.sentSubject = subject;
-            response.sentBodyText = text;
-            response.sentBodyHtml = html;
+            response.setSentEmail(request.getToEmail());
+            response.setSentName(request.getToName());
+            response.setSentSubject(subject);
+            response.setSentBodyText(text);
+            response.setSentBodyHtml(html);
         } catch (Throwable t) {
             response.setError("SendEmail.Failed", t);
         }
