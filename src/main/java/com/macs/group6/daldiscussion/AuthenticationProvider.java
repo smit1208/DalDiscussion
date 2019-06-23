@@ -27,6 +27,7 @@ public class AuthenticationProvider implements org.springframework.security.auth
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String email = authentication.getName();
+
         String password = "";
         if (authentication.getCredentials() != null) {
             password = authentication.getCredentials().toString();
