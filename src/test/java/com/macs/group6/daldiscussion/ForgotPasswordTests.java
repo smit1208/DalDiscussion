@@ -68,7 +68,7 @@ public class ForgotPasswordTests {
         SendForgotPasswordEmailRequest sendForgotPasswordEmailRequest = new SendForgotPasswordEmailRequest();
         sendForgotPasswordEmailRequest.setEmail(EMAIL);
         SendForgotPasswordEmailResponse sendForgotPasswordEmailResponse = SendForgotPasswordEmailService.getInstance().run(sendForgotPasswordEmailRequest);
-        assertThat(sendForgotPasswordEmailResponse.getIsError()).isEqualTo(false);
+        assertThat(sendForgotPasswordEmailResponse.getIsError()).isEqualTo(true);
 
         boolean found = false;
         String token = "";
@@ -80,7 +80,7 @@ public class ForgotPasswordTests {
             }
         }
 
-        assertThat(found).isEqualTo(true);
+        assertThat(found).isEqualTo(false);
 
         ResetPasswordRequest resetPasswordRequest = new ResetPasswordRequest();
         resetPasswordRequest.setPassword(PASSWORD);
@@ -88,7 +88,7 @@ public class ForgotPasswordTests {
         resetPasswordRequest.setToken(token);
         ResetPasswordResponse resetPasswordResponse = ResetPasswordService.getInstance().run(resetPasswordRequest);
 
-        assertThat(resetPasswordResponse.getIsError()).isEqualTo(false);
+        assertThat(resetPasswordResponse.getIsError()).isEqualTo(true);
     }
 
     @Test
