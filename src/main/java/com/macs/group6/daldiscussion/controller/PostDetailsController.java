@@ -48,7 +48,7 @@ public class PostDetailsController {
 
         model.addAttribute("comments", commentList);
         model.addAttribute("post", post);
-
+        LOGGER.info("Post details successfully fetched");
         return Views.POSTDETAILS;
     }
 
@@ -63,14 +63,15 @@ public class PostDetailsController {
 
         List<Reply> replyList = new ArrayList<>();
         List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
+
         for (int i = 0; i < commentList.size(); i++) {
             replyList = postService.getReplies(commentList.get(i).getId());
             commentList.get(i).setReplies(replyList);
-
         }
 
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
+        LOGGER.info("Comment successfully added");
         return Views.POSTDETAILS;
     }
     @PostMapping("/getPosts/{id}/{c_id}")
@@ -87,10 +88,10 @@ public class PostDetailsController {
             replyList = postService.getReplies(commentList.get(i).getId());
             commentList.get(i).setReplies(replyList);
         }
-
-
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
+
+        LOGGER.info("Reply added successfully");
 
         return "redirect:/getPosts/{id}";
 

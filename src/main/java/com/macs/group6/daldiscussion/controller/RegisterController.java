@@ -12,7 +12,7 @@ import java.util.Map;
     @Controller
     public class RegisterController {
 
-   Logger logger = LoggerFactory.getLogger(RegisterController.class);
+   private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public String register(Map<String, Object> map) {
@@ -36,7 +36,8 @@ import java.util.Map;
         userReg.setPassword(password);
         RegisterService callService = new RegisterService();
         callService.create(userReg);
-        return Views.REGISTER;
+        logger.info("User successfully created");
+        return "redirect:/login";
     }
 
     }
