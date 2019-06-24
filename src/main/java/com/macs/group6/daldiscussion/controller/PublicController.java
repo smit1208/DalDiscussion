@@ -110,7 +110,7 @@ public class PublicController {
 
     @PostMapping("/forgot-password")
     public String postForgotPassword(Model model, HttpSession session, HttpServletRequest request,
-                            @RequestParam(name = "email") String email) {
+                            @RequestParam(name = "username") String email) {
         fillCommonModel(model, session);
         model.addAttribute("email", email);
         String message = "";
