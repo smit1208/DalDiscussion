@@ -1,10 +1,12 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.CommentDAOMock;
 import com.macs.group6.daldiscussion.dao.PostDAOMock;
 import com.macs.group6.daldiscussion.dao.ReplyDAOMock;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Reply;
+import com.macs.group6.daldiscussion.service.PostService;
+import com.macs.group6.daldiscussion.service.ServiceFactory;
 import org.junit.Before;
 import org.junit.Test;
 
