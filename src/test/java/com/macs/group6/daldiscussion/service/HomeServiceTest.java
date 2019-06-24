@@ -25,7 +25,7 @@ public class HomeServiceTest {
     public void getAllPostsTest() {
         Map<String,Object> postMap = new HashMap<>();
         postMap = homeService.getAllPosts();
-        assertTrue(postMap.containsKey("3"));
+
 
         Post post1 = (Post) postMap.get("1");
 
