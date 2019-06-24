@@ -1,8 +1,5 @@
 package com.macs.group6.daldiscussion;
 
-import com.macs.group6.daldiscussion.dao.CommentDAOMock;
-import com.macs.group6.daldiscussion.dao.PostDAOMock;
-import com.macs.group6.daldiscussion.dao.ReplyDAOMock;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.service.PostService;

@@ -7,16 +7,11 @@ import com.macs.group6.daldiscussion.service.ResetPasswordService;
 import com.macs.group6.daldiscussion.service.SendEmailService;
 import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
 public class ForgotPasswordTests {
     private static final String TO_EMAIL = "support@geetopod.com";
     private static final String TO_NAME = "geetoPod Support";
@@ -98,10 +93,10 @@ public class ForgotPasswordTests {
 
     @Test
     public void createUser_Success() {
-        String password = "krao";
-        String email = "kushrao16@gmail.com";
-        String firstName = "Kush";
-        String lastName = "Rao";
+        String password = "12345678";
+        String email = "smitsaraiya10@gmail.com";
+        String firstName = "smit";
+        String lastName = "saraiya";
         try {
             List<User> userList = UserDAO.getInstance().findByEmail(email);
             if (userList.size() == 0) {

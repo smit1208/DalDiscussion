@@ -1,5 +1,6 @@
-package com.macs.group6.daldiscussion.dao;
+package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.IPostDAO;
 import com.macs.group6.daldiscussion.model.Post;
 
 import java.sql.Blob;
