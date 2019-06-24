@@ -23,7 +23,7 @@ public class UserDAO {
     /**
      * Updating row SQL script of User entity
      */
-    private static final String SQL_UPDATE_RECORD = "UPDATE ` user` SET first_name = ?, last_name = ?, email = ?, password = ?, karma_points = ?, subscription_limit = ?, current_status = ? WHERE id = ?;";
+    private static final String SQL_UPDATE_RECORD = "UPDATE ` user` SET first_name = ?, last_name = ?, email = ?, password = ? WHERE id = ?;";
     /**
      * Deleting row SQL script of User entity
      */
@@ -164,6 +164,7 @@ public class UserDAO {
             preparedStatement.setString(2, data.getLastName());
             preparedStatement.setString(3, data.getEmail());
             preparedStatement.setString(4, data.getPassword());
+            preparedStatement.setInt(5,data.getId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
