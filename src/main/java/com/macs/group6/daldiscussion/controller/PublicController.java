@@ -49,7 +49,7 @@ public class PublicController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/reset-password")
@@ -132,7 +132,7 @@ public class PublicController {
 
     @PostMapping("/login")
     public String postLogin(Model model, HttpSession session, HttpServletRequest request,
-                            @RequestParam(name = "username") String email, @RequestParam(name = "password") String password) {
+                            @RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
         fillCommonModel(model, session);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
