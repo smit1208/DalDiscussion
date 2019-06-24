@@ -110,7 +110,7 @@ public class PublicController {
 
     @PostMapping("/forgot-password")
     public String postForgotPassword(Model model, HttpSession session, HttpServletRequest request,
-                            @RequestParam(name = "username") String email) {
+                            @RequestParam(name = "email") String email) {
         fillCommonModel(model, session);
         model.addAttribute("email", email);
         String message = "";
@@ -139,7 +139,7 @@ public class PublicController {
 
     @PostMapping("/login")
     public String postLogin(Model model, HttpSession session, HttpServletRequest request,
-                            @RequestParam(name = "email") String email, @RequestParam(name = "password") String password) {
+                            @RequestParam(name = "username") String email, @RequestParam(name = "password") String password) {
         fillCommonModel(model, session);
         model.addAttribute("email", email);
         model.addAttribute("password", password);
