@@ -1,5 +1,6 @@
-package com.macs.group6.daldiscussion.dao;
+package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Reply;
 
 import java.util.ArrayList;
