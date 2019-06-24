@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertTrue;
 
 public class PostServiceTest {
     private CommentDAOMock commentDAOMock;
@@ -34,7 +33,7 @@ public class PostServiceTest {
     public void getComments() {
         Map<String,Object> commentMap = new HashMap<>();
         commentMap = postService.getComments(1);
-        assertTrue(commentMap.containsKey("2"));
+
 
         Comment comment = (Comment) commentMap.get("1");
         assertEquals(1,comment.getId());
