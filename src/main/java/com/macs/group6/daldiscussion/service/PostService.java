@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PostService implements IPostService {
+    private static final int maxFileSize = 65535;
 
     private static IPostService iPostService;
     private IReplyDAO iReplyDAO;
@@ -43,6 +44,7 @@ public class PostService implements IPostService {
 
         try{
             imageBytes = file.getBytes();
+            post.setFile(imageBytes);
             Blob postImageBlob = new javax.sql.rowset.serial.SerialBlob(imageBytes);
             iPostDAO.createPostWithImage(post, postImageBlob);
         } catch (SerialException e) {
@@ -77,5 +79,13 @@ public class PostService implements IPostService {
     @Override
     public void addReply(Reply reply, int comment_id) {
         iReplyDAO.addReply(reply,comment_id);
+    }
+
+    public boolean fileSizeExceeded(MultipartFile file){
+        if(file.getSize() > maxFileSize){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -54,7 +54,7 @@ public class PublicController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/login";
+        return "redirect:/";
     }
 
     @GetMapping("/reset-password")
