@@ -1,7 +1,9 @@
-package com.macs.group6.daldiscussion.service;
+package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.HomeDAOMock;
 import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.service.HomeService;
+import com.macs.group6.daldiscussion.service.ServiceFactory;
 import org.junit.Before;
 import org.junit.Test;
 
