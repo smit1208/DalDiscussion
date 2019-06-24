@@ -8,6 +8,8 @@ import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
 import com.macs.group6.daldiscussion.service.ResetPasswordService;
 import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class PublicController {
+
+    private static final Logger LOGGER = LogManager.getLogger(PublicController.class);
+
     @GetMapping("/")
     public String getIndex() {
         return "redirect:/home";
@@ -91,6 +96,7 @@ public class PublicController {
             message = "Password has been changed!";
         }
         model.addAttribute("message", message);
+        LOGGER.info("Password reset success");
         return "reset-password";
     }
 
@@ -115,6 +121,7 @@ public class PublicController {
         if (sendForgotPasswordEmailResponse.getIsError()) {
             message = sendForgotPasswordEmailResponse.getErrorMessage();
         } else {
+            LOGGER.info("Password link successfully sent");
             message = "Instruction email has been sent to your mailbox.";
         }
         model.addAttribute("message", message);
@@ -142,8 +149,10 @@ public class PublicController {
             request.login(email, password);
             return "redirect:/";
         } catch (Exception e) {
+            LOGGER.info("Error in log in");
             message = e.getMessage();
         }
+        LOGGER.info("Successfully logged in");
         model.addAttribute("message", message);
         return "login";
     }
