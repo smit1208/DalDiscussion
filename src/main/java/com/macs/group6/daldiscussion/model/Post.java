@@ -18,13 +18,13 @@ public class Post {
     private int category;
     private List<Comment> comments;
     private String group;
-    private MultipartFile file;
+    private byte[] file;
 
-    public MultipartFile getFile() {
+    public byte[] getFile() {
         return file;
     }
 
-    public void setFile(MultipartFile file) {
+    public void setFile(byte[] file) {
         this.file = file;
     }
 

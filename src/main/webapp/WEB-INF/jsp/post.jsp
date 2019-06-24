@@ -11,9 +11,15 @@
 
     <link href="../css/sb-admin.css" rel="stylesheet">
     <style>
-        .post-title{
+        .title-header{
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: larger;
         }
+        .element{
+            padding: 5px;
+            margin: 2px;
+        }
+
     </style>
 </head>
 <body>
@@ -36,8 +42,8 @@
 <section id ="search-box" class = "section-padding">
 <div class="container">
     <form class="search" style = " text-align: center;" action="">
-        <input type="text" placeholder="Search.." name="search">
-        <button type="submit"><i class="fa fa-search"></i></button>
+        <input type="text" placeholder="Search.." name="search" disabled>
+        <button type="submit"><i class="fa fa-search" disabled></i></button>
     </form>
 </div>
 </section>
@@ -46,25 +52,40 @@
 
         <div>
             <form method="post" action ="/savePost" enctype="multipart/form-data">
-                <span>Post Title</span><br>
-                <input type="text" name="postTitle" class="post-title" required><br>
-                <span>Post Description</span><br>
+                <div class="element">
+                    <span class="title-header">Post Title</span><br>
+                    <input type="text" name="postTitle" class="post-title" required><br>
+                </div>
+                <div class="element">
+                    <span class="title-header">Post Description</span><br>
+                    <textarea rows="4" cols="50" name="postDesc" required> </textarea><br>
+                </div>
+                <div class="element">
+                    <span class="title-header">Category</span><br>
+                    <select name="category">
+                        <option value="1" selected>Discussion</option>
+                    </select><br>
+                </div>
+                <div class="element">
+                    <span class="title-header">Group</span><br>
+                    <select name="group">
+                        <option value="General" selected >General Discussion</option>
+                        <option value="Group 2" disabled>Group 1</option>
+                        <option value="Group 2" disabled>Group 2</option>
+                    </select><br>
+                </div>
+                <div class="element">
+                    <div style="color: red;">
+                        ${message}
+                    </div>
 
-                <textarea rows="4" cols="50" name="postDesc"required> </textarea><br>
-                <span>Category</span><br>
-                <select name="category">
-                    <option value="1">Discussion</option>
-                    <option value="2">Poll</option>
-                </select><br>
-                <span>Group</span><br>
-                <select name="group">
-                    <option value="General" selected >General Discussion</option>
-                    <option value="Group 2" disabled>Group 1</option>
-                    <option value="Group 2" disabled>Group 2</option>
-                </select><br>
-                <span>Add an image</span><br>
-                <input type="file" name="image" accept="image/*">
-                <input style="color: white; background-color: darkcyan" type="submit" value="POST">
+                    <span class="title-header">Add an image</span><br>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+                <div class="element">
+                    <input style="color: white; background-color: darkcyan" type="submit" value="POST">
+                </div>
+
             </form>
         </div>
     </div>
