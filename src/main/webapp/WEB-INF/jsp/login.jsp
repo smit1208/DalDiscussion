@@ -19,7 +19,7 @@
             <form action="/login" method="POST">
             <div class="form-group">
 
-                <label>Username</label>
+                <label>Email</label>
                 <input type="text" class="form-control"name="username" value="${username}"/>
             </div>
             <div class="form-group">
@@ -34,6 +34,9 @@
                 &nbsp;
                 <a href="/forgot-password">Forgot Password</a>
             </div>
+                <div class="text-center" >
+                    <a href="/register">Register</a>
+                </div>
             </form>
         </div>
     </div>

@@ -1,5 +1,6 @@
 <html>
 <head>
+
     <title>Registration form</title>
 
     <script>
