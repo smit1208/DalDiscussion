@@ -1,7 +1,9 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Reply;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -10,21 +12,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component("ReplyDAO")
 public class ReplyDAO implements IReplyDAO {
     Connection connection = null;
     Statement statement = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
-
-    private static IReplyDAO iReplyDAO;
+    private DatabaseConfig databaseConfig;
 
     private final String ADDREPLY = "{call addReply(?,?,?)}";
 
-    public static IReplyDAO getInstance(){
-        if(iReplyDAO == null){
-            iReplyDAO = new ReplyDAO();
-        }
-        return iReplyDAO;
+    public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
+        this.databaseConfig = databaseConfig;
     }
 
     @Override

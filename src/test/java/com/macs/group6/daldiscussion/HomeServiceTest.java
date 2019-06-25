@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.service.HomeService;
-import com.macs.group6.daldiscussion.service.ServiceFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,7 +18,7 @@ public class HomeServiceTest {
     @Before
     public void setUp() throws Exception {
         homeDAOMock = new HomeDAOMock();
-        homeService = (HomeService) ServiceFactory.getInstance().getHomeService(homeDAOMock);
+        homeService = new HomeService(homeDAOMock);
     }
 
     @Test

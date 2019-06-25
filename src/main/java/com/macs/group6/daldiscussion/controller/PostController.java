@@ -3,15 +3,11 @@ package com.macs.group6.daldiscussion.controller;
 //Multi part file referenced from
 //https://www.baeldung.com/spring-file-upload
 
-import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.ICommentDAO;
-import com.macs.group6.daldiscussion.dao.IPostDAO;
-import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.service.PostService;
-import com.macs.group6.daldiscussion.service.ServiceFactory;
+import com.macs.group6.daldiscussion.service.IPostService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +22,11 @@ public class PostController {
 
     private static final Logger LOGGER = LogManager.getLogger(PostController.class);
 
-    PostService postService = (PostService) ServiceFactory.getInstance().getPostService(
-            (IPostDAO) DAOFactory.getInstance().getPostDAO(),
-            (ICommentDAO) DAOFactory.getInstance().getCommentDAO(),
-            (IReplyDAO) DAOFactory.getInstance().getReplyDAO()
-    );
+    private IPostService postService;
+
+    public PostController(@Qualifier("PostService") IPostService iPostService){
+        this.postService = iPostService;
+    }
 
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
     public String postView() {
