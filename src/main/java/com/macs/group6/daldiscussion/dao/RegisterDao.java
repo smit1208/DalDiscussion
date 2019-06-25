@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class RegisterDaoImpl implements IRegisterDao {
+public class RegisterDao implements IRegisterDao {
     @Override
     public void create(UserRegister userRegister ) {
         Connection connection = null;
