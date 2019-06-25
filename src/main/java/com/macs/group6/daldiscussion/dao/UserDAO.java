@@ -1,12 +1,11 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.entities.User;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 

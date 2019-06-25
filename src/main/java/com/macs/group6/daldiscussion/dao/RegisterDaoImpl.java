@@ -1,7 +1,7 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.UserRegister;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -2,7 +2,9 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -12,22 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component("CommentDAO")
 public class CommentDAO implements ICommentDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-    private static ICommentDAO iCommentDAO;
-
+    private DatabaseConfig databaseConfig;
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
     private static final String GETPOSTBYID = "{call getPostById(?)}";
     private static final String ADDCOMMENT = "{call addComment(?,?,?)}";
 
-    public static ICommentDAO getInstance(){
-        if(iCommentDAO == null){
-            iCommentDAO = new CommentDAO();
-        }
-        return iCommentDAO;
+    public CommentDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+        this.databaseConfig=databaseConfig;
     }
 
     @Override

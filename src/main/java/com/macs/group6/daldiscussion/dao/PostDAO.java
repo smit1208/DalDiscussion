@@ -1,13 +1,15 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Post;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
-
+@Component("PostDAO")
 public class PostDAO implements IPostDAO {
 
     private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category) values(?,?,?,?);";
@@ -18,15 +20,19 @@ public class PostDAO implements IPostDAO {
     Connection connection = null;
     PreparedStatement insertStatement = null;
     CallableStatement callableStatement = null;
+    private DatabaseConfig databaseConfig;
     int result ;
     private static IPostDAO iPostDAO;
 
-    public static IPostDAO getInstance(){
-        if(iPostDAO == null){
-            iPostDAO = new PostDAO();
-        }
-        return iPostDAO;
+    public PostDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+        this.databaseConfig = databaseConfig;
     }
+//    public static IPostDAO getInstance(){
+//        if(iPostDAO == null){
+//            iPostDAO = new PostDAO();
+//        }
+//        return iPostDAO;
+//    }
 
     @Override
     public void create(Post post) {
