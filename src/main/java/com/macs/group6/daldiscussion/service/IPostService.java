@@ -21,4 +21,6 @@ public interface IPostService {
     void addComment(Comment c, int post_id);
 
     void addReply(Reply reply, int comment_id);
+
+    boolean fileSizeExceeded(MultipartFile file);
 }

@@ -1,4 +1,6 @@
-package database;
+package com.macs.group6.daldiscussion.database;
+
+import org.springframework.stereotype.Component;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -8,7 +10,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 
-
+@Component("DatabaseConfig")
 public class DatabaseConfig {
     private static DatabaseConfig databaseConfigInstance;
     private static final String URL = "spring.datasource.url";
@@ -21,7 +23,7 @@ public class DatabaseConfig {
     private static String password;
     private static String driver;
 
-    private DatabaseConfig(){
+    public DatabaseConfig(){
         try(InputStream inputStream = new FileInputStream("src/main/resources/application.properties")){
             Properties properties = new Properties();
             properties.load(inputStream);
@@ -41,6 +43,7 @@ public class DatabaseConfig {
         }
         return databaseConfigInstance;
     }
+
     public Connection loadDatabase(){
         try{
             Class.forName(driver);

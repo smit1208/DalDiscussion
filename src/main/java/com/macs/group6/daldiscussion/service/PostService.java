@@ -4,6 +4,9 @@ import com.macs.group6.daldiscussion.dao.*;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.sql.rowset.serial.SerialException;
@@ -12,21 +15,16 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
+@Service("PostService")
 public class PostService implements IPostService {
     private static final int maxFileSize = 65535;
 
-    private static IPostService iPostService;
     private IReplyDAO iReplyDAO;
     private ICommentDAO iCommentDAO;
     private IPostDAO iPostDAO;
-    public static IPostService getInstance(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
-        if(iPostService == null){
-            iPostService = new PostService(iPostDAO,iCommentDAO,iReplyDAO);
-        }
-        return iPostService;
-    }
-    private PostService(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
+
+    @Autowired
+    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO ){
         this.iCommentDAO = iCommentDAO;
         this.iPostDAO = iPostDAO;
         this.iReplyDAO = iReplyDAO;
@@ -81,7 +79,8 @@ public class PostService implements IPostService {
         iReplyDAO.addReply(reply,comment_id);
     }
 
-    public boolean fileSizeExceeded(MultipartFile file){
+    @Override
+    public boolean fileSizeExceeded(MultipartFile file) {
         if(file.getSize() > maxFileSize){
             return true;
         }else{
