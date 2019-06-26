@@ -19,7 +19,6 @@ public class CommentDAO implements ICommentDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
-
     private DatabaseConfig databaseConfig;
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
     private static final String GETPOSTBYID = "{call getPostById(?)}";

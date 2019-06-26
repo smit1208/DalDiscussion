@@ -1,7 +1,14 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
 
     <title>Registration form</title>
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <link href="../css/sb-admin.css" rel="stylesheet">
 
     <script>
         function validateform(){
@@ -46,6 +53,8 @@
 
 </head>
 
+<body>
+
 <h2 ALIGN="CENTER">Registration form</h2>
 
 <form action="/register" onsubmit="return validateform()" method="post" name="myform">
@@ -74,11 +83,10 @@
 
         <tr>
             <td><label for="password">Password:</label></td>
-            <td><input id="password" maxlength="50" name="password"
+            <td><input id="password" maxlength="50" name="password placeholder="Enter password
                        type="password"  />
                 <div id = "passwordvalue"></div></td>
         </tr>
-
         <tr>
             <td align="right"><input name="Submit" type="Submit" value="Submit" /></td>
         </tr>
@@ -86,4 +94,6 @@
         </tbody>
     </table>
 </form>
+
+</body>
 </html>
