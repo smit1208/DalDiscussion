@@ -6,8 +6,10 @@ import com.macs.group6.daldiscussion.model.ResetPasswordRequest;
 import com.macs.group6.daldiscussion.model.ResetPasswordResponse;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
+import com.macs.group6.daldiscussion.service.IUserService;
 import com.macs.group6.daldiscussion.service.ResetPasswordService;
 import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import com.macs.group6.daldiscussion.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -18,11 +20,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class PublicController {
 
     private static final Logger LOGGER = LogManager.getLogger(PublicController.class);
+    private IUserService iUserService;
+//    private UserDAO userDAO;
+    public PublicController(){
+        this.iUserService = new UserService(new UserDAO());
+    }
 
     @GetMapping("/")
     public String getIndex() {
@@ -141,8 +149,12 @@ public class PublicController {
     public String postLogin(Model model, HttpSession session, HttpServletRequest request,
                             @RequestParam(name = "username") String email, @RequestParam(name = "password") String password) {
         fillCommonModel(model, session);
+
         model.addAttribute("email", email);
         model.addAttribute("password", password);
+        session.setAttribute("email",email);
+        List<User> users = iUserService.getUserByEmail(email);
+        session.setAttribute("firstName",users.get(0).getFirstName());
         String message = "";
 
         try {

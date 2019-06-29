@@ -5,14 +5,15 @@ package com.macs.group6.daldiscussion.entities;
  * @author Kush Rao
  */
 public class User {
-    private int _id = 0;
-    private String _firstName = "";
-    private String _lastName = "";
-    private String _email = "";
-    private String _password = "";
-    private int _karmaPoints = 0;
-    private int _subscriptionLimit = 0;
-    private int _currentStatus = 0;
+    private int _id;
+    private String _firstName;
+    private String _lastName;
+    private String _email;
+    private String _password;
+    private int _karmaPoints;
+    private int _subscriptionLimit;
+    private int _currentStatus;
+    private int role;
 
     public int getCurrentStatus() {
         return _currentStatus;
@@ -76,5 +77,13 @@ public class User {
 
     public void setPassword(String password) {
         _password = password;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public void setRole(int role) {
+        this.role = role;
     }
 }

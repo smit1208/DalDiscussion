@@ -10,21 +10,12 @@ import java.util.Map;
 @Service("HomeService")
 public class HomeService implements IHomeService {
 
-    private static IHomeService iHomeService;
     private IHomeDAO homeDAO;
 
     @Autowired
     public HomeService(@Qualifier("HomeDAO") IHomeDAO homeDAO){
         this.homeDAO = homeDAO;
     }
-
-    public static IHomeService getInstance(IHomeDAO iHomeDAO){
-        if(iHomeService == null){
-            iHomeService = new HomeService(iHomeDAO);
-        }
-        return iHomeService;
-    }
-
     @Override
     public Map<String, Object> getAllPosts() {
         return homeDAO.getAllPosts();

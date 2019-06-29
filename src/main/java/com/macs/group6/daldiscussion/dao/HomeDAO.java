@@ -26,13 +26,13 @@ public class HomeDAO implements IHomeDAO {
     @Autowired
     public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
         this.databaseConfig = databaseConfig;
+
     }
     @Override
     public Map<String,Object> getAllPosts() {
         Map<String,Object> postMap = new HashMap<>();
 
         try {
-
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(GETALLPOST);
             resultSet = callableStatement.executeQuery();

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,15 +20,18 @@ public class HomepageController {
     Map<String,Object> postMap = new HashMap<>();
 
     private IHomeService homeService;
-    public HomepageController(@Qualifier("HomeService") IHomeService homeService){
+
+    public HomepageController(@Qualifier("HomeService") IHomeService homeService) {
         this.homeService = homeService;
     }
 
     @RequestMapping("/home")
-    public String Home(Model model){
+    public String Home(Model model, HttpSession session){
+
 
         postMap = homeService.getAllPosts();
         List<Post> postList = (List<Post>) postMap.get("posts");
+        model.addAttribute("user",session.getAttribute("firstName"));
         model.addAttribute("posts", postList);
         LOGGER.info("Posts displayed on homepage successfully");
         return Views.HOMEPAGE;

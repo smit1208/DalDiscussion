@@ -1,13 +1,21 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<html lang="en">
+
 <head>
 
+    <title>Dal Discussion</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
     <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
     <link href="../css/sb-admin.css" rel="stylesheet">
+
 </head>
-<body>
+
+<body id="page-top">
+
+<%--https://startbootstrap.com/templates/sb-admin/--%>
 <jsp:include page="navbar.jsp"></jsp:include>
 
 <div id="wrapper">
@@ -16,17 +24,18 @@
 
         <div class="container-fluid">
 
-            <h3>
-               Sorry you don't have any subscriptions yet!!!
-            </h3>
-            <div class="d-flex justify-content-center">
-                <a href="/subscriptionDetails">Click Here to join a group</a>
-            </div>
+            Admin
+
         </div>
     </div>
+
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
     <script src="../js/sb-admin.min.js"></script>
+
 </div>
+
 </body>
+
 </html>

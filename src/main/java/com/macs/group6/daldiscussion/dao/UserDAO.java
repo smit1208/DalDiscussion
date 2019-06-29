@@ -1,7 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.entities.User;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +14,9 @@ import java.util.List;
  * DAO class for User entity.
  * @author Kush Rao
  */
+@Component("UserDAO")
 public class UserDAO {
-
+    private DatabaseConfig databaseConfig;
     /**
      * Checking row existing SQL script of User entity
      */
@@ -41,7 +43,6 @@ public class UserDAO {
     private static final String SQL_FIND_BY_EMAIL = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM ` user` WHERE email = ?;";
 
     private static UserDAO __instance;
-
     /**
      * Singleton implementation of DAO class of User entity
      * @return a DAO instance of User entity

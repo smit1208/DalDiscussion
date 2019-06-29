@@ -24,6 +24,7 @@ public class ReplyDAO implements IReplyDAO {
 
     public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
         this.databaseConfig = databaseConfig;
+
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ReplyDAO implements IReplyDAO {
             List<Reply> replyList = new ArrayList<>();
 
             try{
-                connection = DatabaseConfig.getInstance().loadDatabase();
+                connection = this.databaseConfig.loadDatabase();
                 statement = connection.createStatement();
                 String sql = "select * from replies as r where r.comment_id="+commentId;
                 resultSet = statement.executeQuery(sql);
@@ -63,6 +64,8 @@ public class ReplyDAO implements IReplyDAO {
             callableStatement.executeQuery();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }
     }
 }
