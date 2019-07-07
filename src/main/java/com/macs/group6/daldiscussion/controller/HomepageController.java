@@ -27,8 +27,10 @@ public class HomepageController {
 
     @RequestMapping("/home")
     public String Home(Model model, HttpSession session){
-
-
+        String email = (String) session.getAttribute("email");
+        if(email.equalsIgnoreCase("admin@dal.ca")){
+            return Views.ADMIN;
+        }
         postMap = homeService.getAllPosts();
         List<Post> postList = (List<Post>) postMap.get("posts");
         model.addAttribute("user",session.getAttribute("firstName"));

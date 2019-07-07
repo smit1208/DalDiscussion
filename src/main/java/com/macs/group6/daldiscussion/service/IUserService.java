@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IUserService {
     List<User> getUserByEmail(String email);
+    User getUserById(int user_id);
 }

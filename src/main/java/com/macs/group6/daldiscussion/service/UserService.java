@@ -28,4 +28,14 @@ public class UserService implements IUserService{
         }
         return null;
     }
+
+    @Override
+    public User getUserById(int user_id) {
+        try {
+            return userDAO.findById(user_id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

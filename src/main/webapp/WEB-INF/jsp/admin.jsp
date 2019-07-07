@@ -24,7 +24,9 @@
 
         <div class="container-fluid">
 
-            Admin
+            <a href="/admin/allRequests">
+                Pending requests
+            </a>
 
         </div>
     </div>

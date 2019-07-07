@@ -155,6 +155,8 @@ public class PublicController {
         session.setAttribute("email",email);
         List<User> users = iUserService.getUserByEmail(email);
         session.setAttribute("firstName",users.get(0).getFirstName());
+        session.setAttribute("karma",users.get(0).getKarmaPoints());
+        session.setAttribute("id",users.get(0).getId());
         String message = "";
 
         try {
