@@ -30,14 +30,13 @@ public class PostService implements IPostService {
         this.iReplyDAO = iReplyDAO;
     }
     @Override
-    public void create(Post post) {
-        iPostDAO.create(post);
+    public void create(Post post,int user_id) {
+        iPostDAO.create(post,user_id);
     }
 
     @Override
     public void createPostWithImage(Post post, MultipartFile file) {
        double size = (double) file.getSize();
-       System.out.println(size);
         byte[] imageBytes;
 
         try{
@@ -70,13 +69,13 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void addComment(Comment c, int post_id) {
-        iCommentDAO.addComment(c,post_id);
+    public void addComment(Comment c, int post_id, int user_id) {
+        iCommentDAO.addComment(c,post_id,user_id);
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id) {
-        iReplyDAO.addReply(reply,comment_id);
+    public void addReply(Reply reply, int comment_id, int user_id) {
+        iReplyDAO.addReply(reply,comment_id,user_id);
     }
 
     @Override

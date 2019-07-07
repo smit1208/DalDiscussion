@@ -86,13 +86,13 @@ public class CommentDAO implements ICommentDAO {
     }
 
     @Override
-    public void addComment(Comment comment, int post_id) {
+    public void addComment(Comment comment, int post_id, int user_id) {
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDCOMMENT);
             callableStatement.setString(1,comment.getComment_description());
             callableStatement.setInt(2,post_id);
-            callableStatement.setInt(3,1);
+            callableStatement.setInt(3,user_id);
             callableStatement.executeQuery();
         }catch (Exception e){
             e.printStackTrace();

@@ -8,5 +8,5 @@ import java.util.Map;
 public interface ICommentDAO {
     Map<String,Object> getComments(int postId);
     Post getPostById(int postId);
-    void addComment(Comment comment, int post_id);
+    void addComment(Comment comment, int post_id, int user_id);
 }

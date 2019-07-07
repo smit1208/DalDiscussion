@@ -3,6 +3,7 @@ package com.macs.group6.daldiscussion.controller;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import com.macs.group6.daldiscussion.service.ISubscriptionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Controller
 public class SubscriptionDetailsController {
-
+    private static final Logger logger = Logger.getLogger(SubscriptionDetailsController.class);
     private ISubscriptionService iSubscriptionService;
 
 
@@ -29,12 +30,14 @@ public class SubscriptionDetailsController {
     @GetMapping("/subscriptionDetails")
     public String getAllSubscriptions(ModelMap model, HttpSession session){
         int karma = (Integer) session.getAttribute("karma");
-        if(karma != 100){
-            model.addAttribute("message","You need 100 Karma points to join a group");
+        if(karma != 1000){
+            model.addAttribute("message","You need 1000 Karma points to join a group");
+            logger.error("Minimum 1000 Karma points required");
             return Views.SUBSCRIPTION;
         }
         List<SubscriptionGroup> subscriptionGroupList = iSubscriptionService.getAllSubscriptions();
         model.addAttribute("subscription",subscriptionGroupList);
+        logger.info("All private groups");
         return Views.SUBSCRIPTIONDETAILS;
     }
 
@@ -44,7 +47,6 @@ public class SubscriptionDetailsController {
         boolean checked = false;
         List<Subscription> subscriptions = iSubscriptionService.fetchSubscriptionByUserID(userid);
         for (int i = 0; i <subscriptions.size() ; i++) {
-            System.out.println(subscriptions.size());
            int groupId = subscriptions.get(i).getGroup_id();
            if(groupId == group_id){
                checked = true;
@@ -53,9 +55,11 @@ public class SubscriptionDetailsController {
         if(checked){
             String message = "You have already requested/ registered for this group";
             modelMap.addAttribute("message",message);
+            logger.error("Already registered or requested for this group");
             return Views.SUBSCRIPTIONDETAILS;
         }else {
             iSubscriptionService.addSubscriptionRequest(userid, group_id);
+            logger.info("Request send to admin for approval");
             return Views.SUBSCRIPTION;
         }
     }

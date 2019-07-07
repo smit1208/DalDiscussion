@@ -7,7 +7,7 @@ import java.sql.Blob;
 
 public class PostDAOMock implements IPostDAO {
     @Override
-    public void create(Post post) {
+    public void create(Post post, int user_id) {
 
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPostService {
-    void create(Post post);
+    void create(Post post,int user_id);
 
     void createPostWithImage(Post post, MultipartFile file);
 
@@ -18,9 +18,9 @@ public interface IPostService {
 
     Post getPostById(int postId);
 
-    void addComment(Comment c, int post_id);
+    void addComment(Comment c, int post_id, int user_id);
 
-    void addReply(Reply reply, int comment_id);
+    void addReply(Reply reply, int comment_id, int user_id);
 
     boolean fileSizeExceeded(MultipartFile file);
 }
