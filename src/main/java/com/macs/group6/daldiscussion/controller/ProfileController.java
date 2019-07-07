@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +21,7 @@ import com.macs.group6.daldiscussion.service.UserService;
 
 @Controller
 public class ProfileController {
-	
+	private static final Logger LOGGER = LogManager.getLogger(ProfileController.class);
 	
 	
 	 @GetMapping("/updateprofile")
@@ -46,6 +48,7 @@ public class ProfileController {
 	    		System.out.println("error in getting session values and user values for model");
 			}
 		 	
+	    	 LOGGER.info("Profile Page displayed successfully");
 	        return Views.PROFILE;
 	    }
 
