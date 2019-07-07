@@ -43,6 +43,7 @@ public class DashboardDAO implements IDashboardDAO {
             List<Post> personalPosts = new ArrayList<>();
             while (resultSet.next()) {
                 Post personalPost = new Post();
+                personalPost.setId(resultSet.getInt("id"));
                 personalPost.setUser_id(resultSet.getInt("user_id"));
                 personalPost.setPost_title(resultSet.getString("post_title"));
                 personalPost.setPost_description(resultSet.getString("post_desc"));
@@ -57,21 +58,20 @@ public class DashboardDAO implements IDashboardDAO {
         return personalPostMap;
     }
 
-    public void deletePostByUserId(int post_id){
-
+    @Override
+    public void deletePostById(int post_id) {
         try {
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(DELETEPOSTBYID);
             callableStatement.setInt(1,post_id);
             resultSet = callableStatement.executeQuery();
 
-        } catch (SQLException e) {
+        } catch (
+                SQLException e) {
             e.printStackTrace();
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
-
     }
-
 }
 

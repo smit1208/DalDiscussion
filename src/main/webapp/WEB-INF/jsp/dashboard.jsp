@@ -23,20 +23,17 @@
     <div id="content-wrapper">
 
         <div class="container-fluid">
-
-
             <div class="container" style="text-align: center; margin-top: 3%">
-
-
-                <c:forEach items="${postlist}" var="post">
+                <c:forEach items="${posts}" var="post">
                     <div class="card" style="margin-top: 3%">
                         <a class="card-header" href="" >${post.post_title}</a>
                         <div class="card-text">${post.post_description}</div>
                     </div>
-
-                    <form class="form" action="/dashboard/${post.id}" method="post">
-                        <button type="Delete" class="btn btn-danger">Delete</button>
-                    </form>
+                    <div class="d-flex flex-row-reverse">
+                        <form class="form" method="post" action="/dashboard/delete/${post.id}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </div>
                 </c:forEach>
 
             </div>
