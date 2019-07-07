@@ -22,7 +22,7 @@ public class DashboardService implements IDashboardService {
         }
 
         public void deletePostById(int post_id){
-            dashboardDAO.deletePostByUserId(post_id);
+            dashboardDAO.deletePostById(post_id);
         }
 }
 

@@ -1,7 +1,5 @@
 package com.macs.group6.daldiscussion.model;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import java.util.Date;
 import java.util.List;
 
@@ -19,7 +17,6 @@ public class Post {
     private List<Comment> comments;
     private String group;
     private byte[] file;
-
     private int user_id;
 
     public byte[] getFile() {
