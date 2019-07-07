@@ -38,4 +38,8 @@ public class UserService implements IUserService{
         }
         return null;
     }
+    
+    public boolean updateUser(int id, String fname,String lname,String email, String password) {
+        return UserDAO.getInstance().updateUser( id, fname, lname, email, password);
+        }
 }

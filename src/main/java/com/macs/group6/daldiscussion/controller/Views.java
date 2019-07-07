@@ -12,4 +12,5 @@ public class Views {
     public static final String SUBSCRIPTIONDETAILS = "subscriptiondetails";
     public static final String PERSONALGROUPS = "PersonalGroups";
     public static final String PENDINGREQUESTADMIN = "AdminPendingRequest";
+    public static final String PROFILE = "updateprofile";
 }
