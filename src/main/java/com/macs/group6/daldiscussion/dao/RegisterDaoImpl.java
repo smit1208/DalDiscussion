@@ -18,6 +18,7 @@ public class RegisterDaoImpl implements IRegisterDao {
         try {
             statement = connection.createStatement();
             String query = "insert into ` user`(first_name, last_name, email, password,karma_points,subscription_limit,current_status) values('"+userRegister.getFname()+"','"+userRegister.getLname()+"','"+userRegister.getEmail()+"','"+userRegister.getPassword()+"',1,1,1);";
+            System.out.println(query);
             int result = statement.executeUpdate(query);
             System.out.println(result);
         } catch (SQLException e) {

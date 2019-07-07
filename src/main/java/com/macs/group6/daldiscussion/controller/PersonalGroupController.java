@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.service.IPersonalGroupService;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import java.util.Map;
 
 @Controller
 public class PersonalGroupController {
-    private static final Logger logger = Logger.getLogger(PersonalGroupController.class);
     private IPersonalGroupService iPersonalGroupService;
     @Autowired
     public PersonalGroupController(@Qualifier("PersonalGroupService")IPersonalGroupService iPersonalGroupService){
@@ -29,7 +27,6 @@ public class PersonalGroupController {
         privatePostMap = iPersonalGroupService.getPrivatePostsByGroupID(groupId);
         List<Post> posts = (List<Post>) privatePostMap.get("privatePosts");
         model.addAttribute("privatePosts",posts);
-        logger.info("Private Posts rendered successfully");
         return Views.PERSONALGROUPS;
     }
 }

@@ -5,6 +5,6 @@ import com.macs.group6.daldiscussion.model.Post;
 import java.sql.Blob;
 
 public interface IPostDAO {
-    public void create(Post post, int user_id);
+    public void create(Post post);
     public void createPostWithImage(Post post, Blob postImageBlob);
 }

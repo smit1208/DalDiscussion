@@ -48,7 +48,7 @@ public class CommentDAOMock implements ICommentDAO {
     }
 
     @Override
-    public void addComment(Comment comment, int post_id, int user_id) {
+    public void addComment(Comment comment, int post_id) {
 
     }
 }

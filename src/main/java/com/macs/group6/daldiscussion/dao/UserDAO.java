@@ -4,6 +4,7 @@ import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import org.springframework.stereotype.Component;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,6 +43,15 @@ public class UserDAO {
      */
     private static final String SQL_FIND_BY_EMAIL = "SELECT id, first_name, last_name, email, password, karma_points, subscription_limit, current_status FROM ` user` WHERE email = ?;";
 
+    /**
+     * update user by email SQL procedure script of User entity
+     */
+    private static final String SQL_PROCEDURE_UPDATE_USER_BY_EMAIL=    "{call updateUser(?, ?, ?, ?, ?)}";
+    
+    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM CSCI5308_6_DEVINT.`groups` g WHERE g.id IN (" + 
+    		"	" + 
+    		"	SELECT group_id FROM CSCI5308_6_DEVINT.subscription WHERE user_id = ?);";
+    
     private static UserDAO __instance;
     /**
      * Singleton implementation of DAO class of User entity
@@ -206,4 +216,59 @@ public class UserDAO {
             e.printStackTrace();
         }
     }
+    
+    public boolean updateUser(int id,String fname,String lname,String email, String password) {
+        
+   	 Connection connection = DatabaseConfig.getInstance().loadDatabase();
+   	
+   	 try {
+   	 CallableStatement cStatement = connection.prepareCall(SQL_PROCEDURE_UPDATE_USER_BY_EMAIL);
+   	 cStatement.setInt(1, id);
+   	 cStatement.setString(2, email);
+   	cStatement.setString(3, fname);
+   	cStatement.setString(4, lname);
+   	cStatement.setString(5, password);
+   	cStatement.executeUpdate();
+   	 
+   	 System.out.println("profile updated");
+   	 return true;
+   	 
+   	 }catch (Exception e) {
+   		 e.printStackTrace();
+   		 System.out.println("profile cannot be updated");
+   		 return false;	
+		}
+   	
+   }
+   
+   
+   public List<String> getUserGroups(int id) {
+       
+   	List<String> groups=new ArrayList<String>();
+  	 Connection connection = DatabaseConfig.getInstance().loadDatabase();
+  	
+  	 try {
+  
+    PreparedStatement preparedStatement = connection.prepareStatement(SQL_PROCEDURE_FIND_USER_GROUPS);
+    preparedStatement.setInt(1, id);
+  	
+    preparedStatement.execute();
+    ResultSet result =preparedStatement.getResultSet();
+  	 
+  	//System.out.println(cStatement.execute());
+  	 //ResultSet result= cStatement.getResultSet();
+  	 
+  	 while(result.next()) {
+  		 groups.add(result.getString(2));
+  	 }
+  	 
+  	 return groups;
+  	 
+  	 }catch (Exception e) {
+  		 e.printStackTrace();
+  		 System.out.println("error retriving group data");
+  		return new ArrayList<String>();	
+		}
+  	
+  }
 }

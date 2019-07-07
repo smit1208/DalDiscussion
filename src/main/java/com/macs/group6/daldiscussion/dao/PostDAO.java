@@ -35,14 +35,14 @@ public class PostDAO implements IPostDAO {
 //    }
 
     @Override
-    public void create(Post post,int user_id) {
+    public void create(Post post) {
 
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(SQL_INSERT_POST);
             callableStatement.setString(1,post.getPost_title());
             callableStatement.setString(2, post.getPost_description());
-            callableStatement.setInt(3,user_id);
+            callableStatement.setInt(3,1);
             callableStatement.setInt(4,post.getCategory());
             result = callableStatement.executeUpdate();
             LOGGER.info("create post successful! rows updated "+result);

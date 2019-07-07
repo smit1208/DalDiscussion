@@ -28,7 +28,7 @@ public class ReplyDAOMock implements IReplyDAO {
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id) {
+    public void addReply(Reply reply, int comment_id) {
 
     }
 }
