@@ -34,7 +34,7 @@
 <section id ="header" class = "section-padding" style="padding-top: 20px">
     <div class="container">
         <div style="text-align: right">
-            <span>Welcome User</span>
+            <span>Welcome ${name}</span>
         </div>
 
     </div>

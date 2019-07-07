@@ -15,11 +15,28 @@
     <div id="content-wrapper">
 
         <div class="container-fluid">
-
-            <h3>
-                Subscription
-            </h3>
-
+       <c:choose>
+           <c:when test="${empty(approvedSubscription)}">
+               <h3>
+                   Sorry you don't have any subscriptions yet!!!
+               </h3>
+           </c:when>
+          <c:otherwise>
+              <c:forEach items="${approvedSubscription}" var="sub">
+                  <div class="card" style="margin-top: 3%">
+                      <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
+                  </div>
+              </c:forEach>
+          </c:otherwise>
+       </c:choose>
+            <div class="d-flex justify-content-center">
+                <a href="/subscriptionDetails">Click Here to join a group</a>
+            </div>
+            <div class="d-flex justify-content-center" style="color: red">
+                <h6>
+                    ${message}
+                </h6>
+            </div>
         </div>
     </div>
     <script src="../vendor/jquery/jquery.min.js"></script>

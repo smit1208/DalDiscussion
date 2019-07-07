@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 
@@ -29,7 +31,9 @@ public class PostController {
     }
 
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
-    public String postView() {
+    public String postView(Model model, HttpSession session) {
+        String name = (String) session.getAttribute("firstName");
+        model.addAttribute("name",name);
         return Views.VIEWPOST;
     }
 

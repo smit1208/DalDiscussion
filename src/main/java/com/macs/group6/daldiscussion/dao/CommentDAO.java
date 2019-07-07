@@ -27,6 +27,7 @@ public class CommentDAO implements ICommentDAO {
 
     public CommentDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
         this.databaseConfig=databaseConfig;
+
     }
 
     @Override
@@ -34,7 +35,7 @@ public class CommentDAO implements ICommentDAO {
         Map<String,Object> commentMap = new HashMap<>();
 
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(GETCOMMENTSBYPOSTID);
             List<Comment> commentList = new ArrayList<>();
             callableStatement.setInt(1,postId);
@@ -63,7 +64,7 @@ public class CommentDAO implements ICommentDAO {
     public Post getPostById(int postId) {
         Post post = new Post();
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(GETPOSTBYID);
             callableStatement.setInt(1,postId);
             resultSet = callableStatement.executeQuery();
@@ -87,7 +88,7 @@ public class CommentDAO implements ICommentDAO {
     @Override
     public void addComment(Comment comment, int post_id) {
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDCOMMENT);
             callableStatement.setString(1,comment.getComment_description());
             callableStatement.setInt(2,post_id);
@@ -95,6 +96,8 @@ public class CommentDAO implements ICommentDAO {
             callableStatement.executeQuery();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
 }
