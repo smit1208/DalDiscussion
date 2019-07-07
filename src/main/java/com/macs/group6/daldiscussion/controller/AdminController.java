@@ -5,6 +5,7 @@ import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.service.IAdminService;
 import com.macs.group6.daldiscussion.service.ISubscriptionService;
 import com.macs.group6.daldiscussion.service.IUserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
@@ -19,7 +20,7 @@ import java.util.List;
 // https://www.mkyong.com/spring-boot/spring-boot-how-to-send-email-via-smtp/
 @Controller
 public class AdminController {
-
+    private static final Logger logger = Logger.getLogger(AdminController.class);
     private IAdminService iAdminService;
     private IUserService iUserService;
     private ISubscriptionService iSubscriptionService;
@@ -39,6 +40,7 @@ public class AdminController {
     public String fetchAllSubscriptionRequests(Model model){
         List<Subscription> subscriptions = iAdminService.fetchAllSubscriptionRequests();
         model.addAttribute("subscriptions",subscriptions);
+        logger.info("Pending requests list fetched");
         return Views.PENDINGREQUESTADMIN;
     }
 
@@ -54,6 +56,7 @@ public class AdminController {
         simpleMailMessage.setSubject("Approval to your Subscription request");
         simpleMailMessage.setText("Your Subscription request has been approved ");
         javaMailSender.send(simpleMailMessage);
+        logger.info("Request approved by admin, Email send");
         return "redirect:/admin/allRequests";
     }
 }

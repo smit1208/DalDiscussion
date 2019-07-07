@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.service.ISubscriptionService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Controller
 public class SubscriptionController {
+    private static final Logger logger = Logger.getLogger(SubscriptionController.class);
     private ISubscriptionService iSubscriptionService;
     Map<String,Object> displaySubMap = new HashMap<>();
 
@@ -26,6 +28,7 @@ public class SubscriptionController {
         displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
+        logger.info("Subscription list fetched successfully");
         return Views.SUBSCRIPTION;
     }
 }

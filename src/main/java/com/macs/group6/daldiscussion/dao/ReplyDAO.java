@@ -54,12 +54,12 @@ public class ReplyDAO implements IReplyDAO {
         }
 
     @Override
-    public void addReply(Reply reply, int comment_id) {
+    public void addReply(Reply reply, int comment_id,int user_id) {
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(ADDREPLY);
             callableStatement.setString(1,reply.getReply_description());
-            callableStatement.setInt(2,1);
+            callableStatement.setInt(2,user_id);
             callableStatement.setInt(3,comment_id);
             callableStatement.executeQuery();
         }catch (Exception e){
