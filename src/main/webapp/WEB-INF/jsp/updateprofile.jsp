@@ -173,6 +173,9 @@ function hideEditForm(){
  <div class="form-group text-right">
   <input type="button" class="btn btn-primary" value="Edit Profile" onclick="showEditForm()"/>
    </div>
+   <div class="form-group text-center">
+    ${message} 
+   </div>
    
     <p style="text-align: center;"><strong>My Profile</strong></p>
 	<p style="padding-left: 30%; text-align: left;"><strong>Contact Information</strong></p>
