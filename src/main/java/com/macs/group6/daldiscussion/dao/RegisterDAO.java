@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.sql.*;
 
+<<<<<<< HEAD:src/main/java/com/macs/group6/daldiscussion/dao/RegisterDaoImpl.java
 public class RegisterDaoImpl implements IRegisterDao {
     private static final Logger LOGGER = LogManager.getLogger(RegisterDaoImpl.class);
 
@@ -21,6 +22,9 @@ public class RegisterDaoImpl implements IRegisterDao {
     PreparedStatement insertStatement = null;
     CallableStatement callableStatement = null;
     int result = 0;
+=======
+public class RegisterDAO implements IRegisterDAO {
+>>>>>>> 7e2a9405b026a8797c52c65b1337e483a6e53b26:src/main/java/com/macs/group6/daldiscussion/dao/RegisterDAO.java
     @Override
     public void create(UserRegister userRegister ) {
 
