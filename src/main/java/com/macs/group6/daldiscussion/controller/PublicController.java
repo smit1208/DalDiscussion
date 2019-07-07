@@ -8,6 +8,7 @@ import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
 import com.macs.group6.daldiscussion.service.ResetPasswordService;
 import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import com.macs.group6.daldiscussion.service.UserServiceObserver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -147,6 +148,7 @@ public class PublicController {
 
         try {
             request.login(email, password);
+            UserServiceObserver obs1 = (UserServiceObserver) UserServiceObserver.getInstance();
             return "redirect:/";
         } catch (Exception e) {
             LOGGER.info("Error in log in");

@@ -9,7 +9,6 @@ import java.util.List;
 
 public class LoginService {
     private static LoginService __instance;
-
     public static LoginService getInstance() {
         if (__instance == null) {
             __instance = new LoginService();

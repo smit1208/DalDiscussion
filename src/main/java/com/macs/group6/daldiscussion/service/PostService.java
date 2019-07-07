@@ -1,25 +1,34 @@
 package com.macs.group6.daldiscussion.service;
 
+import com.macs.group6.daldiscussion.AppConfig;
 import com.macs.group6.daldiscussion.dao.*;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostService implements IPostService {
-    private static final int maxFileSize = 65535;
 
+public class PostService implements IPostService, ISubject {
+    private static final int maxFileSize = 65535;
+    private static int karmaPoints;
+    private static int commentSize;
+    private static int postIDforNotify;
+
+    private ArrayList<IObserver> observers;
     private static IPostService iPostService;
     private IReplyDAO iReplyDAO;
     private ICommentDAO iCommentDAO;
     private IPostDAO iPostDAO;
+    AppConfig appConfig = AppConfig.getInstance();
+
     public static IPostService getInstance(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
         if(iPostService == null){
             iPostService = new PostService(iPostDAO,iCommentDAO,iReplyDAO);
@@ -30,6 +39,7 @@ public class PostService implements IPostService {
         this.iCommentDAO = iCommentDAO;
         this.iPostDAO = iPostDAO;
         this.iReplyDAO = iReplyDAO;
+        observers = new ArrayList<IObserver>();
     }
     @Override
     public void create(Post post) {
@@ -74,6 +84,13 @@ public class PostService implements IPostService {
     @Override
     public void addComment(Comment c, int post_id) {
         iCommentDAO.addComment(c,post_id);
+        commentSize = getCommentSize(post_id);
+        int limit = AppConfig.getInstance().get_postCommentSize();
+        if(isLimitReached(commentSize,limit)){
+            this.karmaPoints = 100;
+            this.postIDforNotify = post_id;
+            notifyObserver();
+        }
     }
 
     @Override
@@ -87,5 +104,37 @@ public class PostService implements IPostService {
         }else{
             return false;
         }
+    }
+
+    private int getCommentSize(int post_id){
+        Map<String,Object> commentMap = new HashMap<>();
+        commentMap = iCommentDAO.getComments(post_id);
+        List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
+        return commentList.size();
+    }
+
+    private boolean isLimitReached(int commentSize, int limit){
+        if(commentSize == limit){
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public void attach(IObserver newObserver) {
+        observers.add(newObserver);
+    }
+
+    @Override
+    public void detach(IObserver deleteObserver) {
+        int observerIndex = observers.indexOf(deleteObserver);
+        observers.remove(observerIndex);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for(IObserver observer : observers){
+            observer.update(karmaPoints, postIDforNotify);
+        }
+
     }
 }

@@ -99,6 +99,17 @@ public class AppConfig {
      */
     private static final String ENV_SECURITY_CONFIG = "SECURITY_CONFIG";
 
+    /*
+    Default user properties
+    */
+    private static final String PROP_USER_DEFAULT_KARMA_POINTS = "user.karma_points";
+
+    private static final String PROP_USER_DEFAULT_SUBSCRIPTION_LIMIT = "user.supscription_limit";
+
+    private static final String PROP_USER_DEFAULT_CURRENT_STATUS = "user.current_status";
+
+    private static final String PROP_POST_COMMENT_SIZE = "post.comment.size";
+
     private static AppConfig __instance;
 
     private String _smtpHost;
@@ -110,6 +121,10 @@ public class AppConfig {
     private String _webUrl;
     private String _resetPasswordUrl;
     private String _securityConfig;
+    private int _defaultKarmaPoints;
+    private int _defaultSubscriptionLimit;
+    private int _defaultCurrentStatus;
+    private int _postCommentSize;
 
     /**
      * Singleton implementation for AppConfig
@@ -187,6 +202,22 @@ public class AppConfig {
         return _resetPasswordUrl;
     }
 
+    public int get_defaultKarmaPoints() {
+        return _defaultKarmaPoints;
+    }
+
+    public int get_defaultSubscriptionLimit() {
+        return _defaultSubscriptionLimit;
+    }
+
+    public int get_defaultCurrentStatus() {
+        return _defaultCurrentStatus;
+    }
+
+    public int get_postCommentSize() {
+        return _postCommentSize;
+    }
+
     /**
      * Get if Spring Boot security must be configured or not.
      * @return a true if Spring Boot security must be configured, a false if default security must be configured
@@ -216,6 +247,12 @@ public class AppConfig {
             _resetPasswordUrl = readString(PROP_RESET_PASSWORD_URL, ENV_RESET_PASSWORD_URL, properties);
 
             _securityConfig = readString(PROP_SECURITY_CONFIG, ENV_SECURITY_CONFIG, properties);
+
+            _defaultKarmaPoints = getIntValue(PROP_USER_DEFAULT_KARMA_POINTS,properties);
+            _defaultCurrentStatus = getIntValue(PROP_USER_DEFAULT_CURRENT_STATUS,properties);
+            _defaultSubscriptionLimit = getIntValue(PROP_USER_DEFAULT_SUBSCRIPTION_LIMIT,properties);
+            _postCommentSize = getIntValue(PROP_POST_COMMENT_SIZE,properties);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -259,5 +296,14 @@ public class AppConfig {
             return properties.getProperty(propName);
         }
         return "";
+    }
+
+    private int getIntValue(String propName, Properties properties){
+        String value = getValue(propName,properties);
+        return  Integer.parseInt(value);
+    }
+
+    private String getValue(String propName,Properties properties){
+        return properties.getProperty(propName);
     }
 }
