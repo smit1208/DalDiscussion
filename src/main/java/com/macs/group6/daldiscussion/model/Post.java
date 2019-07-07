@@ -20,6 +20,8 @@ public class Post {
     private String group;
     private byte[] file;
 
+    private int user_id;
+
     public byte[] getFile() {
         return file;
     }
@@ -115,5 +117,11 @@ public class Post {
     public void setDownVote(int downVote) {
         this.downVote = downVote;
     }
+    public int getUser_id() {
+        return user_id;
+    }
 
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 }
