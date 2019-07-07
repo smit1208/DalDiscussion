@@ -6,12 +6,11 @@ import com.macs.group6.daldiscussion.model.ResetPasswordRequest;
 import com.macs.group6.daldiscussion.model.ResetPasswordResponse;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
-import com.macs.group6.daldiscussion.service.IUserService;
-import com.macs.group6.daldiscussion.service.ResetPasswordService;
-import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
-import com.macs.group6.daldiscussion.service.UserService;
+import com.macs.group6.daldiscussion.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,8 +26,11 @@ public class PublicController {
 
     private static final Logger LOGGER = LogManager.getLogger(PublicController.class);
     private IUserService iUserService;
-//    private UserDAO userDAO;
-    public PublicController(){
+
+    private IObserver iUserObserver;
+    private ISubject ipostService;
+    public PublicController(@Qualifier("PostService") ISubject iPostService){
+        this.ipostService = iPostService;
         this.iUserService = new UserService(new UserDAO());
     }
 
@@ -161,6 +163,8 @@ public class PublicController {
 
         try {
             request.login(email, password);
+           // UserServiceObserver obs1 = (UserServiceObserver) UserServiceObserver.getInstance();
+            this.iUserObserver = UserServiceObserver.getInstance(ipostService);
             return "redirect:/";
         } catch (Exception e) {
             LOGGER.info("Error in log in");

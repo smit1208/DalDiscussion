@@ -18,7 +18,6 @@ public class PostDAO implements IPostDAO {
     private static final Logger LOGGER = LogManager.getLogger(PostDAO.class);
 
     Connection connection = null;
-    PreparedStatement insertStatement = null;
     CallableStatement callableStatement = null;
     private DatabaseConfig databaseConfig;
     int result ;
@@ -27,12 +26,6 @@ public class PostDAO implements IPostDAO {
     public PostDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
         this.databaseConfig = databaseConfig;
     }
-//    public static IPostDAO getInstance(){
-//        if(iPostDAO == null){
-//            iPostDAO = new PostDAO();
-//        }
-//        return iPostDAO;
-//    }
 
     @Override
     public void create(Post post,int user_id) {
@@ -58,13 +51,13 @@ public class PostDAO implements IPostDAO {
 
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
-            insertStatement = connection.prepareStatement(SQL_INSERT_POST_WITH_IMAGE);
-            insertStatement.setString(1,post.getPost_title());
-            insertStatement.setString(2, post.getPost_description());
-            insertStatement.setInt(3,1);
-            insertStatement.setInt(4,post.getCategory());
-            insertStatement.setBlob(5,postImageBlob);
-            int result = insertStatement.executeUpdate();
+            callableStatement = connection.prepareCall(SQL_INSERT_POST_WITH_IMAGE);
+            callableStatement.setString(1,post.getPost_title());
+            callableStatement.setString(2, post.getPost_description());
+            callableStatement.setInt(3,1);
+            callableStatement.setInt(4,post.getCategory());
+            callableStatement.setBlob(5,postImageBlob);
+            int result = callableStatement.executeUpdate();
             LOGGER.info("create post successful! rows updated "+result);
         }catch (Exception e) {
             e.printStackTrace();
