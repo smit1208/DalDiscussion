@@ -20,8 +20,6 @@
            <c:if test="${empty(approvedSubscription)}">
                <h3>
                    Sorry you don't have any subscriptions yet!!!
-                   <a href="/subscriptionDetails">Click Here to join a group</a>
-
                </h3>
            </c:if>
            <c:if test="${approvedSubscription.size()<=4}">
