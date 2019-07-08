@@ -25,7 +25,7 @@ public class PostService implements IPostService, ISubject {
     private static final int maxFileSize = 65535;
     private static int karmaPoints;
     private static int commentSize;
-    private static int userIDforNotify;
+    private static int postIDforNotify;
 
     private IReplyDAO iReplyDAO;
     private ICommentDAO iCommentDAO;
@@ -86,7 +86,7 @@ public class PostService implements IPostService, ISubject {
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
             this.karmaPoints = 100;
-            this.userIDforNotify = user_id;
+            this.postIDforNotify = post_id;
             notifyObserver();
         }
     }
@@ -132,7 +132,7 @@ public class PostService implements IPostService, ISubject {
     @Override
     public void notifyObserver() {
         for(IObserver observer : observers){
-            observer.update(karmaPoints, userIDforNotify);
+            observer.update(karmaPoints, postIDforNotify);
         }
 
     }
