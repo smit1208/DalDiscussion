@@ -34,7 +34,6 @@ public class ProfileController {
 	    	
 	    	
 	    	try {
-	    		System.out.println("id :"+id);
 	    	User user=UserDAO.getInstance().findById(id);
 	    	List<String> groups= UserDAO.getInstance().getUserGroups(id);
 	    		
