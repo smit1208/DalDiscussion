@@ -1,7 +1,6 @@
 package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.Subscription;
-import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import com.macs.group6.daldiscussion.service.ISubscriptionService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +29,7 @@ public class SubscriptionController {
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
 
-        List<SubscriptionGroup> subscriptionGroupList = iSubscriptionService.getAllSubscriptions();
+        List<Subscription> subscriptionGroupList = iSubscriptionService.fetchSubscriptionByUserID(userID);
         String message="";
         if(subscriptionGroupList.size() == 4){
             message = "max subscriptions reached";

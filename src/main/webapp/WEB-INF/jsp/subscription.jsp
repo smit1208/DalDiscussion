@@ -15,23 +15,27 @@
     <div id="content-wrapper">
 
         <div class="container-fluid">
-       <c:choose>
-           <c:when test="${empty(approvedSubscription)}">
+
+
+           <c:if test="${empty(approvedSubscription)}">
                <h3>
                    Sorry you don't have any subscriptions yet!!!
                    <a href="/subscriptionDetails">Click Here to join a group</a>
-               </h3>
-           </c:when>
-          <c:otherwise>
-              <c:forEach items="${approvedSubscription}" var="sub">
-                  <div class="card" style="margin-top: 3%">
-                      <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
-                  </div>
 
-              </c:forEach>
+               </h3>
+           </c:if>
+           <c:if test="${approvedSubscription.size()<=4}">
+               <c:forEach items="${approvedSubscription}" var="sub">
+                   <div class="card" style="margin-top: 3%">
+                       <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
+                   </div>
+               </c:forEach>
+
+           </c:if>
+           <c:if test="${approvedSubscription.size()<4}">
+               <a href="/subscriptionDetails">Click Here to join a group</a>
+           </c:if>
               ${error}
-          </c:otherwise>
-       </c:choose>
 
         </div>
     </div>
