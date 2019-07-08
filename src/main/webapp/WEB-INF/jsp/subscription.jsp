@@ -19,6 +19,7 @@
            <c:when test="${empty(approvedSubscription)}">
                <h3>
                    Sorry you don't have any subscriptions yet!!!
+                   <a href="/subscriptionDetails">Click Here to join a group</a>
                </h3>
            </c:when>
           <c:otherwise>
@@ -26,17 +27,12 @@
                   <div class="card" style="margin-top: 3%">
                       <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
                   </div>
+
               </c:forEach>
+              ${error}
           </c:otherwise>
        </c:choose>
-            <div class="d-flex justify-content-center">
-                <a href="/subscriptionDetails">Click Here to join a group</a>
-            </div>
-            <div class="d-flex justify-content-center" style="color: red">
-                <h6>
-                    ${message}
-                </h6>
-            </div>
+
         </div>
     </div>
     <script src="../vendor/jquery/jquery.min.js"></script>
