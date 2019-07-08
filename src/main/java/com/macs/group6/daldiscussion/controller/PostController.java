@@ -3,15 +3,10 @@ package com.macs.group6.daldiscussion.controller;
 //Multi part file referenced from
 //https://www.baeldung.com/spring-file-upload
 
-import com.macs.group6.daldiscussion.dao.DAOFactory;
-import com.macs.group6.daldiscussion.dao.ICommentDAO;
-import com.macs.group6.daldiscussion.dao.IPostDAO;
-import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.service.PostService;
-import com.macs.group6.daldiscussion.service.ServiceFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.macs.group6.daldiscussion.service.IPostService;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,21 +14,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
+
 
 @Controller
 
 public class PostController {
+    private static final Logger logger = Logger.getLogger(PostController.class);
 
-    private static final Logger LOGGER = LogManager.getLogger(PostController.class);
+    private IPostService postService;
 
-    PostService postService = (PostService) ServiceFactory.getInstance().getPostService(
-            (IPostDAO) DAOFactory.getInstance().getPostDAO(),
-            (ICommentDAO) DAOFactory.getInstance().getCommentDAO(),
-            (IReplyDAO) DAOFactory.getInstance().getReplyDAO()
-    );
+    public PostController(@Qualifier("PostService") IPostService iPostService){
+        this.postService = iPostService;
+    }
 
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
-    public String postView() {
+    public String postView(Model model, HttpSession session) {
+        String name = (String) session.getAttribute("firstName");
+        model.addAttribute("name",name);
+        logger.info("Post added successfully");
         return Views.VIEWPOST;
     }
 
@@ -42,9 +41,10 @@ public class PostController {
                            @RequestParam("postDesc") String postDesc,
                            @RequestParam("category") Integer category,
                            @RequestParam("group") String group,
-                           @RequestParam("image") MultipartFile file, Model model) {
+                           @RequestParam("image") MultipartFile file, Model model, HttpSession session) {
 
         Post post = new Post();
+        int user_id = (Integer) session.getAttribute("id");
         String imageMessage = "";
 
         if(postTitle!=null && postTitle.length()>0){
@@ -61,9 +61,9 @@ public class PostController {
         }
 
         if (!file.isEmpty()) {
-            LOGGER.info("File size is "+file.getSize());
+            logger.info("File size is "+file.getSize());
             if(postService.fileSizeExceeded(file)){
-                LOGGER.info("Image Size Exceeded!");
+                logger.error("Image Size Exceeded!");
                 imageMessage = "Image size exceeded! Max Size 65Kb";
                 model.addAttribute("message",imageMessage);
                 return "post";
@@ -72,7 +72,7 @@ public class PostController {
             }
 
         }else{
-            postService.create(post);
+            postService.create(post,user_id);
         }
 
         return "redirect:/home";

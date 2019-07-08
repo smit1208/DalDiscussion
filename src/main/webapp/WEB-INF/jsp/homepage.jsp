@@ -25,8 +25,16 @@
         <div class="container-fluid">
 
             <h3 style="text-align: center">Welcome to Dal Discussion</h3>
+            <div class="d-flex flex-row-reverse">
+                <c:if test="${user  != 'admin'}">
+                 <h4>
+                     Welcome ${user}
+                 </h4>
+                </c:if>
 
+            </div>
             <div class="container" style="text-align: center; margin-top: 3%">
+
                 <form id="myForm">
                     <input type="text" placeholder="Search your posts" class="col-sm-5 input-lg">
                     <button type="submit" class="btn btn-primary">Search</button>

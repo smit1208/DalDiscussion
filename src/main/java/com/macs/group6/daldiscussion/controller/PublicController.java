@@ -6,10 +6,11 @@ import com.macs.group6.daldiscussion.model.ResetPasswordRequest;
 import com.macs.group6.daldiscussion.model.ResetPasswordResponse;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailRequest;
 import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
-import com.macs.group6.daldiscussion.service.ResetPasswordService;
-import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
+import com.macs.group6.daldiscussion.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +19,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class PublicController {
 
     private static final Logger LOGGER = LogManager.getLogger(PublicController.class);
+    private IUserService iUserService;
+
+    private IObserver iUserObserver;
+    private ISubject ipostService;
+    public PublicController(@Qualifier("PostService") ISubject iPostService){
+        this.ipostService = iPostService;
+        this.iUserService = new UserService(new UserDAO());
+    }
 
     @GetMapping("/")
     public String getIndex() {
@@ -141,12 +151,20 @@ public class PublicController {
     public String postLogin(Model model, HttpSession session, HttpServletRequest request,
                             @RequestParam(name = "username") String email, @RequestParam(name = "password") String password) {
         fillCommonModel(model, session);
+
         model.addAttribute("email", email);
         model.addAttribute("password", password);
+        session.setAttribute("email",email);
+        List<User> users = iUserService.getUserByEmail(email);
+        session.setAttribute("firstName",users.get(0).getFirstName());
+        session.setAttribute("karma",users.get(0).getKarmaPoints());
+        session.setAttribute("id",users.get(0).getId());
         String message = "";
 
         try {
             request.login(email, password);
+           // UserServiceObserver obs1 = (UserServiceObserver) UserServiceObserver.getInstance();
+            this.iUserObserver = UserServiceObserver.getInstance(ipostService);
             return "redirect:/";
         } catch (Exception e) {
             LOGGER.info("Error in log in");

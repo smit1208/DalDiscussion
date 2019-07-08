@@ -2,7 +2,9 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
-import database.DatabaseConfig;
+import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -12,22 +14,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component("CommentDAO")
 public class CommentDAO implements ICommentDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-    private static ICommentDAO iCommentDAO;
-
+    private DatabaseConfig databaseConfig;
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
     private static final String GETPOSTBYID = "{call getPostById(?)}";
     private static final String ADDCOMMENT = "{call addComment(?,?,?)}";
 
-    public static ICommentDAO getInstance(){
-        if(iCommentDAO == null){
-            iCommentDAO = new CommentDAO();
-        }
-        return iCommentDAO;
+    public CommentDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+        this.databaseConfig=databaseConfig;
+
     }
 
     @Override
@@ -35,7 +35,7 @@ public class CommentDAO implements ICommentDAO {
         Map<String,Object> commentMap = new HashMap<>();
 
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(GETCOMMENTSBYPOSTID);
             List<Comment> commentList = new ArrayList<>();
             callableStatement.setInt(1,postId);
@@ -64,7 +64,7 @@ public class CommentDAO implements ICommentDAO {
     public Post getPostById(int postId) {
         Post post = new Post();
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(GETPOSTBYID);
             callableStatement.setInt(1,postId);
             resultSet = callableStatement.executeQuery();
@@ -86,16 +86,18 @@ public class CommentDAO implements ICommentDAO {
     }
 
     @Override
-    public void addComment(Comment comment, int post_id) {
+    public void addComment(Comment comment, int post_id, int user_id) {
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDCOMMENT);
             callableStatement.setString(1,comment.getComment_description());
             callableStatement.setInt(2,post_id);
-            callableStatement.setInt(3,1);
+            callableStatement.setInt(3,user_id);
             callableStatement.executeQuery();
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
 }

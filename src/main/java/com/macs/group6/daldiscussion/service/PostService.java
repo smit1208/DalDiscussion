@@ -1,45 +1,53 @@
 package com.macs.group6.daldiscussion.service;
 
+import com.macs.group6.daldiscussion.AppConfig;
 import com.macs.group6.daldiscussion.dao.*;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PostService implements IPostService {
-    private static final int maxFileSize = 65535;
+@Service("PostService")
 
-    private static IPostService iPostService;
+public class PostService implements IPostService, ISubject {
+
+    private static final int maxFileSize = 65535;
+    private static int karmaPoints;
+    private static int commentSize;
+    private static int postIDforNotify;
+
     private IReplyDAO iReplyDAO;
     private ICommentDAO iCommentDAO;
     private IPostDAO iPostDAO;
-    public static IPostService getInstance(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
-        if(iPostService == null){
-            iPostService = new PostService(iPostDAO,iCommentDAO,iReplyDAO);
-        }
-        return iPostService;
-    }
-    private PostService(IPostDAO iPostDAO, ICommentDAO iCommentDAO, IReplyDAO iReplyDAO){
+    private ArrayList<IObserver> observers;
+    AppConfig appConfig = AppConfig.getInstance();
+
+    @Autowired
+    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO ){
         this.iCommentDAO = iCommentDAO;
         this.iPostDAO = iPostDAO;
         this.iReplyDAO = iReplyDAO;
+        observers = new ArrayList<IObserver>();
     }
     @Override
-    public void create(Post post) {
-        iPostDAO.create(post);
+    public void create(Post post,int user_id) {
+        iPostDAO.create(post,user_id);
     }
 
     @Override
     public void createPostWithImage(Post post, MultipartFile file) {
        double size = (double) file.getSize();
-       System.out.println(size);
         byte[] imageBytes;
 
         try{
@@ -72,20 +80,60 @@ public class PostService implements IPostService {
     }
 
     @Override
-    public void addComment(Comment c, int post_id) {
-        iCommentDAO.addComment(c,post_id);
+    public void addComment(Comment c, int post_id, int user_id) {
+        iCommentDAO.addComment(c,post_id,user_id);
+        commentSize = getCommentSize(post_id);
+        int limit = AppConfig.getInstance().get_postCommentSize();
+        if(isLimitReached(commentSize,limit)){
+            this.karmaPoints = 100;
+            this.postIDforNotify = post_id;
+            notifyObserver();
+        }
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id) {
-        iReplyDAO.addReply(reply,comment_id);
+    public void addReply(Reply reply, int comment_id, int user_id) {
+        iReplyDAO.addReply(reply,comment_id,user_id);
     }
 
-    public boolean fileSizeExceeded(MultipartFile file){
+    @Override
+    public boolean fileSizeExceeded(MultipartFile file) {
         if(file.getSize() > maxFileSize){
             return true;
         }else{
             return false;
         }
+    }
+
+    private int getCommentSize(int post_id){
+        Map<String,Object> commentMap = new HashMap<>();
+        commentMap = iCommentDAO.getComments(post_id);
+        List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
+        return commentList.size();
+    }
+
+    private boolean isLimitReached(int commentSize, int limit){
+        if(commentSize == limit){
+            return true;
+        }
+        return false;
+    }
+    @Override
+    public void attach(IObserver newObserver) {
+        observers.add(newObserver);
+    }
+
+    @Override
+    public void detach(IObserver deleteObserver) {
+        int observerIndex = observers.indexOf(deleteObserver);
+        observers.remove(observerIndex);
+    }
+
+    @Override
+    public void notifyObserver() {
+        for(IObserver observer : observers){
+            observer.update(karmaPoints, postIDforNotify);
+        }
+
     }
 }

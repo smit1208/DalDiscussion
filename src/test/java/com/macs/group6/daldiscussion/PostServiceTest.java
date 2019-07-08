@@ -3,7 +3,6 @@ package com.macs.group6.daldiscussion;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.service.PostService;
-import com.macs.group6.daldiscussion.service.ServiceFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +24,7 @@ public class PostServiceTest {
         commentDAOMock = new CommentDAOMock();
         replyDAOMock = new ReplyDAOMock();
         postDAOMock = new PostDAOMock();
-        postService = (PostService) ServiceFactory.getInstance().getPostService(postDAOMock,commentDAOMock,replyDAOMock);
+        postService = new PostService(commentDAOMock,postDAOMock,replyDAOMock);
     }
 
     @Test
@@ -57,5 +56,28 @@ public class PostServiceTest {
             assertEquals("Testing for replies",reply.getReply_description());
         }
 
+    }
+
+    public static class SubscriptionServiceTest {
+
+        @Test
+        public void getAllSubscriptions() {
+        }
+
+        @Test
+        public void addSubscriptionRequest() {
+        }
+
+        @Test
+        public void fetchSubscriptionByUserID() {
+        }
+
+        @Test
+        public void approvedSubscriptions() {
+        }
+
+        @Test
+        public void fetchSubscriptionByID() {
+        }
     }
 }
