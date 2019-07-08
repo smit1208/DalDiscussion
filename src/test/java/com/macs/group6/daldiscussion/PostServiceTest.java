@@ -57,4 +57,27 @@ public class PostServiceTest {
         }
 
     }
+
+    public static class SubscriptionServiceTest {
+
+        @Test
+        public void getAllSubscriptions() {
+        }
+
+        @Test
+        public void addSubscriptionRequest() {
+        }
+
+        @Test
+        public void fetchSubscriptionByUserID() {
+        }
+
+        @Test
+        public void approvedSubscriptions() {
+        }
+
+        @Test
+        public void fetchSubscriptionByID() {
+        }
+    }
 }
