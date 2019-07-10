@@ -13,15 +13,10 @@
 <div id="wrapper">
     <jsp:include page="sidebar.jsp"></jsp:include>
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
-
            <c:if test="${empty(approvedSubscription)}">
                <h3>
                    Sorry you don't have any subscriptions yet!!!
-                   <a href="/subscriptionDetails">Click Here to join a group</a>
-
                </h3>
            </c:if>
            <c:if test="${approvedSubscription.size()<=4}">
@@ -30,7 +25,6 @@
                        <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
                    </div>
                </c:forEach>
-
            </c:if>
            <c:if test="${approvedSubscription.size()<4}">
                <a href="/subscriptionDetails">Click Here to join a group</a>

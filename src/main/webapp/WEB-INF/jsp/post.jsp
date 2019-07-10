@@ -70,8 +70,10 @@
                     <span class="title-header">Group</span><br>
                     <select name="group">
                         <option value="General" selected >General Discussion</option>
-                        <option value="Group 2" disabled>Group 1</option>
-                        <option value="Group 2" disabled>Group 2</option>
+                            <c:forEach items="${approvedSubscription}" var="sub">
+                                ${sub.groupName}
+                                <option value=${sub.group_id} >${sub.groupName}</option>
+                            </c:forEach>
                     </select><br>
                 </div>
                 <div class="element">
@@ -86,6 +88,11 @@
                     <input style="color: white; background-color: darkcyan" type="submit" value="POST">
                 </div>
 
+                    <c:forEach items="${approvedSubscription}" var="sub">
+                        <div class="card" style="margin-top: 3%">
+                        <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
+                        </div>
+                    </c:forEach>
             </form>
         </div>
     </div>
