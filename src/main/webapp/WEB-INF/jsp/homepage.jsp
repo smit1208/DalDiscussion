@@ -31,7 +31,7 @@
                      Welcome ${user}
                  </h4>
                 </c:if>
-
+                
             </div>
             <div class="container" style="text-align: center; margin-top: 3%">
 
