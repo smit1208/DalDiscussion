@@ -31,12 +31,10 @@ public class SubscriptionDetailsController {
     public String getAllSubscriptions(ModelMap model, HttpSession session){
         int karma = (Integer) session.getAttribute("karma");
         if(karma < 1000){
-
             model.addAttribute("message","You need 1000 Karma points to join a group");
             logger.error("Minimum 1000 Karma points required");
             return Views.SUBSCRIPTIONDETAILS;
         }
-
         List<SubscriptionGroup> subscriptionGroupList = iSubscriptionService.getAllSubscriptions();
         model.addAttribute("subscription",subscriptionGroupList);
         logger.info("All private groups");

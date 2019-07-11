@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,17 +37,18 @@ public class RegisterController {
                            @RequestParam("fname") String fname,
                            @RequestParam("lname") String lname,
                            @RequestParam("email") String email,
-                           @RequestParam("password") String password, Map<String, Object> map) {
-        map.put("fname", fname);
-        map.put("lname", lname);
-        map.put("email", email);
-        map.put("password", password);
+                           @RequestParam("password") String password, Model model) {
+        String message = "";
+
         userReg.setFirstName(fname);
         userReg.setLastName(lname);
         userReg.setEmail(email);
         userReg.setPassword(password);
         if(registerService.userExists(userReg)){
             logger.error("User already exists");
+            message = "Email already present! Register with another email id";
+            model.addAttribute("message",message);
+            return Views.REGISTER;
         }
         else {
             registerService.create(userReg);

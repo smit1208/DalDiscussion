@@ -27,10 +27,9 @@ public class RegisterService implements IRegisterService {
     public void create(User userRegister) {
         int result = registerDAO.create(userRegister);
         if(result>0){
-            System.out.println("IUSer created successfully");
+
            List<User> userList= iUserService.getUserByEmail(userRegister.getEmail());
             for (User user: userList) {
-                System.out.println("Adding default sub for user "+user.getId());
                 iSubscriptionService.addDefaultSubscriptionRequest(user.getId());
             }
        }
