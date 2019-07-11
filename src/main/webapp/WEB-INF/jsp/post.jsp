@@ -1,4 +1,4 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -70,8 +70,7 @@
                     <span class="title-header">Group</span><br>
                     <select name="group">
                         <option value="General" selected >General Discussion</option>
-                            <c:forEach items="${approvedSubscription}" var="sub">
-                                ${sub.groupName}
+                            <c:forEach items="${approvedSubscription}"  var="sub">
                                 <option value=${sub.group_id} >${sub.groupName}</option>
                             </c:forEach>
                     </select><br>
@@ -80,19 +79,12 @@
                     <div style="color: red;">
                         ${message}
                     </div>
-
                     <span class="title-header">Add an image</span><br>
                     <input type="file" name="image" accept="image/*">
                 </div>
                 <div class="element">
                     <input style="color: white; background-color: darkcyan" type="submit" value="POST">
                 </div>
-
-                    <c:forEach items="${approvedSubscription}" var="sub">
-                        <div class="card" style="margin-top: 3%">
-                        <a class="card-header" href="/subscriptionDetails/${sub.group_id}" >${sub.groupName}</a>
-                        </div>
-                    </c:forEach>
             </form>
         </div>
     </div>

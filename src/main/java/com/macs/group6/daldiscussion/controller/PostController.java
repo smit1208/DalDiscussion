@@ -43,9 +43,7 @@ public class PostController {
         model.addAttribute("name",name);
         displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
-        model.addAttribute("approvedSubscription",subscriptions);
-        System.out.println(subscriptions.get(1));
-        logger.info("Post added successfully");
+        model.addAttribute("approvedSubscription",subscriptions);;
         return Views.VIEWPOST;
     }
 
@@ -53,7 +51,7 @@ public class PostController {
     public String savePost(@RequestParam("postTitle") String postTitle,
                            @RequestParam("postDesc") String postDesc,
                            @RequestParam("category") Integer category,
-                           @RequestParam("group") String group,
+                           @RequestParam("group") Integer group,
                            @RequestParam("image") MultipartFile file, Model model, HttpSession session) {
 
         Post post = new Post();
@@ -69,7 +67,7 @@ public class PostController {
         if(category!=null && category>0){
             post.setCategory(category);
         }
-        if(group!=null && group.length()>0){
+        if(group!=null){
             post.setGroup(group);
         }
 
@@ -87,7 +85,7 @@ public class PostController {
         }else{
             postService.create(post,user_id);
         }
-
+        logger.info("Post added successfully");
         return "redirect:/home";
     }
 

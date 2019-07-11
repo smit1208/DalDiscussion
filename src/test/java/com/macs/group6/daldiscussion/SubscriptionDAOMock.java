@@ -36,6 +36,11 @@ public class SubscriptionDAOMock implements ISubscriptionDAO {
     }
 
     @Override
+    public void addDefaultSubscriptionRequest(int user_id) {
+
+    }
+
+    @Override
     public List<Subscription> fetchSubscriptionByUserID(int user_id) {
         return null;
     }
