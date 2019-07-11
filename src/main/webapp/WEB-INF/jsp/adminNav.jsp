@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -9,32 +8,19 @@
     <link href="../css/sb-admin.css" rel="stylesheet">
 </head>
 <body>
-<ul class="sidebar navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" href="/updateprofile">
-            <i class="far fa-user"></i>
-            <span>Profile</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/dashboard">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
-    <li class="nav-item ">
-        <a class="nav-link" href="/subscription">
-            <i class="fas fa-thumbtack"></i>
-            <span>Subscription</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/logout">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Logout</span>
-        </a>
-    </li>
-
-</ul>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="/admin/allRequests">Pending Request</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Reported Posts</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 </body>
 </html>
