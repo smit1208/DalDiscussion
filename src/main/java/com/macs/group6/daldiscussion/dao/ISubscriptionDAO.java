@@ -9,6 +9,7 @@ import java.util.Map;
 public interface ISubscriptionDAO {
     List<SubscriptionGroup> getAllSubscription();
     void addSubscriptionRequest(int user_id, int group_id);
+    void addDefaultSubscriptionRequest(int user_id);
     List<Subscription> fetchSubscriptionByUserID(int user_id);
     Map<String,Object> approvedSubscriptions(int user_id);
     Subscription fetchSubscriptionByID(int subscription_id);

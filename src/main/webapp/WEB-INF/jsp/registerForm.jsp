@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -73,19 +75,18 @@
             <td><label for="email">Email_Address:</label></td>
             <td><input id="email" maxlength="50" name="email" type="email" placeholder="Enter email address" />
                 <div id = "emailvalue"></div></td>
-        </tr>
 
+        </tr>
+        <tr><td style="color: red;" colspan="2">${message}</td></tr>
         <tr>
             <td><label for="password">Password:</label></td>
             <td><input id="password" maxlength="50" name="password"
                        type="password"  />
                 <div id = "passwordvalue"></div></td>
         </tr>
-
         <tr>
             <td align="right"><input name="Submit" type="Submit" value="Submit" /></td>
         </tr>
-
         </tbody>
     </table>
 </form>
