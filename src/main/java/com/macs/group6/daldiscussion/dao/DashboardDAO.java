@@ -86,13 +86,13 @@ public class DashboardDAO implements IDashboardDAO {
             callableStatement.setInt(3,id);
             resultSet = callableStatement.executeQuery();
 
-            System.out.println("Post updated");
-
         } catch (
                 SQLException e) {
             System.out.println("Post not updated");
             e.printStackTrace();
 
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
     }
 

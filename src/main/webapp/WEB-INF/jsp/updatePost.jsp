@@ -1,10 +1,6 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Vivek Shah
-  Date: 2019-07-10
-  Time: 9:32 PM
-  To change this template use File | Settings | File Templates.
---%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,25 +24,6 @@
     <div id="content-wrapper">
 
 
-        <form method="post" action ="/dashboard/updatePost/update">
-            <div class="form-group">
-                <div class="form-row">
-                    <div class="col-md-6">
-
-                        <input type="text" id="post_title" name ="post_title" class="form-control" placeholder="Post Title"  autofocus="autofocus" >
-                        <div id = "posttitle"></div>
-
-                    </div>
-                    <div class="col-md-6">
-
-                        <input type="text" id="post_desc" name="post_desc" class="form-control" placeholder="Post Description" >
-                        <div id = "postdesc"></div>
-                    </div>
-
-                        <button class="btn btn-danger" type="submit">Update</button>
-                </div>
-            </div>
-        </form>
     </div>
 </div>
 </body>

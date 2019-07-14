@@ -1,4 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="en">
 
@@ -36,9 +38,41 @@
                     </div>
 
                     <div class="d-flex flex-row-reverse">
-                        <form class="form" method="post" action="/dashboard/updatePost">
-                            <button class="btn btn-danger" type="submit">Update</button>
+
+                        <form class="form" method="post" action="/update/${post.id}">
+<%--                            <button class="btn btn-danger" type="submit">Update</button>--%>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updated${post.id}">
+                                Update
+                            </button>
                         </form>
+                        <!-- Button trigger modal -->
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="updated${post.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Update:  ${post.post_title}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="/updatedData/${post.id}" method="post">
+                                        <div class="form-group">
+
+                                            <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp" placeholder="Enter Title" required>
+
+                                        </div>
+                                        <div class="form-group">
+
+                                            <input type="text" class="form-control" id="desc" name="desc" placeholder="Desc" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">Update</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </c:forEach>
 
