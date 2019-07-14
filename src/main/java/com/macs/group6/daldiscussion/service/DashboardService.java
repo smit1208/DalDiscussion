@@ -27,8 +27,7 @@ public class DashboardService implements IDashboardService {
         }
 
         public void updatePostById(String post_title, String post_description, int id) {
-            System.out.println("in service "+post_title);
-            System.out.println("in serice id "+id);
+
         dashboardDAO.updatePostById(post_title,post_description,id);
     }
 

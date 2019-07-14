@@ -46,12 +46,6 @@ public class DashboardController {
         return "redirect:/dashboard";
     }
 
-//    @RequestMapping(value = "/updatePost", method = RequestMethod.POST)
-//    public String updatePost(Model model, HttpSession session){
-//        LOGGER.info("Post update view");
-//        return Views.POSTUPDATE;
-//    }
-
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String postView(Model model, HttpSession session, @PathVariable("id") int id) {
 
@@ -62,7 +56,7 @@ public class DashboardController {
     public String UpdatedPost(Model model, HttpSession session, @RequestParam("title") String post_title,
                               @RequestParam("desc") String post_desc, @PathVariable("id") int id) {
         dashboardService.updatePostById(post_title,post_desc,id);
-        System.out.println(post_title);
+
         return "redirect:/dashboard";
     }
 }
