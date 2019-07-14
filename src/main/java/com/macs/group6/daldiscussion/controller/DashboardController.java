@@ -6,9 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -41,5 +41,32 @@ public class DashboardController {
         dashboardService.deletePostById(post_id);
         LOGGER.info("Post deleted successfully");
         return "redirect:/dashboard";
+    }
+
+    @RequestMapping(value = "/dashboard/updatePost", method = RequestMethod.GET)
+    public String updatePost(Model model, HttpSession session){
+        LOGGER.info("Post update view");
+        return Views.POSTUPDATE;
+    }
+
+    @RequestMapping(value = "/dashboard/updatePost/update", method = RequestMethod.POST)
+    public String postView(@RequestParam("post_title") String postTitle,
+                           @RequestParam("post_desc") String postDesc,
+                           Model model, HttpSession session) {
+
+        System.out.println("hellloowwww");
+        Post post = new Post();
+        int id = (Integer) session.getAttribute("id");
+
+        if(postTitle!=null && postTitle.length()>0){
+            post.setPost_title(postTitle);
+        }
+        if(postDesc!=null && postDesc.length()>0 ){
+            post.setPost_description(postDesc);
+        }
+
+        dashboardService.updatePostById(postTitle,postDesc, id);
+
+        return Views.POSTUPDATE;
     }
 }

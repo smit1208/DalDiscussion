@@ -22,8 +22,14 @@ public class DashboardService implements IDashboardService {
         }
 
         public void deletePostById(int post_id){
+
             dashboardDAO.deletePostById(post_id);
         }
+
+        public void updatePostById(String post_title, String post_description, int id) {
+        dashboardDAO.updatePostById(post_title,post_description,id);
+    }
+
 }
 
 

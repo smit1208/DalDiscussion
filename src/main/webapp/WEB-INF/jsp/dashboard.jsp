@@ -34,6 +34,12 @@
                             <button class="btn btn-danger" type="submit">Delete</button>
                         </form>
                     </div>
+
+                    <div class="d-flex flex-row-reverse">
+                        <form class="form" method="post" action="/dashboard/updatePost">
+                            <button class="btn btn-danger" type="submit">Update</button>
+                        </form>
+                    </div>
                 </c:forEach>
 
             </div>
