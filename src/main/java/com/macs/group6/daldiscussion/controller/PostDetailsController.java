@@ -24,12 +24,10 @@ public class PostDetailsController {
     public PostDetailsController(@Qualifier("PostService") IPostService iPostService) {
         this.iPostService = iPostService;
     }
-
-    Map<String, Object> commentMap = new HashMap<>();
-    Post post = new Post();
-
     @RequestMapping(value = "/getPosts/{id}", method = RequestMethod.GET)
     public String viewPostDetails(ModelMap model, @PathVariable("id") int post_id) {
+        Map<String, Object> commentMap = new HashMap<>();
+        Post post = new Post();
         post = iPostService.getPostById(post_id);
 
         commentMap = iPostService.getComments(post_id);
@@ -51,6 +49,8 @@ public class PostDetailsController {
     @PostMapping("/getPosts/{id}")
     public String addComment(@RequestParam("comment") String comment, ModelMap model, @PathVariable("id") int post_id, HttpSession session) {
         Comment c = new Comment();
+        Post post = new Post();
+        Map<String, Object> commentMap = new HashMap<>();
         int user_id = (Integer) session.getAttribute("id");
         c.setComment_description(comment);
         iPostService.addComment(c, post_id,user_id);
@@ -74,7 +74,9 @@ public class PostDetailsController {
     @PostMapping("/getPosts/{id}/{c_id}")
     public String addReply(@RequestParam("reply") String reply, ModelMap model, @PathVariable("id") int post_id, @PathVariable("c_id") int comment_id,
                            HttpSession session) {
+        Map<String, Object> commentMap = new HashMap<>();
         Reply replies = new Reply();
+        Post post = new Post();
         int user_id = (Integer) session.getAttribute("id");
         post = iPostService.getPostById(post_id);
         commentMap = iPostService.getComments(post_id);

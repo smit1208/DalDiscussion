@@ -5,10 +5,12 @@ import com.macs.group6.daldiscussion.model.Subscription;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface IAdminService {
     User admin();
     List<Subscription> fetchAllSubscriptionRequests();
     void approveSubscription(int subscription_id);
+    Map<String,Object> getPostsByMaxReports();
 }

@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
+import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -10,7 +11,9 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Component("AdminDAO")
 public class AdminDAO implements IAdminDAO {
@@ -20,6 +23,7 @@ public class AdminDAO implements IAdminDAO {
     private static final String GETADMIN = "{call getAdmin()}";
     private static final String FETCHALLSUBSCRIPTIONREQUESTS = "{call fetchAllSubscriptionRequests()}";
     private static final String APPROVEREQUEST = "{call approveSubscriptionRequest(?)}";
+    private static final String GETPOSTBYMAXREPORT = "{call getPostsByMaxReports()}";
     private DatabaseConfig databaseConfig;
 
     public AdminDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
@@ -82,6 +86,36 @@ public class AdminDAO implements IAdminDAO {
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
+    }
+
+    @Override
+    public Map<String, Object> getPostsByMaxReports() {
+        Map<String, Object> maxReportMap = new HashMap<>();
+        List<User> users = new ArrayList<>();
+        List<Post> posts = new ArrayList<>();
+        try {
+            connection = this.databaseConfig.loadDatabase();
+            callableStatement = connection.prepareCall(GETPOSTBYMAXREPORT);
+            resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                Post post = new Post();
+                user.setFirstName(resultSet.getString("first_name"));
+                user.setEmail(resultSet.getString("email"));
+                user.setId(resultSet.getInt("USERID"));
+                post.setPost_title(resultSet.getString("post_title"));
+                post.setReport(resultSet.getInt("reportCount"));
+                users.add(user);
+                posts.add(post);
+                maxReportMap.put("user",users);
+                maxReportMap.put("post",posts);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
+        }
+        return maxReportMap;
     }
 }
 

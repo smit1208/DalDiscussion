@@ -23,9 +23,9 @@ public class PersonalGroupController {
     public PersonalGroupController(@Qualifier("PersonalGroupService")IPersonalGroupService iPersonalGroupService){
         this.iPersonalGroupService = iPersonalGroupService;
     }
-    Map<String,Object> privatePostMap = new HashMap<>();
     @RequestMapping(value = "/subscriptionDetails/{id}", method = RequestMethod.GET)
     public String getAllPersonalPosts(Model model, @PathVariable("id") int groupId){
+        Map<String,Object> privatePostMap = new HashMap<>();
         privatePostMap = iPersonalGroupService.getPrivatePostsByGroupID(groupId);
         List<Post> posts = (List<Post>) privatePostMap.get("privatePosts");
         model.addAttribute("privatePosts",posts);

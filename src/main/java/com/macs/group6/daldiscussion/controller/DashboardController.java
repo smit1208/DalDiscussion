@@ -20,15 +20,13 @@ public class DashboardController {
 
     private IDashboardService dashboardService ;
     private static final Logger LOGGER = LogManager.getLogger(PostDetailsController.class);
-    Map<String,Object> personalPostMap = new HashMap<>();
-
-
     public DashboardController(@Qualifier("DashboardService") IDashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
 
     @RequestMapping("/dashboard")
     public String viewDashBoard (ModelMap model, HttpSession session){
+        Map<String,Object> personalPostMap = new HashMap<>();
         int user_id = (Integer) session.getAttribute("id");
         personalPostMap = dashboardService.getPostsByUserID(user_id);
         List<Post> posts = (List<Post>) personalPostMap.get("personalPosts");

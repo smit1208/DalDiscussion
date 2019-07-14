@@ -27,8 +27,6 @@ import java.util.Map;
 public class PostController {
     private static final Logger logger = Logger.getLogger(PostController.class);
     private ISubscriptionService iSubscriptionService;
-    Map<String,Object> displaySubMap = new HashMap<>();
-
     private IPostService postService;
 
     public PostController(@Qualifier("PostService") IPostService iPostService, @Qualifier("SubscriptionService")ISubscriptionService iSubscriptionService){
@@ -38,6 +36,7 @@ public class PostController {
 
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
     public String postView(Model model, HttpSession session) {
+        Map<String,Object> displaySubMap = new HashMap<>();
         int userID = (Integer)session.getAttribute("id");
         String name = (String) session.getAttribute("firstName");
         model.addAttribute("name",name);

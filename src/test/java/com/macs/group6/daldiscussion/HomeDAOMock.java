@@ -4,6 +4,7 @@ import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import com.macs.group6.daldiscussion.model.ReportedPost;
 
 import java.util.*;
 
@@ -41,7 +42,6 @@ public class HomeDAOMock implements IHomeDAO {
         post1.setUpVote(12);
         post1.setDownVote(10);
         post1.setAlive(true);
-        post1.setReport(false);
         post1.setDate(new Date());
         post1.setComments(commentList);
 
@@ -65,7 +65,6 @@ public class HomeDAOMock implements IHomeDAO {
         post2.setUpVote(121);
         post2.setDownVote(102);
         post2.setAlive(true);
-        post2.setReport(false);
         post2.setDate(new Date());
         post2.setComments(commentList);
 
@@ -88,7 +87,6 @@ public class HomeDAOMock implements IHomeDAO {
         post3.setUpVote(129);
         post3.setDownVote(12);
         post3.setAlive(true);
-        post3.setReport(false);
         post3.setDate(new Date());
         post3.setComments(commentList);
 
@@ -100,5 +98,15 @@ public class HomeDAOMock implements IHomeDAO {
     @Override
     public Map<String, Object> getAllPosts() {
         return postMap;
+    }
+
+    @Override
+    public void addReportingPost(int user_id, int post_id) {
+
+    }
+
+    @Override
+    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
+        return null;
     }
 }

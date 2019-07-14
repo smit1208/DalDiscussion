@@ -35,7 +35,6 @@
                 <td>
                     <form class="form" action="/admin/allRequests/${subscriptions.id}" method="post">
                         <button type="submit" class="btn btn-success">Approve</button>
-
                     </form>
                 </td>
                 <td>

@@ -35,7 +35,6 @@ public class HomeServiceTest {
         assertEquals(12,post1.getUpVote());
         assertEquals(10,post1.getDownVote());
         assertTrue(post1.isAlive());
-        assertFalse(post1.isReport());
         assertNotNull(post1.getDate());
 
         Post post2 = (Post)postMap.get("2");
@@ -45,7 +44,6 @@ public class HomeServiceTest {
         assertEquals(121,post2.getUpVote());
         assertEquals(102,post2.getDownVote());
         assertTrue(post2.isAlive());
-        assertFalse(post2.isReport());
         assertNotNull(post2.getDate());
 
         Post post3 = (Post)postMap.get("3");
@@ -55,7 +53,6 @@ public class HomeServiceTest {
         assertEquals(129,post3.getUpVote());
         assertEquals(12,post3.getDownVote());
         assertTrue(post3.isAlive());
-        assertFalse(post3.isReport());
         assertNotNull(post3.getDate());
 
     }
