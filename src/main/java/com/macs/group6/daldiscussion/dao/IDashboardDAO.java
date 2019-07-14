@@ -6,4 +6,6 @@ public interface IDashboardDAO {
     Map<String,Object> getPostsByUserID(int user_id);
 
     void deletePostById(int post_id);
+
+    void updatePostById(String post_title, String post_description, int id);
 }

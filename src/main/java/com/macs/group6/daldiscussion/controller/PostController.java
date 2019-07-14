@@ -8,6 +8,7 @@ import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.service.IPostService;
 import com.macs.group6.daldiscussion.service.ISubscriptionService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,7 @@ public class PostController {
     private ISubscriptionService iSubscriptionService;
     private IPostService postService;
 
+    @Autowired
     public PostController(@Qualifier("PostService") IPostService iPostService, @Qualifier("SubscriptionService")ISubscriptionService iSubscriptionService){
         this.postService = iPostService;
         this.iSubscriptionService = iSubscriptionService;
@@ -42,7 +44,7 @@ public class PostController {
         model.addAttribute("name",name);
         displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
-        model.addAttribute("approvedSubscription",subscriptions);;
+        model.addAttribute("approvedSubscription",subscriptions);
         return Views.VIEWPOST;
     }
 

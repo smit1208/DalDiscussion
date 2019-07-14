@@ -38,6 +38,7 @@ HELP.md
 /bin/
 mvnw
 mvnw.cmd
+*.eml
 
 # Package Files #
 *.jar
@@ -47,3 +48,4 @@ mvnw.cmd
 *.zip
 *.tar.gz
 *.rar
+/WEB-INF/
