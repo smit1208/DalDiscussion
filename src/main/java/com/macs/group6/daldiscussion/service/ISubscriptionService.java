@@ -11,6 +11,7 @@ import java.util.Map;
 public interface ISubscriptionService {
     List<SubscriptionGroup> getAllSubscriptions();
     void addSubscriptionRequest(int user_id, int group_id);
+    void addDefaultSubscriptionRequest(int user_id);
     List<Subscription> fetchSubscriptionByUserID(int user_id);
     Map<String,Object> approvedSubscriptions(int user_id);
     Subscription fetchSubscriptionByID(int subscription_id);

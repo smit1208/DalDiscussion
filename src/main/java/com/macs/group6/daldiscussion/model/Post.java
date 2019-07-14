@@ -15,7 +15,7 @@ public class Post {
     private int downVote;
     private int category;
     private List<Comment> comments;
-    private String group;
+    private int groupId;
     private byte[] file;
     private int user_id;
 
@@ -27,12 +27,12 @@ public class Post {
         this.file = file;
     }
 
-    public String getGroup() {
-        return group;
+    public int getGroup() {
+        return groupId;
     }
 
-    public void setGroup(String group) {
-        this.group = group;
+    public void setGroup(int group) {
+        this.groupId = group;
     }
 
     public int getCategory() {

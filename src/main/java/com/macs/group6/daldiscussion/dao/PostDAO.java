@@ -1,3 +1,6 @@
+//ALTER TABLE CSCI5308_6_DEVINT.post
+//MODIFY COLUMN creation_date timestamp;
+
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Post;
@@ -6,14 +9,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
 import java.sql.*;
 
 @Component("PostDAO")
 public class PostDAO implements IPostDAO {
 
-    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category) values(?,?,?,?);";
-    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category,image) values(?,?,?,?,?);";
+    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date) values(?,?,?,?,?,?);";
+    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date,image) values(?,?,?,?,?,?,?);";
 
     private static final Logger LOGGER = LogManager.getLogger(PostDAO.class);
 
@@ -37,6 +39,8 @@ public class PostDAO implements IPostDAO {
             callableStatement.setString(2, post.getPost_description());
             callableStatement.setInt(3,user_id);
             callableStatement.setInt(4,post.getCategory());
+            callableStatement.setInt(5,post.getGroup());
+            callableStatement.setTimestamp(6,convert(new java.util.Date()));
             result = callableStatement.executeUpdate();
             LOGGER.info("create post successful! rows updated "+result);
 
@@ -56,7 +60,9 @@ public class PostDAO implements IPostDAO {
             callableStatement.setString(2, post.getPost_description());
             callableStatement.setInt(3,1);
             callableStatement.setInt(4,post.getCategory());
-            callableStatement.setBlob(5,postImageBlob);
+            callableStatement.setInt(5,post.getGroup());
+            callableStatement.setTimestamp(6,convert(new java.util.Date()));
+            callableStatement.setBlob(7,postImageBlob);
             int result = callableStatement.executeUpdate();
             LOGGER.info("create post successful! rows updated "+result);
         }catch (Exception e) {
@@ -64,8 +70,11 @@ public class PostDAO implements IPostDAO {
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }
-
-
-
     }
+    // Function to convert java.util Date to java.sql Timestamp in Java
+    public static java.sql.Timestamp convert(java.util.Date date)
+    {
+        return new java.sql.Timestamp(date.getTime());
+    }
+
 }

@@ -30,6 +30,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     private static final String FETCHSUBSCRIPTIONBYUSERID = "{call fetchSubscriptionByUserId(?)}";
     private static final String FETCHALLAPPROVEDREQUESTS = "{call fetchAllApprovedRequests(?)}";
     private static final String FETCHSUBSCRIPTIONBYID = "{call fetchSubscriptionByID(?)}";
+
     @Override
     public List<SubscriptionGroup> getAllSubscription() {
         List<SubscriptionGroup> subscriptionGroupList = new ArrayList<>();
@@ -69,7 +70,21 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
-
+    @Override
+    public void addDefaultSubscriptionRequest(int user_id) {
+        try{
+            connection = this.databaseConfig.loadDatabase();
+            callableStatement = connection.prepareCall(ADDSUBSCRIPTIONREQUEST);
+            callableStatement.setInt(1,1);
+            callableStatement.setInt(2,user_id);
+            callableStatement.setInt(3,5);// Group 5 is general discussion , all users have access to it
+            callableStatement.executeQuery();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
+        }
+    }
     @Override
     public List<Subscription> fetchSubscriptionByUserID(int user_id) {
         List<Subscription> subscriptions = new ArrayList<>();
