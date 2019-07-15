@@ -60,7 +60,7 @@ public class SubscriptionDetailsController {
         }else {
             iSubscriptionService.addSubscriptionRequest(userid, group_id);
             logger.info("Request send to admin for approval");
-            return Views.SUBSCRIPTION;
+            return "redirect:/subscription";
         }
     }
 }
