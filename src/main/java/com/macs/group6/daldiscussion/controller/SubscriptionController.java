@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +27,6 @@ public class SubscriptionController {
         displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
-
         List<Subscription> subscriptionGroupList = iSubscriptionService.fetchSubscriptionByUserID(userID);
         String message="";
         if(subscriptionGroupList.size() == 4){

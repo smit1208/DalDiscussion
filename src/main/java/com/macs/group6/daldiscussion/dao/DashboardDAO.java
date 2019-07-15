@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Post;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,8 @@ import java.util.Map;
 
 @Component("DashboardDAO")
 public class DashboardDAO implements IDashboardDAO {
-
+    private static final Logger logger = Logger.getLogger(DashboardDAO.class);
+    private static DashboardDAO instance;
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
@@ -25,6 +27,7 @@ public class DashboardDAO implements IDashboardDAO {
     private DatabaseConfig databaseConfig;
     private static final String GETPOSTBYUSERID = "{call getPostsByUserID(?)}";
     private static final String DELETEPOSTBYID = "{call deletePostById(?)}";
+    private static final String UPDATEPOSTBYID = "{call updatePostById(?,?,?)}";
 
     @Autowired
     public DashboardDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
@@ -51,7 +54,7 @@ public class DashboardDAO implements IDashboardDAO {
             }
             personalPostMap.put("personalPosts", personalPosts);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in DashboardDAO while fetching posts by user id " +e.getMessage());
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -66,12 +69,29 @@ public class DashboardDAO implements IDashboardDAO {
             callableStatement.setInt(1,post_id);
             resultSet = callableStatement.executeQuery();
 
-        } catch (
-                SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.error("Error in DashboardDAO while deleting post by id" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
     }
+
+    @Override
+    public void updatePostById(String post_title, String post_description, int id){
+        try {
+            connection = DatabaseConfig.getInstance().loadDatabase();
+            callableStatement = connection.prepareCall(UPDATEPOSTBYID);
+            callableStatement.setString(1,post_title);
+            callableStatement.setString(2,post_description);
+            callableStatement.setInt(3,id);
+            resultSet = callableStatement.executeQuery();
+
+        } catch (SQLException e) {
+            logger.error("Error in DashboardDAO while updating post by id" +e.getMessage());
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
+        }
+    }
+
 }
 

@@ -3,6 +3,7 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 
 @Component("SubscriptionDAO")
 public class SubscriptionDAO implements ISubscriptionDAO {
-
+    private static final Logger logger = Logger.getLogger(SubscriptionDAO.class);
     private DatabaseConfig databaseConfig;
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -30,6 +31,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     private static final String FETCHSUBSCRIPTIONBYUSERID = "{call fetchSubscriptionByUserId(?)}";
     private static final String FETCHALLAPPROVEDREQUESTS = "{call fetchAllApprovedRequests(?)}";
     private static final String FETCHSUBSCRIPTIONBYID = "{call fetchSubscriptionByID(?)}";
+
     @Override
     public List<SubscriptionGroup> getAllSubscription() {
         List<SubscriptionGroup> subscriptionGroupList = new ArrayList<>();
@@ -47,7 +49,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscriptionGroupList.add(subscriptionGroup);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in SubscriptionDAO while fetching subscriptions " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -64,12 +66,26 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             callableStatement.setInt(3,group_id);
             callableStatement.executeQuery();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in SubscriptionDAO while adding subscriptions " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
-
+    @Override
+    public void addDefaultSubscriptionRequest(int user_id) {
+        try{
+            connection = this.databaseConfig.loadDatabase();
+            callableStatement = connection.prepareCall(ADDSUBSCRIPTIONREQUEST);
+            callableStatement.setInt(1,1);
+            callableStatement.setInt(2,user_id);
+            callableStatement.setInt(3,5);// Group 5 is general discussion , all users have access to it
+            callableStatement.executeQuery();
+        }catch (Exception e){
+            logger.error("Error in SubscriptionDAO while adding default subscriptions " +e.getMessage());
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
+        }
+    }
     @Override
     public List<Subscription> fetchSubscriptionByUserID(int user_id) {
         List<Subscription> subscriptions = new ArrayList<>();
@@ -87,7 +103,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscriptions.add(subscription);
             }
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in SubscriptionDAO while fetching subscriptions by user id " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -113,7 +129,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             }
             approvedSubscriptionMap.put("displayApprovedSubscriptions",subscriptions);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in SubscriptionDAO while fetching approved subscriptions " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -137,7 +153,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
 
             }
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in SubscriptionDAO while fetching subscriptions by id" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Component("ReplyDAO")
 public class ReplyDAO implements IReplyDAO {
+    private static final Logger logger = Logger.getLogger(ReplyDAO.class);
+
     Connection connection = null;
     Statement statement = null;
     CallableStatement callableStatement = null;
@@ -46,7 +49,7 @@ public class ReplyDAO implements IReplyDAO {
                 }
 
             }catch (Exception e){
-                e.printStackTrace();
+                logger.error("Error in ReplyDAO while fetching replies " +e.getMessage());
             }finally {
                 DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
             }
@@ -63,7 +66,7 @@ public class ReplyDAO implements IReplyDAO {
             callableStatement.setInt(3,comment_id);
             callableStatement.executeQuery();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in ReplyDAO while adding replies " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }

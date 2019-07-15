@@ -29,6 +29,11 @@ public class SubscriptionService implements ISubscriptionService{
     }
 
     @Override
+    public void addDefaultSubscriptionRequest(int user_id) {
+        iSubscriptionDAO.addDefaultSubscriptionRequest(user_id);
+    }
+
+    @Override
     public List<Subscription> fetchSubscriptionByUserID(int user_id) {
         return iSubscriptionDAO.fetchSubscriptionByUserID(user_id);
     }

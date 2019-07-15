@@ -1,14 +1,13 @@
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Title</title>
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-
-    <link href="../vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../css/sb-admin.css" rel="stylesheet">
     <style>
         .title-header{
@@ -69,23 +68,21 @@
                 <div class="element">
                     <span class="title-header">Group</span><br>
                     <select name="group">
-                        <option value="General" selected >General Discussion</option>
-                        <option value="Group 2" disabled>Group 1</option>
-                        <option value="Group 2" disabled>Group 2</option>
+                            <c:forEach items="${approvedSubscription}"  var="sub">
+                                <option value=${sub.group_id} >${sub.groupName}</option>
+                            </c:forEach>
                     </select><br>
                 </div>
                 <div class="element">
                     <div style="color: red;">
                         ${message}
                     </div>
-
                     <span class="title-header">Add an image</span><br>
                     <input type="file" name="image" accept="image/*">
                 </div>
                 <div class="element">
                     <input style="color: white; background-color: darkcyan" type="submit" value="POST">
                 </div>
-
             </form>
         </div>
     </div>

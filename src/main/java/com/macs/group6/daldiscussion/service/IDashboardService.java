@@ -8,4 +8,5 @@ import java.util.Map;
 public interface IDashboardService {
     Map<String,Object> getPostsByUserID(int user_id);
     void deletePostById(int post_id);
+    public void updatePostById(String post_title, String post_description, int id);
 }
