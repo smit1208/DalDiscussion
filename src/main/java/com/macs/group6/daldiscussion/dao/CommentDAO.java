@@ -3,6 +3,7 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Component("CommentDAO")
 public class CommentDAO implements ICommentDAO {
+    private static final Logger logger = Logger.getLogger(CommentDAO.class);
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
@@ -52,7 +54,7 @@ public class CommentDAO implements ICommentDAO {
 
 
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in CommentDAO while fetching comments " +e.getMessage());
             commentMap.put("Error","Error in fetching the comments");
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
@@ -78,7 +80,8 @@ public class CommentDAO implements ICommentDAO {
             }
 
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in CommentDAO while fetching posts " +e.getMessage());
+
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -95,7 +98,7 @@ public class CommentDAO implements ICommentDAO {
             callableStatement.setInt(3,user_id);
             callableStatement.executeQuery();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in CommentDAO while adding comment " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

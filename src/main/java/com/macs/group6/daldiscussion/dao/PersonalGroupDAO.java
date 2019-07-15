@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Post;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Component("PersonalGroupDAO")
 public class PersonalGroupDAO implements IPersonalGroupDAO {
+    private static final Logger logger = Logger.getLogger(PersonalGroupDAO.class);
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
@@ -46,7 +48,7 @@ public class PersonalGroupDAO implements IPersonalGroupDAO {
             }
             privatePostsMap.put("privatePosts",posts);
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in PersonalGroupDAO while fetching private posts by group id" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
