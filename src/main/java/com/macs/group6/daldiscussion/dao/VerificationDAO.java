@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.entities.Verification;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +15,7 @@ import java.util.UUID;
  * @author Kush Rao
  */
 public class VerificationDAO {
+    private static final Logger logger = Logger.getLogger(VerificationDAO.class);
     /**
      * Creating table SQL script of Verification entity
      */
@@ -244,7 +246,7 @@ public class VerificationDAO {
                 connection.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in VerificationDAO while creating table" +e.getMessage());
         }
         return this;
     }
@@ -269,7 +271,7 @@ public class VerificationDAO {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in VerificationDAO while checkng table exists" +e.getMessage());
             return false;
         }
     }

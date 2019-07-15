@@ -1,23 +1,22 @@
-//ALTER TABLE CSCI5308_6_DEVINT.post
-//MODIFY COLUMN creation_date timestamp;
-
+/*
+@author Sharon Alva
+*/
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.sql.*;
 
 @Component("PostDAO")
 public class PostDAO implements IPostDAO {
+    private static final Logger logger = Logger.getLogger(PostDAO.class);
 
     private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date) values(?,?,?,?,?,?);";
     private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date,image) values(?,?,?,?,?,?,?);";
-
-    private static final Logger LOGGER = LogManager.getLogger(PostDAO.class);
 
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -42,10 +41,10 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(5,post.getGroup());
             callableStatement.setTimestamp(6,convert(new java.util.Date()));
             result = callableStatement.executeUpdate();
-            LOGGER.info("create post successful! rows updated "+result);
+            logger.info("create post successful! rows updated "+result);
 
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in PostDAO while creating post " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }
@@ -64,9 +63,9 @@ public class PostDAO implements IPostDAO {
             callableStatement.setTimestamp(6,convert(new java.util.Date()));
             callableStatement.setBlob(7,postImageBlob);
             int result = callableStatement.executeUpdate();
-            LOGGER.info("create post successful! rows updated "+result);
+            logger.info("create post successful! rows updated "+result);
         }catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in PostDAO while creating post with image" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }
