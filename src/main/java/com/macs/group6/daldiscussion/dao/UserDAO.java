@@ -54,9 +54,9 @@ public class UserDAO {
 
     private static final String SQL_PROCEDURE_UPDATE_USER_BY_EMAIL=    "{call updateUser(?, ?, ?, ?, ?)}";
     
-    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM CSCI5308_6_DEVINT.`groups` g WHERE g.id IN (" + 
+    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM `groups` g WHERE g.id IN (" +
     		"	" + 
-    		"	SELECT group_id FROM CSCI5308_6_DEVINT.subscription WHERE user_id = ?);";
+    		"	SELECT group_id FROM subscription WHERE user_id = ?);";
     private static UserDAO __instance;
     /**
      * Singleton implementation of DAO class of User entity
