@@ -5,15 +5,15 @@ import com.macs.group6.daldiscussion.AppConfig;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 
 import com.macs.group6.daldiscussion.entities.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
 @Component("RegisterDAO")
 public class RegisterDAO implements IRegisterDAO {
-    private static final Logger LOGGER = LogManager.getLogger(RegisterDAO.class);
+    private static final Logger logger = Logger.getLogger(RegisterDAO.class);
 
     private static final String SQL_INSERT_RECORD = "INSERT INTO ` user` (first_name, last_name, email, password, karma_points, subscription_limit, current_status) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String SQL_SELECT_USER_BY_EMAIL = "SELECT id from  ` user` where email = ?";
@@ -22,7 +22,6 @@ public class RegisterDAO implements IRegisterDAO {
     private int  d_current_status = AppConfig.getInstance().get_defaultCurrentStatus();
 
     Connection connection = null;
-    PreparedStatement insertStatement = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
     int result = 0;
@@ -43,8 +42,7 @@ public class RegisterDAO implements IRegisterDAO {
             result = callableStatement.executeUpdate();
 
             } catch (SQLException e) {
-
-            e.printStackTrace();
+            logger.error("Error in RegisterDAO while creating user " +e.getMessage());
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
@@ -65,7 +63,7 @@ public class RegisterDAO implements IRegisterDAO {
             }
          }
         catch (SQLException e){
-            e.printStackTrace();
+            logger.error("Error in RegisterDAO while checking if user exists" +e.getMessage());
         }
 
         finally {

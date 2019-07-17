@@ -1,9 +1,11 @@
 package com.macs.group6.daldiscussion.dao;
 
+import com.macs.group6.daldiscussion.controller.AdminController;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,8 @@ import java.util.Map;
 
 @Component("AdminDAO")
 public class AdminDAO implements IAdminDAO {
+    private static final Logger logger = Logger.getLogger(AdminDAO.class);
+
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
@@ -42,7 +46,7 @@ public class AdminDAO implements IAdminDAO {
                 user.setRole(resultSet.getInt("role"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in fetching admin info " +e.getMessage());
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -67,7 +71,7 @@ public class AdminDAO implements IAdminDAO {
                 subscriptions.add(subscription);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in fetching all subscription requests " +e.getMessage());
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -82,7 +86,7 @@ public class AdminDAO implements IAdminDAO {
             callableStatement.setInt(1,subscription_id);
             callableStatement.executeQuery();
         }catch (Exception e){
-            e.printStackTrace();
+            logger.error("Error in approving subscription requests " +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

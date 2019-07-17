@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Post;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Component("DashboardDAO")
 public class DashboardDAO implements IDashboardDAO {
-
+    private static final Logger logger = Logger.getLogger(DashboardDAO.class);
     private static DashboardDAO instance;
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -53,7 +54,7 @@ public class DashboardDAO implements IDashboardDAO {
             }
             personalPostMap.put("personalPosts", personalPosts);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in DashboardDAO while fetching posts by user id " +e.getMessage());
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -68,9 +69,8 @@ public class DashboardDAO implements IDashboardDAO {
             callableStatement.setInt(1,post_id);
             resultSet = callableStatement.executeQuery();
 
-        } catch (
-                SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            logger.error("Error in DashboardDAO while deleting post by id" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -86,11 +86,8 @@ public class DashboardDAO implements IDashboardDAO {
             callableStatement.setInt(3,id);
             resultSet = callableStatement.executeQuery();
 
-        } catch (
-                SQLException e) {
-            System.out.println("Post not updated");
-            e.printStackTrace();
-
+        } catch (SQLException e) {
+            logger.error("Error in DashboardDAO while updating post by id" +e.getMessage());
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

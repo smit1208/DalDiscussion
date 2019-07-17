@@ -1,6 +1,5 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.controller.HomepageController;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import org.apache.log4j.Logger;
@@ -19,7 +18,7 @@ import java.util.List;
  */
 @Component("UserDAO")
 public class UserDAO {
-    private static final Logger logger = Logger.getLogger(HomepageController.class);
+    private static final Logger logger = Logger.getLogger(UserDAO.class);
 
     private DatabaseConfig databaseConfig;
     /**
@@ -55,9 +54,9 @@ public class UserDAO {
 
     private static final String SQL_PROCEDURE_UPDATE_USER_BY_EMAIL=    "{call updateUser(?, ?, ?, ?, ?)}";
     
-    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM CSCI5308_6_DEVINT.`groups` g WHERE g.id IN (" + 
+    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM `groups` g WHERE g.id IN (" +
     		"	" + 
-    		"	SELECT group_id FROM CSCI5308_6_DEVINT.subscription WHERE user_id = ?);";
+    		"	SELECT group_id FROM subscription WHERE user_id = ?);";
     private static UserDAO __instance;
     /**
      * Singleton implementation of DAO class of User entity
@@ -219,7 +218,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error("Error in UserDAO while fetching user by post id " +e.getMessage());
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
@@ -242,7 +241,7 @@ public class UserDAO {
            }
 
        } catch (SQLException e) {
-           e.printStackTrace();
+           logger.error("Error in UserDAO while fetching user karma points" +e.getMessage());
        }
        finally {
            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
@@ -268,8 +267,7 @@ public class UserDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
-            logger.error("Error in updating karmapoints");
+            logger.error("Error in UserDAO  in updating karmapoints " +e.getMessage());
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
@@ -290,7 +288,7 @@ public class UserDAO {
                 save(user);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error in UserDAO  in creating test user" +e.getMessage());
         }
     }
 
@@ -311,7 +309,7 @@ public class UserDAO {
    	 return true;
 
    	 }catch (Exception e) {
-   		 e.printStackTrace();
+         logger.error("Error in UserDAO  in updating user profile " +e.getMessage());
    		 System.out.println("profile cannot be updated");
    		 return false;
 		}
@@ -332,9 +330,6 @@ public class UserDAO {
     preparedStatement.execute();
     ResultSet result =preparedStatement.getResultSet();
 
-  	//System.out.println(cStatement.execute());
-  	 //ResultSet result= cStatement.getResultSet();
-
   	 while(result.next()) {
   		 groups.add(result.getString(2));
   	 }
@@ -342,8 +337,7 @@ public class UserDAO {
   	 return groups;
 
   	 }catch (Exception e) {
-  		 e.printStackTrace();
-  		 System.out.println("error retriving group data");
+         logger.error("Error in UserDAO in retriving group data" +e.getMessage());
   		return new ArrayList<String>();
 		}
 
