@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class HomepageController {
         this.homeService = homeService;
     }
 
-    @RequestMapping("/home")
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String Home(Model model, HttpSession session) {
         Map<String, Object> postMap = new HashMap<>();
         String email = (String) session.getAttribute("email");
@@ -39,15 +40,24 @@ public class HomepageController {
         postMap = homeService.getAllPosts();
         model.addAttribute("user", session.getAttribute("firstName"));
         List<Post> postList = (List<Post>) postMap.get("posts");
-        List<Post> copyPostList = postList;
+        List<Post> copyPostList = new ArrayList<Post>();
         List<ReportedPost> reportedPosts = homeService.fetchReportedPostByUserId(user_id);
-
+        boolean check = false;
         for (int i = 0; i < postList.size(); i++) {
-            for (int j = 0; j < reportedPosts.size(); j++) {
-                if(postList.get(i).getId() == reportedPosts.get(j).getPost_id()){
-                    copyPostList.remove(i);
+            if (reportedPosts.size() > 0) {
+                for (int j = 0; j < reportedPosts.size(); j++) {
+                    if (postList.get(i).getId() == reportedPosts.get(j).getPost_id()) {
+                        check = true;
+                    }
                 }
+                if (!check) {
+                    copyPostList.add(postList.get(i));
+                }
+            } else {
+                copyPostList = postList;
             }
+            check = false;
+
         }
         model.addAttribute("posts", copyPostList);
         logger.info("Posts displayed on homepage successfully");

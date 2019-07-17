@@ -41,9 +41,9 @@ public class HomeDAO implements IHomeDAO {
             callableStatement = connection.prepareCall(GETALLPOST);
             resultSet = callableStatement.executeQuery();
             List<Post> posts = new ArrayList<>();
-            Post post = null;
+
             while (resultSet.next()) {
-                post = new Post();
+                Post post = new Post();
                 post.setId(resultSet.getInt("id"));
                 post.setPost_title(resultSet.getString("post_title"));
                 post.setPost_description(resultSet.getString("post_desc"));
