@@ -15,8 +15,8 @@ import java.sql.*;
 public class PostDAO implements IPostDAO {
     private static final Logger logger = Logger.getLogger(PostDAO.class);
 
-    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date) values(?,?,?,?,?,?);";
-    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date,image) values(?,?,?,?,?,?,?);";
+    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date, report) values(?,?,?,?,?,?,?);";
+    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date,image,report) values(?,?,?,?,?,?,?,?);";
 
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -40,6 +40,7 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(4,post.getCategory());
             callableStatement.setInt(5,post.getGroup());
             callableStatement.setTimestamp(6,convert(new java.util.Date()));
+            callableStatement.setInt(7,0);
             result = callableStatement.executeUpdate();
             logger.info("create post successful! rows updated "+result);
 
@@ -62,6 +63,7 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(5,post.getGroup());
             callableStatement.setTimestamp(6,convert(new java.util.Date()));
             callableStatement.setBlob(7,postImageBlob);
+            callableStatement.setInt(8,0);
             int result = callableStatement.executeUpdate();
             logger.info("create post successful! rows updated "+result);
         }catch (Exception e) {

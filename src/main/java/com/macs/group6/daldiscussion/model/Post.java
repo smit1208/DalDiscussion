@@ -10,7 +10,7 @@ public class Post {
     private String post_description;
     private Date date;
     private boolean isAlive;
-    private boolean report;
+    private int report;
     private int upVote;
     private int downVote;
     private int category;
@@ -91,11 +91,11 @@ public class Post {
         isAlive = alive;
     }
 
-    public boolean isReport() {
+    public int getReport() {
         return report;
     }
 
-    public void setReport(boolean report) {
+    public void setReport(int report) {
         this.report = report;
     }
 

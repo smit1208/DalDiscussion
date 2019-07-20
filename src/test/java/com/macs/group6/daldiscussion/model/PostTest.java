@@ -52,12 +52,6 @@ public class PostTest {
 
 
     @Test
-    public void isReport() {
-       post.setReport(false);
-       assertEquals(false,post.isReport());
-    }
-
-    @Test
     public void getUpVote() {
         post.setUpVote(4);
         assertEquals(4,post.getUpVote());
