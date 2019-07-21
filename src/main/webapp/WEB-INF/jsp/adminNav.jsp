@@ -17,7 +17,7 @@
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Reported Posts</a>
+                <a class="nav-link" href="/admin/reported">Reported Posts</a>
             </li>
         </ul>
     </div>

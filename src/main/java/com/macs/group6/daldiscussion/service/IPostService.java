@@ -2,11 +2,13 @@ package com.macs.group6.daldiscussion.service;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
 
+@Service
 public interface IPostService {
     void create(Post post,int user_id);
 

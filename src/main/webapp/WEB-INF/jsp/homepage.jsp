@@ -50,9 +50,38 @@
                     <div class="card" style="margin-top: 3%">
                         <a class="card-header" href="/getPosts/${post.id}">${post.post_title}</a>
                         <div class="card-text">${post.post_description}</div>
+                        <div class="d-flex flex-row-reverse">
+                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
+                                    data-target="#report${post.id}">
+                                Report
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="report${post.id}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">
+                                        <p>Please select the reason to report the post : </p>
+                                            ${post.post_title}
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/report/${post.id}" method="post">
+                                        <button type="submit" class="btn-block btn-outline-danger">Inappropriate</button>
+                                    </form>
+                                    <form action="/report/${post.id}" method="post">
+                                        <button type="submit" class="btn-block btn-outline-danger">Spam</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </c:forEach>
-
             </div>
 
         </div>

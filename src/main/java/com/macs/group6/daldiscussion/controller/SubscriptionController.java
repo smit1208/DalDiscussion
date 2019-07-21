@@ -16,13 +16,13 @@ import java.util.Map;
 public class SubscriptionController {
     private static final Logger logger = Logger.getLogger(SubscriptionController.class);
     private ISubscriptionService iSubscriptionService;
-    Map<String,Object> displaySubMap = new HashMap<>();
 
     public SubscriptionController(@Qualifier("SubscriptionService")ISubscriptionService iSubscriptionService){
         this.iSubscriptionService = iSubscriptionService;
     }
     @RequestMapping("/subscription")
     public String Subscription(Model model, HttpSession session){
+        Map<String,Object> displaySubMap = new HashMap<>();
         int userID = (Integer)session.getAttribute("id");
         displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");

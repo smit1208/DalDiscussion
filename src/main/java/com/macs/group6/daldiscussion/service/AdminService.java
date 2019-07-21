@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service("AdminService")
 public class AdminService implements IAdminService {
@@ -31,5 +32,10 @@ public class AdminService implements IAdminService {
     @Override
     public void approveSubscription(int subscription_id) {
         iAdminDAO.approveSubscription(subscription_id);
+    }
+
+    @Override
+    public Map<String, Object> getPostsByMaxReports() {
+        return iAdminDAO.getPostsByMaxReports();
     }
 }
