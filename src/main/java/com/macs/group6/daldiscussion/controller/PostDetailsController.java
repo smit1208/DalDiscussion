@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.service.IPostService;
 import org.apache.log4j.Logger;
@@ -28,8 +29,9 @@ public class PostDetailsController {
     public String viewPostDetails(ModelMap model, @PathVariable("id") int post_id) {
         Map<String, Object> commentMap = new HashMap<>();
         Post post = new Post();
+        List<PostImage> images = new ArrayList<>();
         post = iPostService.getPostById(post_id);
-
+        images = iPostService.getImageByPostId(post_id);
         commentMap = iPostService.getComments(post_id);
         List<Reply> replyList = new ArrayList<>();
         List<Comment> commentList = (List<Comment>) commentMap.get("commentList");
@@ -38,7 +40,7 @@ public class PostDetailsController {
             replyList = iPostService.getReplies(comment.getId());
             comment.setReplies(replyList);
         }
-
+        model.addAttribute("images",iPostService.getImageByPostId(post_id));
         model.addAttribute("comments", commentList);
         model.addAttribute("post", post);
         logger.info("Post details successfully fetched");
@@ -51,12 +53,12 @@ public class PostDetailsController {
         Comment c = new Comment();
         Post post = new Post();
         Map<String, Object> commentMap = new HashMap<>();
+
         int user_id = (Integer) session.getAttribute("id");
         c.setComment_description(comment);
         iPostService.addComment(c, post_id,user_id);
         commentMap = iPostService.getComments(post_id);
         post = iPostService.getPostById(post_id);
-
         List<Reply> replyList = new ArrayList<>();
         List<Comment> commentList = (List<Comment>) commentMap.get("commentList");
 
@@ -64,7 +66,6 @@ public class PostDetailsController {
             replyList = iPostService.getReplies(commentList.get(i).getId());
             commentList.get(i).setReplies(replyList);
         }
-
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
         logger.info("Comment successfully added");
