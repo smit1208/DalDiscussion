@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -69,5 +70,12 @@ public class HomepageController {
         int user_id = (Integer) session.getAttribute("id");
         homeService.addReportingPost(user_id, post_id);
         return "redirect:/home";
+    }
+
+    @RequestMapping(value = "/home", method = RequestMethod.POST)
+    public String search(@RequestParam("search")String search, Model model){
+        List<Post> searchedPost = homeService.getSearchedPost(search);
+        model.addAttribute("posts",searchedPost);
+        return Views.HOMEPAGE;
     }
 }

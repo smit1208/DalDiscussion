@@ -14,7 +14,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../css/sb-admin.css" rel="stylesheet">
-
+    <style type="text/css">
+        <%@include file="../css/search.css"%>
+    </style>
 </head>
 
 <body id="page-top">
@@ -28,32 +30,23 @@
 
         <div class="container-fluid">
 
-            <h3 style="text-align: center">Welcome to Dal Discussion</h3>
-            <div class="d-flex flex-row-reverse">
-                <c:if test="${user  != 'admin'}">
-                    <h4>
-                        Welcome ${user}
-                    </h4>
-                </c:if>
-
-            </div>
+            <h2 style="text-align: center">Welcome to Dal Discussion</h2>
             <div class="container" style="text-align: center; margin-top: 3%">
 
-                <form id="myForm">
-                    <input type="text" placeholder="Search your posts" class="col-sm-5 input-lg">
-                    <button type="submit" class="btn btn-primary">Search</button>
+                <form id="myForm" action="/home" method="post">
+                    <input type="text" name="search" placeholder="Search..">
                 </form>
                 <form id="addPost" action="/addPost">
-                    <button type="submit" class="btn btn-primary">Add Post</button>
+                    <button type="submit" class="btn btn-outline-info shadow-sm p-3 mb-5 rounded">Add Post</button>
                 </form>
                 <c:forEach items="${posts}" var="post">
-                    <div class="card" style="margin-top: 3%">
-                        <a class="card-header" href="/getPosts/${post.id}">${post.post_title}</a>
+                    <div class="card shadow p-3 mb-5 bg-white rounded" style="margin-top: 3%">
+                        <a class="card-header text-info" href="/getPosts/${post.id}">${post.post_title}</a>
                         <div class="card-text">${post.post_description}</div>
                         <div class="d-flex flex-row-reverse">
                             <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
                                     data-target="#report${post.id}">
-                                Report
+                                <i class="fas fa-exclamation"></i>
                             </button>
                         </div>
                     </div>
@@ -72,7 +65,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <form action="/report/${post.id}" method="post">
-                                        <button type="submit" class="btn-block btn-outline-danger">Inappropriate</button>
+                                        <button type="submit" class="btn-block btn-outline-danger">Inappropriate
+                                        </button>
                                     </form>
                                     <form action="/report/${post.id}" method="post">
                                         <button type="submit" class="btn-block btn-outline-danger">Spam</button>
@@ -86,14 +80,8 @@
 
         </div>
     </div>
-
-    <script src="../vendor/jquery/jquery.min.js"></script>
-    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <script src="../js/sb-admin.min.js"></script>
-
 </div>
 
 </body>
-
+<script src="../js/sb-admin.min.js"></script>
 </html>
