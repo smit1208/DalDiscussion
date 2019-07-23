@@ -20,8 +20,13 @@
 <div style="text-align: center">
    <h4>
        ${post.post_title}
-
    </h4>
+    <h5>
+        ${post.post_description}
+    </h5>
+    <c:forEach items="${images}" var="image">
+       <img src="${image.imageLink}">
+    </c:forEach>
 </div>
 <c:forEach items="${comments}" var="comment">
     <div class="container">

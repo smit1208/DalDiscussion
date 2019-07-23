@@ -78,7 +78,7 @@
                         ${message}
                     </div>
                     <span class="title-header">Add an image</span><br>
-                    <input type="file" name="image" accept="image/*">
+                    <input type="file" name="image" accept="image/*" multiple>
                 </div>
                 <div class="element">
                     <input style="color: white; background-color: darkcyan" type="submit" value="POST">

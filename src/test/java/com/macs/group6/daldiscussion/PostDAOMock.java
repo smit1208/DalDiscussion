@@ -12,7 +12,7 @@ public class PostDAOMock implements IPostDAO {
     }
 
     @Override
-    public void createPostWithImage(Post post, Blob postImageBlob) {
-
+    public int createPostWithImage(Post post, int user_id) {
+    return 0;
     }
 }
