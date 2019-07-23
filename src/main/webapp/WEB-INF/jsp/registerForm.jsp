@@ -68,7 +68,7 @@
                     <td><label>First Name: </label></td>
                     <td><form:input type="text" path="firstName" name = "firstName" class="form-control"
                                     placeholder="First Name" autofocus="true" ></form:input>
-                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+
                         <div id = "firstName"></div></td>
                 <tr>
             <td><td><form:errors path="firstName"></form:errors></td></td>
@@ -83,7 +83,7 @@
                     <td><label>Last Name: </label></td>
                     <td><form:input type="text" path="lastName" name = "lastName" class="form-control"
                                     placeholder="Last Name" autofocus="true" ></form:input>
-                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+
                         <div id = "lastName"></div></td>
                     <tr>
                     <td><td><form:errors path="lastName"></form:errors></td></td>
@@ -96,7 +96,7 @@
                     <td><label>Email: </label></td>
                     <td><form:input type="text" path="email" name = "email" class="form-control"
                                     placeholder="Email" autofocus="true" ></form:input>
-                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+
                         <div id = "email"></div></td>
                     <tr>
                   <td><td>  <form:errors path="email"></form:errors></td></td>
@@ -114,7 +114,7 @@
                     <td><label>Password: </label></td>
                     <td><form:input type="password" path="password" name = "password" class="form-control"
                                     placeholder="Password" autofocus="true" ></form:input>
-                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+
                         <div id = "password"></div></td>
                     <tr>
                     <td><td><form:errors path="password"></form:errors></td></td>

@@ -1,8 +1,8 @@
 package com.macs.group6.daldiscussion.ValidatorRules;
 
-public class StringUtils {
+public class StringRules {
 
-	private StringUtils() {
+	private StringRules() {
 
 	}
 

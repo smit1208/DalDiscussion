@@ -3,7 +3,7 @@ package com.macs.group6.daldiscussion.Validator;
 
 import com.macs.group6.daldiscussion.ValidatorRules.EmailValidator;
 import com.macs.group6.daldiscussion.ValidatorRules.PasswordValidator;
-import com.macs.group6.daldiscussion.ValidatorRules.StringUtils;
+import com.macs.group6.daldiscussion.ValidatorRules.StringRules;
 
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.service.UserService;
@@ -33,18 +33,18 @@ public class RegistrationValidator implements Validator {
 
          
 
-         if (StringUtils.isNullOrEmpty(user.getFirstName())){
+         if (StringRules.isNullOrEmpty(user.getFirstName())){
              errors.rejectValue(FIRST_NAME,ValidationCode.NOTEMPTY.getPropertyName(),"Enter valid First name" );
              return ;
          }
 
-        if (StringUtils.isNullOrEmpty(user.getLastName())){
+        if (StringRules.isNullOrEmpty(user.getLastName())){
             errors.rejectValue(LAST_NAME,ValidationCode.NOTEMPTY.getPropertyName(),"Enter valid Last name" );
             return ;
         }
 
 
-        if (StringUtils.isNullOrEmpty(user.getEmail())){
+        if (StringRules.isNullOrEmpty(user.getEmail())){
             errors.rejectValue(EMAIL,ValidationCode.NOTEMPTY.getPropertyName(), "Email cannot be null" );
             return ;
         }
@@ -53,7 +53,7 @@ public class RegistrationValidator implements Validator {
             return;
         }
 
-        if (StringUtils.isNullOrEmpty(user.getPassword())){
+        if (StringRules.isNullOrEmpty(user.getPassword())){
             errors.rejectValue(PASSWORD,ValidationCode.NOTEMPTY.getPropertyName(),"Password cannot be Empty" );
             return ;
         }

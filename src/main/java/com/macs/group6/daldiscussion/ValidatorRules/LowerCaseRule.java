@@ -1,6 +1,6 @@
 package com.macs.group6.daldiscussion.ValidatorRules;
 
-public class ContainesLowerCaseRule implements PasswordRule{
+public class LowerCaseRule implements PasswordRule{
 	
 	 @Override
 	    public boolean isCriteriaSatisfied(String password) {

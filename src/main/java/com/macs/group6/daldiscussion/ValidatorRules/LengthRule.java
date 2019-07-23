@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 
 
 
-public class ContainsLengthRule implements PasswordRule {
+public class LengthRule implements PasswordRule {
 	
-	final static Logger logger = Logger.getLogger(ContainsLengthRule.class);
+	final static Logger logger = Logger.getLogger(LengthRule.class);
 	
     @Override
     public boolean isCriteriaSatisfied(String password) {
