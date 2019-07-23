@@ -1,5 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -53,41 +57,75 @@
 
 <h2 ALIGN="CENTER">Registration form</h2>
 
-<form action="/register" onsubmit="return validateform()" method="post" name="myform">
+<%--<form action="/register" onsubmit="//return validateform()" method="post" name="myform">--%>
+<form:form action="/register " method="post" modelAttribute="registrationForm" name="myform">
     <table border="0" align="center">
         <tbody>
 
         <tr>
+            <spring:bind path="firstName">
+                <div class="form-group">
+                    <td><label>First Name: </label></td>
+                    <td><form:input type="text" path="firstName" name = "firstName" class="form-control"
+                                    placeholder="First Name" autofocus="true" ></form:input>
+                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+                        <div id = "firstName"></div></td>
+                <tr>
+            <td><td><form:errors path="firstName"></form:errors></td></td>
+                </tr>
+                </div>
+            </spring:bind>
 
-            <td><label for="fname">First Name: </label></td>
-            <td><input id="fname" maxlength="50" name="fname" type="text" placeholder="Enter first name" />
-                <div id = "firstname"></div></td>
-        </tr>
 
         <tr>
-            <td><label for="lname">Last Name: </label></td>
-            <td><input id="lname" maxlength="50" name="lname" type="text" placeholder="Enter last name" />
-                <div id = "lastname"></div></td>
+            <spring:bind path="lastName">
+                <div class="form-group">
+                    <td><label>Last Name: </label></td>
+                    <td><form:input type="text" path="lastName" name = "lastName" class="form-control"
+                                    placeholder="Last Name" autofocus="true" ></form:input>
+                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+                        <div id = "lastName"></div></td>
+                    <tr>
+                    <td><td><form:errors path="lastName"></form:errors></td></td>
+                    </tr>
+                </div>
+            </spring:bind>
         </tr>
-
+            <spring:bind path="email">
+                <div class="form-group">
+                    <td><label>Email: </label></td>
+                    <td><form:input type="text" path="email" name = "email" class="form-control"
+                                    placeholder="Email" autofocus="true" ></form:input>
+                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+                        <div id = "email"></div></td>
+                    <tr>
+                  <td><td>  <form:errors path="email"></form:errors></td></td>
+                    </tr>
+                </div>
+            </spring:bind>
 
         <tr>
-            <td><label for="email">Email_Address:</label></td>
-            <td><input id="email" maxlength="50" name="email" type="email" placeholder="Enter email address" />
-                <div id = "emailvalue"></div></td>
 
         </tr>
-        <tr><td style="color: red;" colspan="2">${message}</td></tr>
+        <tr><td style="color: red;" colspan="2">${errorMessage}</td></tr>
         <tr>
-            <td><label for="password">Password:</label></td>
-            <td><input id="password" maxlength="50" name="password"
-                       type="password"  />
-                <div id = "passwordvalue"></div></td>
+            <spring:bind path="password">
+                <div class="form-group">
+                    <td><label>Password: </label></td>
+                    <td><form:input type="password" path="password" name = "password" class="form-control"
+                                    placeholder="Password" autofocus="true" ></form:input>
+                            <%--input id="fname" maxlength="50" name="_firstName" type="text" placeholder="Enter first name" /--%>
+                        <div id = "password"></div></td>
+                    <tr>
+                    <td><td><form:errors path="password"></form:errors></td></td>
+                    </tr>
+                </div>
+            </spring:bind>
         </tr>
         <tr>
-            <td align="right"><input name="Submit" type="Submit" value="Submit" /></td>
+            <td align="center"><input name="Submit" type="Submit" value="Submit" /></td>
         </tr>
         </tbody>
     </table>
-</form>
+</form:form>
 </html>
