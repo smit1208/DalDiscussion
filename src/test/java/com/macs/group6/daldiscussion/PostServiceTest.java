@@ -1,6 +1,8 @@
 package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.IPostImageDAO;
 import com.macs.group6.daldiscussion.model.Comment;
+import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.service.PostService;
 import org.junit.Before;
@@ -18,13 +20,14 @@ public class PostServiceTest {
     private PostDAOMock postDAOMock;
     private ReplyDAOMock replyDAOMock;
     private PostService postService;
-
+    private IPostImageDAO postImageDAOMock;
     @Before
     public void setUp() throws Exception {
         commentDAOMock = new CommentDAOMock();
         replyDAOMock = new ReplyDAOMock();
         postDAOMock = new PostDAOMock();
-        postService = new PostService(commentDAOMock,postDAOMock,replyDAOMock);
+        postImageDAOMock = new PostImageDAOMock();
+        postService = new PostService(commentDAOMock,postDAOMock,replyDAOMock, postImageDAOMock);
     }
 
     @Test
@@ -56,6 +59,16 @@ public class PostServiceTest {
             assertEquals("Testing for replies",reply.getReply_description());
         }
 
+    }
+
+    @Test
+    public void getImages(){
+        List<PostImage> images = new ArrayList<>();
+        images = postService.getImageByPostId(1);
+        for (PostImage image: images){
+            assertEquals(1,image.getId());
+            assertEquals("https://daldiscussion.s3.ca-central-1.amazonaws.com/dev/1/image1",image.getImageLink());
+        }
     }
 
     public static class SubscriptionServiceTest {

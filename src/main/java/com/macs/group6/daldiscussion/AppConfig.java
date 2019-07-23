@@ -109,6 +109,16 @@ public class AppConfig {
     private static final String PROP_USER_DEFAULT_CURRENT_STATUS = "user.current_status";
 
     private static final String PROP_POST_COMMENT_SIZE = "post.comment.size";
+    /*
+    Amazon web servive credentials*/
+    private static final String PROP_AWS_ENDPOINTURL = "amazonProperties.endpointUrl";
+
+    private static final String PROP_AWS_ACCESSKEY = "amazonProperties.accessKey";
+
+    private static final String PROP_AWS_SECRETKEY = "amazonProperties.secretKey";
+
+    private static final String PROP_AWS_BUCKETNAME = "amazonProperties.bucketName";
+
 
     private static AppConfig __instance;
 
@@ -125,7 +135,10 @@ public class AppConfig {
     private int _defaultSubscriptionLimit;
     private int _defaultCurrentStatus;
     private int _postCommentSize;
-
+    private String _awsEndpointUrl;
+    private String _awsAccessKey;
+    private String _awsSecretKey;
+    private String _awsBucketName;
     /**
      * Singleton implementation for AppConfig
      * @return AppConfig instance
@@ -218,6 +231,22 @@ public class AppConfig {
         return _postCommentSize;
     }
 
+    public String getEndpointUrl() {
+        return _resetPasswordUrl;
+    }
+
+    public String get_AccessKey() {
+        return _awsAccessKey;
+    }
+
+    public String get_SecretKey() {
+        return _awsSecretKey;
+    }
+
+    public String get_BucketName() {
+        return _awsBucketName;
+    }
+
     /**
      * Get if Spring Boot security must be configured or not.
      * @return a true if Spring Boot security must be configured, a false if default security must be configured
@@ -252,7 +281,10 @@ public class AppConfig {
             _defaultCurrentStatus = getIntValue(PROP_USER_DEFAULT_CURRENT_STATUS,properties);
             _defaultSubscriptionLimit = getIntValue(PROP_USER_DEFAULT_SUBSCRIPTION_LIMIT,properties);
             _postCommentSize = getIntValue(PROP_POST_COMMENT_SIZE,properties);
-
+            _awsEndpointUrl = getValue(PROP_AWS_ENDPOINTURL, properties);
+            _awsAccessKey = getValue(PROP_AWS_ACCESSKEY, properties);
+            _awsSecretKey = getValue(PROP_AWS_SECRETKEY, properties);
+            _awsBucketName = getValue(PROP_AWS_BUCKETNAME, properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
