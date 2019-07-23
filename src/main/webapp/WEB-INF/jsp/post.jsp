@@ -64,7 +64,7 @@
                                                     ${message}
                                                 </div>
                                                 <label>Add an image</label>
-                                                <input type="file" class="form-control" name="image" accept="image/*">
+                                                <input type="file" class="form-control" name="image" accept="image/*" multiple>
                                             </div>
                                             <div class="form-group">
                                                 <button class="btn btn-info btn-block" type="submit">POST</button>

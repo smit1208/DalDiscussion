@@ -16,15 +16,15 @@ public class Post {
     private int category;
     private List<Comment> comments;
     private int groupId;
-    private byte[] file;
+    private int isImage;
     private int user_id;
 
-    public byte[] getFile() {
-        return file;
+    public int getIsImage() {
+        return isImage;
     }
 
-    public void setFile(byte[] file) {
-        this.file = file;
+    public void setIsImage(int isImage) {
+        this.isImage = isImage;
     }
 
     public int getGroup() {

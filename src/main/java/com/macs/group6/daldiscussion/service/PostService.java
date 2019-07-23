@@ -4,15 +4,14 @@ import com.macs.group6.daldiscussion.AppConfig;
 import com.macs.group6.daldiscussion.dao.*;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.sql.rowset.serial.SerialException;
+
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,8 +20,9 @@ import java.util.Map;
 @Service("PostService")
 
 public class PostService implements IPostService, ISubject {
-
+    private static final String CLOUD_URL = "https://daldiscussion.s3.ca-central-1.amazonaws.com/";
     private static final int maxFileSize = 65535;
+
     private static int karmaPoints;
     private static int commentSize;
     private static int postIDforNotify;
@@ -31,13 +31,18 @@ public class PostService implements IPostService, ISubject {
     private ICommentDAO iCommentDAO;
     private IPostDAO iPostDAO;
     private ArrayList<IObserver> observers;
+    private IPostImageDAO iPostImageDAO;
+    private AmazonClient amazonClient = AmazonClient.getInstance();
     AppConfig appConfig = AppConfig.getInstance();
 
+
     @Autowired
-    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO ){
+    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO,
+                       @Qualifier("PostImageDAO")IPostImageDAO iPostImageDAO){
         this.iCommentDAO = iCommentDAO;
         this.iPostDAO = iPostDAO;
         this.iReplyDAO = iReplyDAO;
+        this.iPostImageDAO = iPostImageDAO;
         observers = new ArrayList<IObserver>();
     }
     @Override
@@ -46,22 +51,10 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void createPostWithImage(Post post, MultipartFile file) {
-       double size = (double) file.getSize();
-        byte[] imageBytes;
-
-        try{
-            imageBytes = file.getBytes();
-            post.setFile(imageBytes);
-            Blob postImageBlob = new javax.sql.rowset.serial.SerialBlob(imageBytes);
-            iPostDAO.createPostWithImage(post, postImageBlob);
-        } catch (SerialException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) {
+            int post_id = iPostDAO.createPostWithImage(post, user_id);
+            List<String> imageUrls = uploadImageToCloud(files, post_id);
+            saveImagetoDB(imageUrls, post_id);
     }
 
     @Override
@@ -103,6 +96,29 @@ public class PostService implements IPostService, ISubject {
         }else{
             return false;
         }
+    }
+
+    @Override
+    public List<String> uploadImageToCloud(List<MultipartFile> files, int post_id) {
+        List<String> imageUrls = new ArrayList<String>();
+        try {
+            imageUrls = amazonClient.uploadImage(files,post_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageUrls;
+    }
+
+    @Override
+    public void saveImagetoDB(List<String> imageLinks, int post_id) {
+        for(String imageLink: imageLinks){
+            iPostImageDAO.addImage(CLOUD_URL+imageLink, post_id);
+        }
+    }
+
+    @Override
+    public List<PostImage> getImageByPostId(int post_id) {
+         return iPostImageDAO.getImageByPostId(post_id);
     }
 
     private int getCommentSize(int post_id){
