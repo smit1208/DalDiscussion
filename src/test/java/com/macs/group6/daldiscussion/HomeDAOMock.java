@@ -109,4 +109,9 @@ public class HomeDAOMock implements IHomeDAO {
     public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
         return null;
     }
+
+    @Override
+    public List<Post> getSearchedPost(String search) {
+        return null;
+    }
 }
