@@ -25,16 +25,17 @@ public class HomeDAO implements IHomeDAO {
     private static final String GETALLPOST = "{call getAllPosts()}";
     private static final String ADDREPORTINGPOST = "{call addReportingPost(?,?)}";
     private static final String FETCHREPORTEDPOSTBYUSERID = "{call fetchreportedPostsByUserID(?)}";
-
+    private static final String GETSEARCHPOST = "{call getSearchPost(?)}";
 
     @Autowired
-    public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+    public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
         this.databaseConfig = databaseConfig;
 
     }
+
     @Override
-    public Map<String,Object> getAllPosts() {
-        Map<String,Object> postMap = new HashMap<>();
+    public Map<String, Object> getAllPosts() {
+        Map<String, Object> postMap = new HashMap<>();
 
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -49,7 +50,7 @@ public class HomeDAO implements IHomeDAO {
                 post.setPost_description(resultSet.getString("post_desc"));
                 posts.add(post);
             }
-            postMap.put("posts",posts);
+            postMap.put("posts", posts);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -63,8 +64,8 @@ public class HomeDAO implements IHomeDAO {
         try {
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDREPORTINGPOST);
-            callableStatement.setInt(1,user_id);
-            callableStatement.setInt(2,post_id);
+            callableStatement.setInt(1, user_id);
+            callableStatement.setInt(2, post_id);
             resultSet = callableStatement.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,9 +80,9 @@ public class HomeDAO implements IHomeDAO {
         try {
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(FETCHREPORTEDPOSTBYUSERID);
-            callableStatement.setInt(1,reportedUser_id);
+            callableStatement.setInt(1, reportedUser_id);
             resultSet = callableStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 ReportedPost reportedPost = new ReportedPost();
                 reportedPost.setId(resultSet.getInt("id"));
                 reportedPost.setUser_id(resultSet.getInt("user_id"));
@@ -94,5 +95,31 @@ public class HomeDAO implements IHomeDAO {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
         return reportedPosts;
+    }
+
+    @Override
+    public List<Post> getSearchedPost(String search) {
+        List<Post> posts = new ArrayList<>();
+        try {
+            connection = this.databaseConfig.loadDatabase();
+            callableStatement = connection.prepareCall(GETSEARCHPOST);
+            callableStatement.setString(1, search);
+            resultSet = callableStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                Post post = new Post();
+                post.setId(resultSet.getInt("id"));
+                post.setPost_title(resultSet.getString("post_title"));
+                post.setPost_description(resultSet.getString("post_desc"));
+                posts.add(post);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
+        }
+        return posts;
     }
 }

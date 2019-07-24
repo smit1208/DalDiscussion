@@ -9,7 +9,6 @@ import com.macs.group6.daldiscussion.model.SendForgotPasswordEmailResponse;
 import com.macs.group6.daldiscussion.service.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -154,20 +153,20 @@ public class PublicController {
 
         model.addAttribute("email", email);
         model.addAttribute("password", password);
-        session.setAttribute("email",email);
         List<User> users = iUserService.getUserByEmail(email);
-        session.setAttribute("firstName",users.get(0).getFirstName());
-        session.setAttribute("karma",users.get(0).getKarmaPoints());
-        session.setAttribute("id",users.get(0).getId());
         String message = "";
 
         try {
             request.login(email, password);
+            session.setAttribute("email",email);
+            session.setAttribute("firstName",users.get(0).getFirstName());
+            session.setAttribute("karma",users.get(0).getKarmaPoints());
+            session.setAttribute("id",users.get(0).getId());
            // UserServiceObserver obs1 = (UserServiceObserver) UserServiceObserver.getInstance();
             this.iUserObserver = UserServiceObserver.getInstance(ipostService);
             return "redirect:/";
         } catch (Exception e) {
-            LOGGER.info("Error in log in");
+            LOGGER.error("Error in log in");
             message = e.getMessage();
         }
         LOGGER.info("Successfully logged in");

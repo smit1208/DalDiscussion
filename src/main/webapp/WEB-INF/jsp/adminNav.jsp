@@ -11,16 +11,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="/admin/allRequests">Pending Request</a>
             </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item ">
                 <a class="nav-link" href="/admin/reported">Reported Posts</a>
             </li>
         </ul>
-    </div>
+            <ul class="navbar-nav">
+                <li class="nav-item ">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
 </nav>
 </body>
 </html>

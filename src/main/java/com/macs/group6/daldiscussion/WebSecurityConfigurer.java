@@ -37,7 +37,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     .csrf().disable()
                     .authorizeRequests()
                     /** Configure GET access URLs */
-                    .antMatchers(HttpMethod.GET,"/forgot-password", "/reset-password", "/logout", "/register", "/login", "/prelogin")
+                    .antMatchers(HttpMethod.GET,"/forgot-password", "/reset-password", "/logout", "/register", "/login", "/prelogin","/resources/**")
                     .permitAll()
                     /** Configure POST access URLs */
                     .antMatchers(HttpMethod.POST, "/login", "/register", "/forgot-password", "/reset-password")
