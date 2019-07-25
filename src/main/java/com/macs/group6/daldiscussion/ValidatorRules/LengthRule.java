@@ -15,7 +15,7 @@ public class LengthRule implements PasswordRule {
          return password.length() >= 6 && password.length() <= 15;
     	}catch(NumberFormatException e)
     	{
-    		logger.error("could not parse  password size Min and Max length : " );
+    		logger.error("could not parse password size Min and Max length : " );
     		e.printStackTrace();
     	}
 		return false;
