@@ -20,7 +20,7 @@ public class RegisterController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
     private IRegisterService registerService;
-    private RegistrationValidator registrationValidator = new RegistrationValidator();
+    private RegistrationValidator registrationValidator = RegistrationValidator.getInstance();
 
     @Autowired
     public RegisterController(@Qualifier("RegisterService") IRegisterService registerService) {
@@ -39,6 +39,7 @@ public class RegisterController {
                            BindingResult bindingResult,
                            Model model) {
 
+        //userReg.set_confirmPassword();
         registrationValidator.validate(userReg, bindingResult);
 
         if (bindingResult.hasErrors()) {
