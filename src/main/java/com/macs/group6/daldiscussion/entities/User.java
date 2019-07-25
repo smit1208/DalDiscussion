@@ -8,11 +8,8 @@ public class User {
     private int _id;
     private String _firstName;
     private String _lastName;
-
-
     private String _email;
     private String _password;
-    private String _confirmPassword;
     private int _karmaPoints;
     private int _subscriptionLimit;
     private int _currentStatus;
@@ -81,23 +78,6 @@ public class User {
     public void setPassword(String password) {
         _password = password;
     }
-
-    public String getConfirmPassword() {
-        return _confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        _confirmPassword = confirmPassword;
-    }
-
-
- /*   public String getConfirmPassword() {
-        return _confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        _confirmPassword = confirmPassword;
-    }*/
 
     public int getRole() {
         return role;

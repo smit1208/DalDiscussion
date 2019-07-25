@@ -16,11 +16,9 @@ public class EmailValidator {
 			result = false;
 		}
 		return result;
-
 	}
 
 	private static boolean textHasContent(String text) {
-
 		return (text != null) && (text.trim().length() > 0);
 	}
 

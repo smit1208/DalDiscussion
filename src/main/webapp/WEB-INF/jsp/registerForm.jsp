@@ -1,6 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -66,67 +64,40 @@
                             <h4>Register</h4>
                         </div>
                         <div class="card-body text-info">
-                           <%-- <form action="/register" onsubmit="return validateform()" method="post" name="myform">--%>
-                               <form:form action="/register " method="post" modelAttribute="registrationForm" name="myform">
-                                   <div class="form-group">
-                                       <spring:bind path="firstName">
-                                           <label>First Name: </label>
-                                           <form:input type="text" path="firstName" name = "firstName" class="form-control"
-                                                       placeholder="First Name" autofocus="true" ></form:input>
-                                           <div id="firstName"></div>
-                                           <font color="red"> <form:errors path="firstName" cssClass="error" ></form:errors>
-                                           </font>
-                                       </spring:bind>
-                                   </div>
+                            <form action="/register" onsubmit="return validateform()" method="post" name="myform">
                                 <div class="form-group">
-                                    <spring:bind path="lastName">
-                                    <label>Last Name: </label>
-                                        <form:input type="text" path="lastName" name = "lastName" class="form-control"
-                                                    placeholder="Last Name" autofocus="true" ></form:input>
-                                    <div id="lastname"></div>
-                                        <font color="red"> <form:errors path="lastName"></form:errors>
-                                        </font>
-                                    </spring:bind>
-                                </div>
-                                <div class="form-group">
-                                    <spring:bind path="email">
-                                    <label for="email">Email_Address:</label>
-                                        <form:input type="text" path="email" name = "email" class="form-control"
-                                                    placeholder="Email" autofocus="true" ></form:input>
-                                    <div id="emailvalue"></div>
-                                      <font color="red"><form:errors path="email"></form:errors>
-                                      </font>
-                                        <span style="color: red;" colspan="2">${message}</span>
-                                    </spring:bind>
-                                </div>
-                                <div class="form-group">
-                                    <spring:bind path="password">
-                                    <label for="password">Password:</label>
-                                        <form:input type="password" path="password" name = "password" class="form-control"
-                                                     placeholder="Password" autofocus="true" ></form:input>
-                                    <div id="passwordvalue"></div>
-                                           <font color="red"> <form:errors path="password"></form:errors>
-                                           </font>
-                                    </spring:bind>
-                                </div>
-                                   <div class="form-group">
-                                       <spring:bind path="confirmPassword">
-                                           <label for="confirmPassword"> Confirm Password:</label>
-                                           <form:input type="password" path="confirmPassword" name = "confirmPassword" class="form-control"
-                                                       placeholder=" Confirm Password" autofocus="true" ></form:input>
-                                           <div id="_confirmPassword"></div>
 
-                                         <font color="red">  <form:errors path="confirmPassword"></form:errors>
-                                         </font>
-                                       </spring:bind>
-                                   </div>
+                                    <label for="fname">First Name: </label>
+                                    <input id="fname" class="form-control" maxlength="50" name="fname" type="text"
+                                           placeholder="Enter first name"/>
+                                    <div id="firstname"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lname">Last Name: </label>
+                                    <input id="lname" class="form-control" maxlength="50" name="lname" type="text"
+                                           placeholder="Enter last name"/>
+                                    <div id="lastname"></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email_Address:</label>
+                                    <input id="email" maxlength="50" class="form-control" name="email" type="email"
+                                           placeholder="Enter email address"/>
+                                    <div id="emailvalue"></div>
+                                    <span style="color: red;" colspan="2">${message}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password:</label>
+                                    <input id="password" class="form-control" maxlength="50" name="password"
+                                           type="password"/>
+                                    <div id="passwordvalue"></div>
+                                </div>
                                 <div>
                                     <button class="btn btn-info btn-block" type="submit">Register</button>
                                 </div>
                                 <div style="text-align : center; padding: 2%">
                                     <a href="/login" class="text-info">Login</a>
                                 </div>
-                               </form:form>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -135,5 +106,4 @@
     </div>
 </div>
 </body>
-
 </html>

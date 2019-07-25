@@ -2,12 +2,13 @@ package com.macs.group6.daldiscussion.Validator;
 
 public enum ValidationCode {
 
-	// Registration Error
-	EMAIL_IN_USE("AlreadyInUSe.Form.email"),
+	// Login Validation
+	EMAIL_IN_USE("AlreadyInUSe.loginForm.email"), 
 	EMAIL_NOT_FOUND("NotFound.loginForm.email"),
-	EMAIL_NOT_VALID("Invalid.Form.email"),
-	AUTHENTICATION_ERROR("Authentication.Form.password"),
+	EMIAL_NOT_VALID("Invalid.loginForm.email"), 
+	AUTHENTICATION_ERROR("Authentication.loginForm.password"),
 
+	// Registration Error
 	DUPLICATE_EMAIL("Duplicate.registrationForm.email"),
 	PASSWORD_DOES_NOT_MATCH("Diff.registrationForm.passwordConfirm"),
 	PASSWORD_MIN_SIZE_ERROR("MinSize.registrationForm.password"),
