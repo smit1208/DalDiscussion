@@ -25,7 +25,8 @@ public class CommentDAO implements ICommentDAO {
     private DatabaseConfig databaseConfig;
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
     private static final String GETPOSTBYID = "{call getPostById(?)}";
-    private static final String ADDCOMMENT = "{call addComment(?,?,?)}";
+    private static final String ADDCOMMENT = "{call addComment(?,?,?,?)}";
+    private static final String COMMENTBYNAME = "{call getCommentByName()}";
 
     public CommentDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
         this.databaseConfig=databaseConfig;
@@ -47,6 +48,7 @@ public class CommentDAO implements ICommentDAO {
                 Comment comment = new Comment();
                 comment.setId(resultSet.getInt("id"));
                 comment.setComment_description(resultSet.getString("comment_body"));
+                comment.setCommentBy(resultSet.getString("commentBy"));
                 commentList.add(comment);
 
             }
@@ -89,13 +91,14 @@ public class CommentDAO implements ICommentDAO {
     }
 
     @Override
-    public void addComment(Comment comment, int post_id, int user_id) {
+    public void addComment(Comment comment, int post_id, int user_id, String name) {
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDCOMMENT);
             callableStatement.setString(1,comment.getComment_description());
             callableStatement.setInt(2,post_id);
             callableStatement.setInt(3,user_id);
+            callableStatement.setString(4,name);
             callableStatement.executeQuery();
         }catch (Exception e){
             logger.error("Error in CommentDAO while adding comment " +e.getMessage());

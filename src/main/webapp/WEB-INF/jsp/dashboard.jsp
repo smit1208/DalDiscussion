@@ -32,10 +32,12 @@
             <div class="container" style="text-align: center; margin-top: 3%">
                 <c:forEach items="${posts}" var="post">
                     <div class="card shadow p-3 mb-5 bg-white rounded" style="margin-top: 3%">
-                        <a class="card-header" href="">${post.post_title}</a>
+                        <div class="card-header text-info">${post.post_title}</div>
                         <div class="card-text">${post.post_description}</div>
-
                         <div class="d-flex">
+                            <div style="margin-right: 2%">
+                                <a href="/getPosts/${post.id}"><i class="far fa-comment"></i></a>
+                            </div>
                             <div class="mr-auto">
                                 <form class="form" method="post" action="/dashboard/delete/${post.id}">
                                     <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i></button>

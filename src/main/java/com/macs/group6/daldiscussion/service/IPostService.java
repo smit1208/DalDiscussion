@@ -14,7 +14,7 @@ import java.util.Map;
 public interface IPostService {
     void create(Post post,int user_id);
 
-    void createPostWithImage(Post post, List<MultipartFile> file,int user_id);
+    void createPostWithImage(Post post, List<MultipartFile> file,int user_id) throws IOException;
 
     Map<String,Object> getComments(int postId);
 
@@ -22,9 +22,9 @@ public interface IPostService {
 
     Post getPostById(int postId);
 
-    void addComment(Comment c, int post_id, int user_id);
+    void addComment(Comment c, int post_id, int user_id,String name);
 
-    void addReply(Reply reply, int comment_id, int user_id, int post_id);
+    void addReply(Reply reply, int comment_id, int user_id, String name, int post_id);
 
     boolean fileSizeExceeded(MultipartFile file);
 

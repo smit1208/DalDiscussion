@@ -46,8 +46,8 @@ public class RegisterDAO implements IRegisterDAO {
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
-            return result;
         }
+        return result;
     }
 
     public boolean userExists(User userRegister){
@@ -68,7 +68,7 @@ public class RegisterDAO implements IRegisterDAO {
 
         finally {
         DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
-        return isPresent;
         }
+        return isPresent;
     }
 }

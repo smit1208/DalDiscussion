@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -89,7 +90,11 @@ public class PostController {
         }
 
         if(post.getIsImage()== 1){
-            postService.createPostWithImage(post,file, user_id);
+            try {
+                postService.createPostWithImage(post,file, user_id);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         else{
             postService.create(post,user_id);

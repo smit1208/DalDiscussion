@@ -33,7 +33,6 @@ public class PostService implements IPostService, ISubject {
     private ArrayList<IObserver> observers;
     private IPostImageDAO iPostImageDAO;
     private AmazonClient amazonClient = AmazonClient.getInstance();
-    AppConfig appConfig = AppConfig.getInstance();
 
 
     @Autowired
@@ -51,9 +50,8 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) {
+    public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) throws IOException {
             int post_id =  iPostDAO.create(post,user_id);
-            System.out.println("Post id"+post_id);
             if(post_id>0){
                 List<String> imageUrls = uploadImageToCloud(files, post_id);
                 saveImagetoDB(imageUrls, post_id);
@@ -77,8 +75,8 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void addComment(Comment c, int post_id, int user_id) {
-        iCommentDAO.addComment(c,post_id,user_id);
+    public void addComment(Comment c, int post_id, int user_id,String name) {
+        iCommentDAO.addComment(c,post_id,user_id,name);
         commentSize = getCommentSize(post_id);
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
@@ -90,11 +88,11 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id,int post_id) {
-        iReplyDAO.addReply(reply,comment_id,user_id);
+
+    public void addReply(Reply reply, int comment_id, int user_id,String name, int post_id) {
+        iReplyDAO.addReply(reply, comment_id, user_id, name);
         updatePostMoificationDate(post_id);
     }
-
     @Override
     public boolean fileSizeExceeded(MultipartFile file) {
         if(file.getSize() > maxFileSize){
