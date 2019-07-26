@@ -63,19 +63,15 @@ public class PostController {
         String imageMessage = "";
 
         if(postTitle!=null && postTitle.length()>0){
-
             post.setPost_title(postTitle);
         }
         if(postDesc!=null && postDesc.length()>0 ){
-
             post.setPost_description(postDesc);
         }
         if(category!=null && category>0){
-
             post.setCategory(category);
         }
         if(group!=null){
-
             post.setGroup(group);
         }
 
@@ -83,15 +79,19 @@ public class PostController {
         if (null != file && file.size() > 0)
         {
             for (MultipartFile multipartFile : file) {
-
                 String fileName = multipartFile.getOriginalFilename();
-                fileNames.add(fileName);
+                if(fileName.length()>0){
+                    post.setIsImage(1);
+                }else {
+                    post.setIsImage(0);
+                }
             }
-            postService.createPostWithImage(post,file, user_id);
+        }
 
+        if(post.getIsImage()== 1){
+            postService.createPostWithImage(post,file, user_id);
         }
         else{
-
             postService.create(post,user_id);
         }
         logger.info("Post added successfully");

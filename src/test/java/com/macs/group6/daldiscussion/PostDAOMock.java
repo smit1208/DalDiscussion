@@ -1,18 +1,16 @@
 package com.macs.group6.daldiscussion;
-
 import com.macs.group6.daldiscussion.dao.IPostDAO;
 import com.macs.group6.daldiscussion.model.Post;
 
-import java.sql.Blob;
+public  class PostDAOMock implements IPostDAO {
 
-public class PostDAOMock implements IPostDAO {
     @Override
-    public void create(Post post, int user_id) {
+    public int create(Post post, int user_id) {
+        return 0;
+    }
+    @Override
+    public void updatePostModificationDate(int post_id) {
 
     }
 
-    @Override
-    public int createPostWithImage(Post post, int user_id) {
-    return 0;
-    }
 }

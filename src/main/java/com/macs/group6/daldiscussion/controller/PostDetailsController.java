@@ -82,7 +82,13 @@ public class PostDetailsController {
         post = iPostService.getPostById(post_id);
         commentMap = iPostService.getComments(post_id);
         replies.setReply_description(reply);
-        iPostService.addReply(replies, comment_id,user_id);
+
+        /* Modified by @Sharon
+        for update Post Modification Date*/
+
+        iPostService.addReply(replies, comment_id,user_id, post_id);
+        /*******************************************************/
+
         List<Reply> replyList = new ArrayList<>();
         List<Comment> commentList = (List<Comment>) commentMap.get("commentList");
 

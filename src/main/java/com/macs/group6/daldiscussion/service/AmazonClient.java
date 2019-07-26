@@ -62,8 +62,6 @@ public class AmazonClient {
         return amazonClientInstance;
     }
 
-
-
     public File convertMultiPartToFile(MultipartFile multipartFile) throws IOException {
         File convFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") +
                 multipartFile.getOriginalFilename());
@@ -81,7 +79,6 @@ public class AmazonClient {
           data.setContentLength(file.getSize());
           DESTINATION_FOLDER = "dev/"+postId+"/";
           String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(file);
-
 
           try {
 

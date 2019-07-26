@@ -52,9 +52,13 @@ public class PostService implements IPostService, ISubject {
 
     @Override
     public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) {
-            int post_id = iPostDAO.createPostWithImage(post, user_id);
-            List<String> imageUrls = uploadImageToCloud(files, post_id);
-            saveImagetoDB(imageUrls, post_id);
+            int post_id =  iPostDAO.create(post,user_id);
+            System.out.println("Post id"+post_id);
+            if(post_id>0){
+                List<String> imageUrls = uploadImageToCloud(files, post_id);
+                saveImagetoDB(imageUrls, post_id);
+            }
+
     }
 
     @Override
@@ -82,11 +86,13 @@ public class PostService implements IPostService, ISubject {
             this.postIDforNotify = post_id;
             notifyObserver();
         }
+        updatePostMoificationDate(post_id);
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id) {
+    public void addReply(Reply reply, int comment_id, int user_id,int post_id) {
         iReplyDAO.addReply(reply,comment_id,user_id);
+        updatePostMoificationDate(post_id);
     }
 
     @Override
@@ -119,6 +125,11 @@ public class PostService implements IPostService, ISubject {
     @Override
     public List<PostImage> getImageByPostId(int post_id) {
          return iPostImageDAO.getImageByPostId(post_id);
+    }
+
+    @Override
+    public void updatePostMoificationDate(int post_id) {
+        iPostDAO.updatePostModificationDate(post_id);
     }
 
     private int getCommentSize(int post_id){
