@@ -1,0 +1,17 @@
+.vr {
+    width:5px;
+    background-color:white;
+    position:absolute;
+    top:20%;
+    bottom:0;
+    right:150px;
+}
+#forgotpwd{
+    color: white;
+    margin-top: 20%;
+    font-family: "Apple Braille",serif;
+}
+body{
+    background-color: #33404c;
+    margin-top: 10%;
+}

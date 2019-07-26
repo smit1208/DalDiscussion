@@ -38,4 +38,9 @@ public class HomeService implements IHomeService {
     public List<Post> getSearchedPost(String search) {
         return homeDAO.getSearchedPost(search);
     }
+
+    @Override
+    public List<Post> getPostsByGroupId(int group_id) {
+        return homeDAO.getPostsByGroupId(group_id);
+    }
 }
