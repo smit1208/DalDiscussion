@@ -114,4 +114,9 @@ public class HomeDAOMock implements IHomeDAO {
     public List<Post> getSearchedPost(String search) {
         return null;
     }
+
+    @Override
+    public List<Post> getPostsByGroupId(int group_id) {
+        return null;
+    }
 }

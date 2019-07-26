@@ -26,6 +26,7 @@ public class HomeDAO implements IHomeDAO {
     private static final String ADDREPORTINGPOST = "{call addReportingPost(?,?)}";
     private static final String FETCHREPORTEDPOSTBYUSERID = "{call fetchreportedPostsByUserID(?)}";
     private static final String GETSEARCHPOST = "{call getSearchPost(?)}";
+    private static final String GETPOSTBYGROUPID = "{call getPostsByGroupId(?)}";
 
     @Autowired
     public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
@@ -121,5 +122,30 @@ public class HomeDAO implements IHomeDAO {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
         return posts;
+    }
+
+    @Override
+    public List<Post> getPostsByGroupId(int group_id) {
+        List<Post> posts = new ArrayList<>();
+        try {
+            connection = this.databaseConfig.loadDatabase();
+            callableStatement = connection.prepareCall(GETPOSTBYGROUPID);
+            callableStatement.setInt(1,group_id);
+            resultSet = callableStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                Post post = new Post();
+                post.setId(resultSet.getInt("id"));
+                post.setPost_title(resultSet.getString("post_title"));
+                post.setPost_description(resultSet.getString("post_desc"));
+                posts.add(post);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
+        }
+        return posts ;
     }
 }

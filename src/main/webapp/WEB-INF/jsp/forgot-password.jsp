@@ -8,23 +8,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <style type="text/css">
-    .vr {
-        width:5px;
-        background-color:white;
-        position:absolute;
-        top:20%;
-        bottom:0;
-        right:150px;
-    }
-    #forgotpwd{
-        color: white;
-        margin-top: 20%;
-        font-family: "Apple Braille",serif;
-    }
-    body{
-        background-color: #33404c;
-        margin-top: 10%;
-    }
+    <%@include file="../css/forgotpwd.css"%>
 </style>
 </head>
 <body>
@@ -52,6 +36,9 @@
                                 </div>
                                 <div class="form-group text-center">
                                     <button class="btn btn-info btn-block" type="submit" value="Reset Password">Reset Password</button>
+                                </div>
+                                <div style="text-align : center; padding: 2%">
+                                    <a href="/login" class="text-info">Login</a>
                                 </div>
                             </form>
                         </div>

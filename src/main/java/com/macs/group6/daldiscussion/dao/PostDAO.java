@@ -15,8 +15,8 @@ import java.sql.*;
 public class PostDAO implements IPostDAO {
     private static final Logger logger = Logger.getLogger(PostDAO.class);
 
-    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date, report) values(?,?,?,?,?,?,?);";
-    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id, creation_date,is_image, report) values(?,?,?,?,?,?,?,?);";
+    private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id,is_image,report) values(?,?,?,?,?,?,?);";
+    private static final String SQL_INSERT_POST_WITH_IMAGE = "insert into post(post_title, post_desc, user_id, category, group_id,is_image, report) values(?,?,?,?,?,?,?);";
 
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -39,7 +39,7 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(3,user_id);
             callableStatement.setInt(4,post.getCategory());
             callableStatement.setInt(5,post.getGroup());
-            callableStatement.setTimestamp(6,convert(new java.util.Date()));
+            callableStatement.setInt(6,0);
             callableStatement.setInt(7,0);
             result = callableStatement.executeUpdate();
 
@@ -68,9 +68,8 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(3,user_id);
             callableStatement.setInt(4,post.getCategory());
             callableStatement.setInt(5,post.getGroup());
-            callableStatement.setTimestamp(6,convert(new java.util.Date()));
-            callableStatement.setInt(7,1);
-            callableStatement.setInt(8,0);
+            callableStatement.setInt(6,1);
+            callableStatement.setInt(7,0);
             int result = callableStatement.executeUpdate();
 
             ResultSet rs=callableStatement.getGeneratedKeys();
