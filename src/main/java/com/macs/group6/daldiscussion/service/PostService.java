@@ -73,8 +73,8 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void addComment(Comment c, int post_id, int user_id) {
-        iCommentDAO.addComment(c,post_id,user_id);
+    public void addComment(Comment c, int post_id, int user_id,String name) {
+        iCommentDAO.addComment(c,post_id,user_id,name);
         commentSize = getCommentSize(post_id);
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
@@ -85,8 +85,8 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id) {
-        iReplyDAO.addReply(reply,comment_id,user_id);
+    public void addReply(Reply reply, int comment_id, int user_id, String name) {
+        iReplyDAO.addReply(reply,comment_id,user_id,name);
     }
 
     @Override

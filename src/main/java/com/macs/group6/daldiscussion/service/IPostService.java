@@ -22,9 +22,9 @@ public interface IPostService {
 
     Post getPostById(int postId);
 
-    void addComment(Comment c, int post_id, int user_id);
+    void addComment(Comment c, int post_id, int user_id,String name);
 
-    void addReply(Reply reply, int comment_id, int user_id);
+    void addReply(Reply reply, int comment_id, int user_id, String name);
 
     boolean fileSizeExceeded(MultipartFile file);
 

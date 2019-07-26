@@ -11,7 +11,9 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="../css/sb-admin.css" rel="stylesheet">
-
+    <style type="text/css">
+        <%@include file="../css/PostDetails.css"%>
+    </style>
 </head>
 
 <body>
@@ -21,26 +23,39 @@
     <div id="content-wrapper">
 
         <div class="container-fluid">
-            <div style="text-align: center">
-                <h4>
-                    ${post.post_title}
-</h4>
-    <h5>
-        ${post.post_description}
-                </h5>
-    <c:forEach items="${images}" var="image">
-       <img src="${image.imageLink}">
-    </c:forEach>
+            <div id="Posts">
+                <div id="titlePost">
+                    <h4>
+                       Post title:  ${post.post_title}
+                    </h4>
+                </div>
+                <div id="description">
+                    <h5>
+                        Description: ${post.post_description}
+                    </h5>
+                </div>
+                <c:forEach items="${images}" var="image">
+                    <img src="${image.imageLink}" style="height: 100%; width: 100%">
+                </c:forEach>
             </div>
             <c:forEach items="${comments}" var="comment">
                 <div class="container">
-                    <div class="card">
+                    <div class="card shadow p-3 mb-5 bg-white rounded">
                         <div class="card-body">
-                            <h5>
-                                    ${comment.comment_description}
-                            </h5>
+                            <div>
+                                <div class="d-flex flex-row-reverse">
+                                     Comment By: ${comment.commentBy}
+                                </div>
+
+                                <h5>
+                                        ${comment.comment_description}
+                                </h5>
+                            </div>
                             <div class="card-title">
                                 <c:forEach items="${comment.replies}" var="reply">
+                                    <div class="d-flex flex-row-reverse" >
+                                        Reply By: ${reply.replyBy}
+                                    </div>
                                     ${reply.reply_description}<br>
                                 </c:forEach>
                             </div>

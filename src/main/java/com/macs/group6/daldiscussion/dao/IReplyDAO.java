@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IReplyDAO {
     List<Reply> getReplies(int commentId);
-    void addReply(Reply reply, int comment_id, int user_id);
+    void addReply(Reply reply, int comment_id, int user_id, String name);
 }
