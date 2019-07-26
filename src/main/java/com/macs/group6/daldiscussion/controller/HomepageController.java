@@ -58,7 +58,6 @@ public class HomepageController {
                 copyPostList = postList;
             }
             check = false;
-
         }
         model.addAttribute("posts", copyPostList);
         logger.info("Posts displayed on homepage successfully");
@@ -73,9 +72,16 @@ public class HomepageController {
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.POST)
-    public String search(@RequestParam("search")String search, Model model){
-        List<Post> searchedPost = homeService.getSearchedPost(search);
-        model.addAttribute("posts",searchedPost);
+    public String search(@RequestParam("search") String search, Model model) {
+
+        String searchString = search.replaceAll("[^\\dA-Za-z ]", "");
+        List<Post> searchedPost = homeService.getSearchedPost(searchString);
+        String message = "";
+        if (searchedPost.size() == 0) {
+            message = "No Result Found";
+            model.addAttribute("error", message);
+        }
+        model.addAttribute("posts", searchedPost);
         return Views.HOMEPAGE;
     }
 }

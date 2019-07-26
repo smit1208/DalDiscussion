@@ -162,7 +162,7 @@ public class PublicController {
             session.setAttribute("firstName",users.get(0).getFirstName());
             session.setAttribute("karma",users.get(0).getKarmaPoints());
             session.setAttribute("id",users.get(0).getId());
-           // UserServiceObserver obs1 = (UserServiceObserver) UserServiceObserver.getInstance();
+
             this.iUserObserver = UserServiceObserver.getInstance(ipostService);
             return "redirect:/";
         } catch (Exception e) {
