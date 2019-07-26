@@ -1,13 +1,10 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.entities.Verification;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.entities.Verification;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.UUID;
 
 /**
@@ -15,6 +12,11 @@ import java.util.UUID;
  * @author Kush Rao
  */
 public class VerificationDAO {
+    Connection connection = null;
+    Statement statement = null;
+    CallableStatement callableStatement = null;
+    ResultSet resultSet = null;
+    PreparedStatement preparedStatement = null;
     private static final Logger logger = Logger.getLogger(VerificationDAO.class);
     /**
      * Creating table SQL script of Verification entity
@@ -75,8 +77,8 @@ public class VerificationDAO {
      */
     public VerificationDAO delete(String code) throws Exception {
         createIfNotExists();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
         preparedStatement.setString(1, code);
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -93,10 +95,10 @@ public class VerificationDAO {
     public Verification findByCode(String code) throws Exception {
         createIfNotExists();
         DatabaseConfig.getInstance();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_CODE);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_FIND_BY_CODE);
         preparedStatement.setString(1, code);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             Verification target = parse(resultSet);
             resultSet.close();
@@ -120,10 +122,10 @@ public class VerificationDAO {
     public Verification findByVerifyToken(String verifyToken) throws Exception {
         createIfNotExists();
         DatabaseConfig.getInstance();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_VERIFY_TOKEN);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_FIND_BY_VERIFY_TOKEN);
         preparedStatement.setString(1, verifyToken);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             Verification target = parse(resultSet);
             resultSet.close();
@@ -147,10 +149,10 @@ public class VerificationDAO {
     public Verification findByVerifiedToken(String verifiedToken) throws Exception {
         createIfNotExists();
         DatabaseConfig.getInstance();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_VERIFIED_TOKEN);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_FIND_BY_VERIFIED_TOKEN);
         preparedStatement.setString(1, verifiedToken);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             Verification target = parse(resultSet);
             resultSet.close();
@@ -195,10 +197,10 @@ public class VerificationDAO {
             data.setCode(UUID.randomUUID().toString().replaceAll("-", ""));
         }
         DatabaseConfig.getInstance();
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
         preparedStatement.setString(1, data.getCode());
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             resultSet.close();
             preparedStatement.close();
@@ -239,8 +241,8 @@ public class VerificationDAO {
         try {
             if (!isTableExists()) {
                 DatabaseConfig.getInstance();
-                Connection connection = DatabaseConfig.getInstance().loadDatabase();
-                Statement statement = connection.createStatement();
+                connection = DatabaseConfig.getInstance().loadDatabase();
+                statement = connection.createStatement();
                 statement.execute(SQL_CREATE_TABLE);
                 statement.close();
                 connection.close();
@@ -258,12 +260,9 @@ public class VerificationDAO {
     public boolean isTableExists() {
         try {
             DatabaseConfig.getInstance();
-            Connection connection = DatabaseConfig.getInstance().loadDatabase();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_TABLE_EXISTS);
-
-            if (resultSet.next()) {
-            }
+            connection = DatabaseConfig.getInstance().loadDatabase();
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(SQL_TABLE_EXISTS);
 
             resultSet.close();
             statement.close();

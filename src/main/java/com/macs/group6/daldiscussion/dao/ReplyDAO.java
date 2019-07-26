@@ -23,7 +23,7 @@ public class ReplyDAO implements IReplyDAO {
     ResultSet resultSet = null;
     private DatabaseConfig databaseConfig;
 
-    private final String ADDREPLY = "{call addReply(?,?,?)}";
+    private final String ADDREPLY = "{call addReply(?,?,?,?)}";
 
     public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
         this.databaseConfig = databaseConfig;
@@ -45,6 +45,7 @@ public class ReplyDAO implements IReplyDAO {
                     Reply reply = new Reply();
                     reply.setId(resultSet.getInt("id"));
                     reply.setReply_description(resultSet.getString("description"));
+                    reply.setReplyBy(resultSet.getString("replyBy"));
                     replyList.add(reply);
                 }
 
@@ -57,13 +58,14 @@ public class ReplyDAO implements IReplyDAO {
         }
 
     @Override
-    public void addReply(Reply reply, int comment_id,int user_id) {
+    public void addReply(Reply reply, int comment_id,int user_id, String name) {
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(ADDREPLY);
             callableStatement.setString(1,reply.getReply_description());
             callableStatement.setInt(2,user_id);
             callableStatement.setInt(3,comment_id);
+            callableStatement.setString(4,name);
             callableStatement.executeQuery();
         }catch (Exception e){
             logger.error("Error in ReplyDAO while adding replies " +e.getMessage());

@@ -36,18 +36,26 @@
                 <form id="myForm" action="/home" method="post">
                     <input type="text" name="search" placeholder="Search..">
                 </form>
+                <h3 style="color: red">
+                    ${error}
+                </h3>
                 <form id="addPost" action="/addPost">
                     <button type="submit" class="btn btn-outline-info shadow-sm p-3 mb-5 rounded">Add Post</button>
                 </form>
                 <c:forEach items="${posts}" var="post">
                     <div class="card shadow p-3 mb-5 bg-white rounded" style="margin-top: 3%">
-                        <a class="card-header text-info" href="/getPosts/${post.id}">${post.post_title}</a>
+                        <div class="card-header text-info">${post.post_title}</div>
                         <div class="card-text">${post.post_description}</div>
-                        <div class="d-flex flex-row-reverse">
-                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
-                                    data-target="#report${post.id}">
-                                <i class="fas fa-exclamation"></i>
-                            </button>
+                        <div class="d-flex">
+                            <div class="mr-auto">
+                                <a href="/getPosts/${post.id}"><i class="far fa-comment"></i></a>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-outline-secondary" data-toggle="modal"
+                                        data-target="#report${post.id}">
+                                    <i class="fas fa-exclamation"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="modal fade" id="report${post.id}" tabindex="-1" role="dialog"
