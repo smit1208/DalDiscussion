@@ -11,4 +11,5 @@ public interface IHomeDAO {
     void addReportingPost(int user_id, int post_id);
     List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id);
     List<Post> getSearchedPost(String search);
+    List<Post> getPostsByGroupId(int group_id);
 }

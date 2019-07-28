@@ -15,10 +15,12 @@ import java.sql.*;
 public class PostDAO implements IPostDAO {
     private static final Logger logger = Logger.getLogger(PostDAO.class);
 
+
     /*Columns order post_title, post_desc, user_id, category, group_id, is_reported, is_image*/
     private static final String SQL_INSERT_POST = "insert into post(post_title, post_desc, user_id, category, group_id, is_image, report) values(?,?,?,?,?,?,?);";
     private static final String ADDPOST = "{call addPost(?,?,?,?,?,?,?)}";
     private static final String UPDATEPOSTMODDATE = "{call updatePostModDate(?,?)}";
+
 
 
     Connection connection = null;
@@ -74,6 +76,7 @@ public class PostDAO implements IPostDAO {
             callableStatement.setInt(2, post_id);
             callableStatement.executeQuery();
             logger.info("update post successful! rows updated ");
+
         }catch (Exception e) {
             logger.error("Error in PostDAO while updating post modification date" +e.getMessage());
         }finally {

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service("PostService")
 public interface IPostService {
     void create(Post post,int user_id);
 

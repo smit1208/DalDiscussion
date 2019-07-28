@@ -90,15 +90,6 @@ public class User {
         _confirmPassword = confirmPassword;
     }
 
-
- /*   public String getConfirmPassword() {
-        return _confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        _confirmPassword = confirmPassword;
-    }*/
-
     public int getRole() {
         return role;
     }

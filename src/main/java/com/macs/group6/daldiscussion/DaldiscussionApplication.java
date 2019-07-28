@@ -1,6 +1,6 @@
 package com.macs.group6.daldiscussion;
 
-import com.macs.group6.daldiscussion.thread.MyThread;
+import com.macs.group6.daldiscussion.controller.MyThread;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;

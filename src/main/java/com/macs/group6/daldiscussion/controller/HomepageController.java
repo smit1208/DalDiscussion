@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class HomepageController {
@@ -32,15 +30,14 @@ public class HomepageController {
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String Home(Model model, HttpSession session) {
-        Map<String, Object> postMap = new HashMap<>();
         String email = (String) session.getAttribute("email");
         int user_id = (Integer) session.getAttribute("id");
         if (email.equalsIgnoreCase("admin@dal.ca")) {
             return Views.ADMIN;
         }
-        postMap = homeService.getAllPosts();
+        int group_id = 5;
         model.addAttribute("user", session.getAttribute("firstName"));
-        List<Post> postList = (List<Post>) postMap.get("posts");
+        List<Post> postList = homeService.getPostsByGroupId(group_id);
         List<Post> copyPostList = new ArrayList<Post>();
         List<ReportedPost> reportedPosts = homeService.fetchReportedPostByUserId(user_id);
         boolean check = false;

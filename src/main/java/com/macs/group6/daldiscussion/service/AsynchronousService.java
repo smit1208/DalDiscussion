@@ -1,7 +1,7 @@
 package com.macs.group6.daldiscussion.service;
 
 
-import com.macs.group6.daldiscussion.thread.MyThread;
+import com.macs.group6.daldiscussion.controller.MyThread;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.task.TaskExecutor;
