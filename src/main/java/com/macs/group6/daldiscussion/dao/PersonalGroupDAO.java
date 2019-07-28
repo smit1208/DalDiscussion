@@ -3,8 +3,6 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -22,12 +20,8 @@ public class PersonalGroupDAO implements IPersonalGroupDAO {
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     private static final String GETPRIVATEPOSTSBYGROUPID = "{call getPrivatePostsByGroupID(?)}";
-    @Autowired
-    public PersonalGroupDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
-        this.databaseConfig = databaseConfig;
-    }
 
     @Override
     public Map<String, Object> getPrivatePostsByGroupID(int groupID) {

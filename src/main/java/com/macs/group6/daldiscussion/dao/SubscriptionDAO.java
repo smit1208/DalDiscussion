@@ -4,7 +4,6 @@ import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -18,14 +17,14 @@ import java.util.Map;
 @Component("SubscriptionDAO")
 public class SubscriptionDAO implements ISubscriptionDAO {
     private static final Logger logger = Logger.getLogger(SubscriptionDAO.class);
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-    public SubscriptionDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
-        this.databaseConfig = databaseConfig;
-    }
+//    public SubscriptionDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+//        this.databaseConfig = databaseConfig;
+//    }
     private static final String GETSUBSCRIPTIONGROUPS = "{call getSubscriptionGroupList()}";
     private static final String ADDSUBSCRIPTIONREQUEST = "{call addSubscriptionRequest(?,?,?)}";
     private static final String FETCHSUBSCRIPTIONBYUSERID = "{call fetchSubscriptionByUserId(?)}";

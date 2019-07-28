@@ -13,12 +13,38 @@ public class HomeDAOMock implements IHomeDAO {
     private Map<String,Object> postMap;
     private List<Comment> commentList;
     private List<Reply> replyList;
+    private List<Post> postList;
 
     public HomeDAOMock(){
         postMap = new HashMap<>();
         commentList = new ArrayList<>();
         replyList = new ArrayList<>();
+        postList = new ArrayList<>();
         addPost();
+    }
+    @Override
+    public Map<String, Object> getAllPosts() {
+        return postMap;
+    }
+
+    @Override
+    public void addReportingPost(int user_id, int post_id) {
+
+    }
+
+    @Override
+    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
+        return null;
+    }
+
+    @Override
+    public List<Post> getSearchedPost(String search) {
+        return postList;
+    }
+
+    @Override
+    public List<Post> getPostsByGroupId(int group_id) {
+        return postList;
     }
 
     private void addPost(){
@@ -43,6 +69,7 @@ public class HomeDAOMock implements IHomeDAO {
         post1.setDownVote(10);
         post1.setAlive(true);
         post1.setDate(new Date());
+        post1.setGroup(5);
         post1.setComments(commentList);
 
         Post post2 = new Post();
@@ -93,30 +120,7 @@ public class HomeDAOMock implements IHomeDAO {
         postMap.put("1",post1);
         postMap.put("2",post2);
         postMap.put("3",post3);
-    }
 
-    @Override
-    public Map<String, Object> getAllPosts() {
-        return postMap;
-    }
-
-    @Override
-    public void addReportingPost(int user_id, int post_id) {
-
-    }
-
-    @Override
-    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
-        return null;
-    }
-
-    @Override
-    public List<Post> getSearchedPost(String search) {
-        return null;
-    }
-
-    @Override
-    public List<Post> getPostsByGroupId(int group_id) {
-        return null;
+        postList.add(post1);
     }
 }

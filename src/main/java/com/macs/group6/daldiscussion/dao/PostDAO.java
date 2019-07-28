@@ -3,13 +3,14 @@
 */
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
-
+import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import java.sql.*;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 @Component("PostDAO")
 public class PostDAO implements IPostDAO {
@@ -20,19 +21,19 @@ public class PostDAO implements IPostDAO {
 
     Connection connection = null;
     CallableStatement callableStatement = null;
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     int result ;
     private static IPostDAO iPostDAO;
 
-    public PostDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
-        this.databaseConfig = databaseConfig;
-    }
+//    public PostDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
+//        this.databaseConfig = databaseConfig;
+//    }
 
     @Override
     public void create(Post post,int user_id) {
     int id=0;
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(SQL_INSERT_POST);
             callableStatement.setString(1,post.getPost_title());
             callableStatement.setString(2, post.getPost_description());
@@ -61,7 +62,7 @@ public class PostDAO implements IPostDAO {
     public int createPostWithImage(Post post, int user_id) {
         int id = 0;
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(SQL_INSERT_POST_WITH_IMAGE);
             callableStatement.setString(1,post.getPost_title());
             callableStatement.setString(2, post.getPost_description());
