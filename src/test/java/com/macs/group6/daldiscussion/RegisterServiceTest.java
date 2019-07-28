@@ -24,7 +24,7 @@ public class RegisterServiceTest {
     public void setUp() throws Exception {
 
         registerDAOMock = new RegisterDAOMock();
-        subscriptionService = new SubscriptionService(new SubscriptionDAOMock());
+        subscriptionService = new SubscriptionService();
         userService = new UserService(UserDAO.getInstance());
         registerService = new RegisterService(registerDAOMock, subscriptionService, userService);
 
