@@ -1,11 +1,10 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.factory.IServiceFactory;
+import com.macs.group6.daldiscussion.factory.ServiceFactory;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.ReportedPost;
-import com.macs.group6.daldiscussion.service.IHomeService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +20,10 @@ import java.util.List;
 public class HomepageController {
     private static final Logger logger = Logger.getLogger(HomepageController.class);
 
-    private IHomeService homeService;
+    private IServiceFactory iServiceFactory;
 
-    @Autowired
-    public HomepageController(@Qualifier("HomeService") IHomeService homeService) {
-        this.homeService = homeService;
+    public HomepageController() {
+        iServiceFactory = new ServiceFactory();
     }
 
     @RequestMapping(value = "/home", method = RequestMethod.GET)
@@ -37,9 +35,9 @@ public class HomepageController {
         }
         int group_id = 5;
         model.addAttribute("user", session.getAttribute("firstName"));
-        List<Post> postList = homeService.getPostsByGroupId(group_id);
+        List<Post> postList = iServiceFactory.createHomeService().getPostsByGroupId(group_id);
         List<Post> copyPostList = new ArrayList<Post>();
-        List<ReportedPost> reportedPosts = homeService.fetchReportedPostByUserId(user_id);
+        List<ReportedPost> reportedPosts = iServiceFactory.createHomeService().fetchReportedPostByUserId(user_id);
         boolean check = false;
         for (int i = 0; i < postList.size(); i++) {
             if (reportedPosts.size() > 0) {
@@ -64,7 +62,7 @@ public class HomepageController {
     @RequestMapping(value = "/report/{id}", method = RequestMethod.POST)
     public String Report(HttpSession session, @PathVariable("id") int post_id) {
         int user_id = (Integer) session.getAttribute("id");
-        homeService.addReportingPost(user_id, post_id);
+        iServiceFactory.createHomeService().addReportingPost(user_id, post_id);
         return "redirect:/home";
     }
 
@@ -72,7 +70,7 @@ public class HomepageController {
     public String search(@RequestParam("search") String search, Model model) {
 
         String searchString = search.replaceAll("[^\\dA-Za-z ]", "");
-        List<Post> searchedPost = homeService.getSearchedPost(searchString);
+        List<Post> searchedPost = iServiceFactory.createHomeService().getSearchedPost(searchString);
         String message = "";
         if (searchedPost.size() == 0) {
             message = "No Result Found";

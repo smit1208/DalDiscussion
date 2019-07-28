@@ -1,31 +1,30 @@
 package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.service.HomeService;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.*;
 
 public class HomeServiceTest {
 
-    private HomeDAOMock homeDAOMock;
-    private HomeService homeService;
+    private IHomeDAO homeDAOMock;
 
     @Before
     public void setUp() throws Exception {
         homeDAOMock = new HomeDAOMock();
-        homeService = new HomeService(homeDAOMock);
     }
 
     @Test
     public void getAllPostsTest() {
         Map<String,Object> postMap = new HashMap<>();
-        postMap = homeService.getAllPosts();
-
+        postMap = homeDAOMock.getAllPosts();
 
         Post post1 = (Post) postMap.get("1");
 
@@ -56,4 +55,19 @@ public class HomeServiceTest {
         assertNotNull(post3.getDate());
 
     }
+
+    @Test
+    public void getSearchedPostTest(){
+        List<Post> postList = new ArrayList<>();
+        postList = homeDAOMock.getSearchedPost("This is Post 1 title");
+        assertNotNull(postList);
+    }
+
+    @Test
+    public void getPostByGroupIdTest(){
+        List<Post> postList = new ArrayList<>();
+        postList = homeDAOMock.getPostsByGroupId(5);
+        assertNotNull(postList);
+    }
+
 }

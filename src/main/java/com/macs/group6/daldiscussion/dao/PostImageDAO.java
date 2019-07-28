@@ -3,7 +3,6 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.PostImage;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -18,14 +17,9 @@ public class PostImageDAO implements IPostImageDAO {
     Connection connection = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
-    private DatabaseConfig databaseConfig;
-
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     private static final String ADDIMAGE = "{call addImage(?,?)}";
     private static final String GETIMAGESBYPOSTID = "{call getImagesByPostId(?)}";
-
-    public PostImageDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
-        this.databaseConfig = databaseConfig;
-    }
 
     @Override
     public void addImage(String imageLink, int post_id) {

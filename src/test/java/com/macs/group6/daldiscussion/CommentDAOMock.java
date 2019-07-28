@@ -9,11 +9,12 @@ import java.util.Map;
 
 public class CommentDAOMock implements ICommentDAO {
    private Map<String,Object> commentMap;
-   Post post = new Post();
+   private Post post;
 
 
     public CommentDAOMock(){
         commentMap = new HashMap<>();
+        post = new Post();
         comments();
     }
 
@@ -33,6 +34,13 @@ public class CommentDAOMock implements ICommentDAO {
 
         commentMap.put("1",comment);
         commentMap.put("2",comment1);
+
+
+        post.setId(1);
+        post.setPost_title("Post title");
+        post.setPost_description("Post Description");
+        post.setUser_id(12);
+        post.setGroup(5);
 
     }
 

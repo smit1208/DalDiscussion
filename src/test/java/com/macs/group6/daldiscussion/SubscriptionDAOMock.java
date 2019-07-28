@@ -5,17 +5,22 @@ import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SubscriptionDAOMock implements ISubscriptionDAO {
     List<SubscriptionGroup> subscriptions;
+    List<Subscription> subscriptionList;
+    Map<String,Object> subscriptionMap;
 
     public SubscriptionDAOMock() {
         subscriptions = new ArrayList<>();
+        subscriptionList = new ArrayList<>();
+        subscriptionMap = new HashMap<>();
         Subscriptions();
     }
-
+    Subscription subscription1;
     private void Subscriptions() {
         SubscriptionGroup subscription = new SubscriptionGroup();
 
@@ -23,6 +28,15 @@ public class SubscriptionDAOMock implements ISubscriptionDAO {
         subscription.setName("QA");
         subscription.setMax_count(2);
         subscriptions.add(subscription);
+
+        subscription1 = new Subscription();
+        subscription1.setGroupName("Quality Assurance");
+        subscription1.setGroup_id(1);
+        subscription1.setUser_id(12);
+        subscription1.setId(2);
+        subscriptionList.add(subscription1);
+
+        subscriptionMap.put("approved",subscriptionList);
     }
 
     @Override
@@ -42,16 +56,16 @@ public class SubscriptionDAOMock implements ISubscriptionDAO {
 
     @Override
     public List<Subscription> fetchSubscriptionByUserID(int user_id) {
-        return null;
+        return subscriptionList;
     }
 
     @Override
     public Map<String, Object> approvedSubscriptions(int user_id) {
-        return null;
+        return subscriptionMap;
     }
 
     @Override
     public Subscription fetchSubscriptionByID(int subscription_id) {
-        return null;
+        return subscription1;
     }
 }
