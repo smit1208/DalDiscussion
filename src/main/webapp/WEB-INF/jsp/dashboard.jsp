@@ -68,13 +68,13 @@
                                             <div class="form-group">
 
                                                 <input type="text" class="form-control" id="title" name="title"
-                                                       aria-describedby="emailHelp" placeholder="Enter Title" required>
+                                                       aria-describedby="emailHelp"  value = ${post.post_title} placeholder="Post_Title" required>
 
                                             </div>
                                             <div class="form-group">
 
-                                                <input type="text" class="form-control" id="desc" name="desc"
-                                                       placeholder="Desc" required>
+                                                <input type="text" class="form-control" id="desc" name="desc" value = ${post.post_description}
+                                                       placeholder="Post_Description" required>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Update</button>
                                         </form>
