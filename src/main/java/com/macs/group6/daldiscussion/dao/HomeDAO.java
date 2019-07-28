@@ -3,8 +3,6 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.ReportedPost;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -21,18 +19,18 @@ public class HomeDAO implements IHomeDAO {
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     private static final String GETALLPOST = "{call getAllPosts()}";
     private static final String ADDREPORTINGPOST = "{call addReportingPost(?,?)}";
     private static final String FETCHREPORTEDPOSTBYUSERID = "{call fetchreportedPostsByUserID(?)}";
     private static final String GETSEARCHPOST = "{call getSearchPost(?)}";
     private static final String GETPOSTBYGROUPID = "{call getPostsByGroupId(?)}";
 
-    @Autowired
-    public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
-        this.databaseConfig = databaseConfig;
-
-    }
+//    @Autowired
+//    public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
+//        this.databaseConfig = databaseConfig;
+//
+//    }
 
     @Override
     public Map<String, Object> getAllPosts() {

@@ -1,13 +1,12 @@
 package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.AppConfig;
-import com.macs.group6.daldiscussion.dao.*;
+import com.macs.group6.daldiscussion.factory.DAOFactory;
+import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,55 +25,46 @@ public class PostService implements IPostService, ISubject {
     private static int karmaPoints;
     private static int commentSize;
     private static int postIDforNotify;
-
-    private IReplyDAO iReplyDAO;
-    private ICommentDAO iCommentDAO;
-    private IPostDAO iPostDAO;
     private ArrayList<IObserver> observers;
-    private IPostImageDAO iPostImageDAO;
     private AmazonClient amazonClient = AmazonClient.getInstance();
     AppConfig appConfig = AppConfig.getInstance();
+    private IDAOFactory idaoFactory;
 
-
-    @Autowired
-    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO,
-                       @Qualifier("PostImageDAO")IPostImageDAO iPostImageDAO){
-        this.iCommentDAO = iCommentDAO;
-        this.iPostDAO = iPostDAO;
-        this.iReplyDAO = iReplyDAO;
-        this.iPostImageDAO = iPostImageDAO;
+    public PostService(){
+        idaoFactory = new DAOFactory();
         observers = new ArrayList<IObserver>();
     }
+
     @Override
     public void create(Post post,int user_id) {
-        iPostDAO.create(post,user_id);
+        idaoFactory.createPostDAO().create(post, user_id);
     }
 
     @Override
     public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) {
-            int post_id = iPostDAO.createPostWithImage(post, user_id);
+            int post_id = idaoFactory.createPostDAO().createPostWithImage(post, user_id);
             List<String> imageUrls = uploadImageToCloud(files, post_id);
             saveImagetoDB(imageUrls, post_id);
     }
 
     @Override
     public Map<String, Object> getComments(int postId) {
-        return iCommentDAO.getComments(postId);
+        return idaoFactory.createCommentDAO().getComments(postId);
     }
 
     @Override
     public List<Reply> getReplies(int commentId) {
-        return iReplyDAO.getReplies(commentId);
+        return idaoFactory.createReplyDAO().getReplies(commentId);
     }
 
     @Override
     public Post getPostById(int postId) {
-        return iCommentDAO.getPostById(postId);
+        return idaoFactory.createCommentDAO().getPostById(postId);
     }
 
     @Override
     public void addComment(Comment c, int post_id, int user_id,String name) {
-        iCommentDAO.addComment(c,post_id,user_id,name);
+        idaoFactory.createCommentDAO().addComment(c,post_id,user_id,name);
         commentSize = getCommentSize(post_id);
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
@@ -86,7 +76,7 @@ public class PostService implements IPostService, ISubject {
 
     @Override
     public void addReply(Reply reply, int comment_id, int user_id, String name) {
-        iReplyDAO.addReply(reply,comment_id,user_id,name);
+        idaoFactory.createReplyDAO().addReply(reply,comment_id,user_id,name);
     }
 
     @Override
@@ -112,18 +102,18 @@ public class PostService implements IPostService, ISubject {
     @Override
     public void saveImagetoDB(List<String> imageLinks, int post_id) {
         for(String imageLink: imageLinks){
-            iPostImageDAO.addImage(CLOUD_URL+imageLink, post_id);
+            idaoFactory.createPostImageDAO().addImage(CLOUD_URL+imageLink, post_id);
         }
     }
 
     @Override
     public List<PostImage> getImageByPostId(int post_id) {
-         return iPostImageDAO.getImageByPostId(post_id);
+         return idaoFactory.createPostImageDAO().getImageByPostId(post_id);
     }
 
     private int getCommentSize(int post_id){
         Map<String,Object> commentMap = new HashMap<>();
-        commentMap = iCommentDAO.getComments(post_id);
+        commentMap = idaoFactory.createCommentDAO().getComments(post_id);
         List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
         return commentList.size();
     }

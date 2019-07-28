@@ -1,12 +1,10 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.controller.AdminController;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -28,11 +26,11 @@ public class AdminDAO implements IAdminDAO {
     private static final String FETCHALLSUBSCRIPTIONREQUESTS = "{call fetchAllSubscriptionRequests()}";
     private static final String APPROVEREQUEST = "{call approveSubscriptionRequest(?)}";
     private static final String GETPOSTBYMAXREPORT = "{call getPostsByMaxReports()}";
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
 
-    public AdminDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
-        this.databaseConfig = databaseConfig;
-    }
+//    public AdminDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
+//        this.databaseConfig = databaseConfig;
+//    }
 
     @Override
     public User getAdmin() {

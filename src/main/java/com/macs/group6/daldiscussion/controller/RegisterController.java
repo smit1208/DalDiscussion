@@ -3,7 +3,6 @@ package com.macs.group6.daldiscussion.controller;
 import com.macs.group6.daldiscussion.Validator.RegistrationValidator;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.service.IRegisterService;
-import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Map;
+//import com.oracle.webservices.internal.api.databinding.DatabindingMode;
 
 @Controller
 public class RegisterController {
