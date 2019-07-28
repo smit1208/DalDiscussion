@@ -91,7 +91,14 @@
             
 			<%--this the Update Profile Page div --%>
             <div class="card shadow p-3 mb-5 bg-white rounded" id="editform" style="text-align: center;margin-top:3%; display:none;">
-            <h2 style="text-align: center" >Update profile</h3>
+           
+           <%-- <h2 style="text-align: center" >Update profile</h2> --%>
+           
+             <div class="card-header text-info" style="text-align:center;margin-bottom:3%" >
+                     <h2><strong>Update profile</strong></h2>        
+
+                </div>
+            
                 <form id="myForm" action="/updateprofile" onsubmit="return validateform()" method="post" name="myform">
 
                     <div class="form-group">
@@ -178,14 +185,23 @@
 
 					
 <%--class="form-group text-right"--%>
-                <div class="form-group text-right">
-                    <input type="button" class="btn btn-outline-info shadow-sm p-3 mb-5 rounded" value="Edit Profile" onclick="showEditForm()"/>
-                </div>
+               
                 <div class="form-group text-center">
                     ${message}
                 </div>
 
-                <p class="card-header text-info"style="text-align: center"><strong>My Profile</strong></p>
+
+                
+                <div class="card-header text-info" style="text-align:center" >
+                     <h2><strong>My Profile</strong></h2>        
+
+                </div>
+                <div style="margine-top:3%">
+                <input type="button" class="btn btn-outline-info shadow-sm p-3 mb-5 rounded" style="display:inline;float:right" value="Edit Profile" onclick="showEditForm()"/>
+                </div>      
+                
+                    
+                 
                 <p class="card-body text-info" style="padding-left: 30%; text-align: left; margin-top: 3%"><strong>Contact Information</strong></p>
                 <p style="padding-left: 34%; text-align: left;">Email Address: ${email}</p>
                 <p style="text-align: center;">&nbsp;</p>
