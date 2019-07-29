@@ -1,14 +1,10 @@
 package com.macs.group6.daldiscussion;
 
-import com.macs.group6.daldiscussion.dao.UserDAO;
-import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.*;
 import com.macs.group6.daldiscussion.service.ResetPasswordService;
 import com.macs.group6.daldiscussion.service.SendEmailService;
 import com.macs.group6.daldiscussion.service.SendForgotPasswordEmailService;
 import org.junit.Test;
-
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -91,25 +87,4 @@ public class ForgotPasswordTests {
         assertThat(resetPasswordResponse.getIsError()).isEqualTo(true);
     }
 
-    @Test
-    public void createUser_Success() {
-        String password = "12345678";
-        String email = "smitsaraiya10@gmail.com";
-        String firstName = "smit";
-        String lastName = "saraiya";
-        try {
-            List<User> userList = UserDAO.getInstance().findByEmail(email);
-            if (userList.size() == 0) {
-                User user = new User();
-                user.setPassword(password);
-                user.setEmail(email);
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                UserDAO.getInstance().save(user);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assertThat(true).isEqualTo(true);
-    }
 }
