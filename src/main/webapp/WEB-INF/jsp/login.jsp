@@ -24,6 +24,9 @@
 </head>
 
 <body class="back_img">
+<div class="d-flex justify-content-center" id="DAL">
+    DAL DISCUSSION
+</div>
 <div class="d-flex flex-row-reverse">
     <div class="col-md-5 ">
         <div class="container">
