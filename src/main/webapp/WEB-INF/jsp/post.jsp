@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -35,7 +36,7 @@
                                         <h4>Add Post</h4>
                                     </div>
                                     <div class="card-body text-info">
-                                        <form method="post" action="/savePost" enctype="multipart/form-data">
+                                        <form:form modelAttribute="addPost" method="post" action="/savePost" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label>Post Title</label>
                                                 <input type="text" name="postTitle" class="form-control" required><br>
@@ -69,7 +70,7 @@
                                             <div class="form-group">
                                                 <button class="btn btn-info btn-block" type="submit">POST</button>
                                             </div>
-                                        </form>
+                                        </form:form>
                                     </div>
                                 </div>
                             </div>

@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service("PostService")
 
@@ -27,7 +25,6 @@ public class PostService implements IPostService, ISubject {
     private static int postIDforNotify;
     private ArrayList<IObserver> observers;
     private AmazonClient amazonClient = AmazonClient.getInstance();
-    AppConfig appConfig = AppConfig.getInstance();
     private IDAOFactory idaoFactory;
 
     public PostService(){
@@ -37,12 +34,12 @@ public class PostService implements IPostService, ISubject {
 
     @Override
     public void create(Post post,int user_id) {
-        idaoFactory.createPostDAO().create(post, user_id);
+        idaoFactory.createPostDAO().createPost(post, user_id);
     }
 
     @Override
-    public void createPostWithImage(Post post, List<MultipartFile> files, int user_id) {
-            int post_id = idaoFactory.createPostDAO().createPostWithImage(post, user_id);
+    public void createPostWithImage(Post post, MultipartFile files, int user_id) {
+            int post_id = idaoFactory.createPostDAO().createPost(post, user_id);
             List<String> imageUrls = uploadImageToCloud(files, post_id);
             saveImagetoDB(imageUrls, post_id);
     }
@@ -72,11 +69,13 @@ public class PostService implements IPostService, ISubject {
             this.postIDforNotify = post_id;
             notifyObserver();
         }
+        updatePostMoificationDate(post_id);
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id, String name) {
+    public void addReply(Reply reply, int comment_id, int user_id, String name, int post_id) {
         idaoFactory.createReplyDAO().addReply(reply,comment_id,user_id,name);
+        updatePostMoificationDate(post_id);
     }
 
     @Override
@@ -89,7 +88,7 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public List<String> uploadImageToCloud(List<MultipartFile> files, int post_id) {
+    public List<String> uploadImageToCloud(MultipartFile files, int post_id) {
         List<String> imageUrls = new ArrayList<String>();
         try {
             imageUrls = amazonClient.uploadImage(files,post_id);
@@ -140,6 +139,41 @@ public class PostService implements IPostService, ISubject {
         for(IObserver observer : observers){
             observer.update(karmaPoints, postIDforNotify);
         }
+    }
+    @Override
+    public void updatePostMoificationDate(int post_id) {
+        idaoFactory.createPostDAO().updatePostModificationDate(post_id);
+    }
 
+    @Override
+    public void updatePostStatus() {
+    List<Post> postList = idaoFactory.createPostDAO().getAllActivePosts();
+    List<Post> inactivePostList = getInactivePosts(postList);
+        for (Post post: inactivePostList){
+        idaoFactory.createPostDAO().updatePostStatus(post);
+        }
+    }
+
+    public List<Post> getInactivePosts(List<Post> postList){
+        List<Post> inactivePostList = new ArrayList<>();
+        for(Post post: postList){
+            Date currentDate = new Date();
+            Date creationDate = post.getCreationDate();
+            Date modificationDate = post.getLastModificationDate();
+
+            long diffInMillies = Math.abs(currentDate.getTime() - creationDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            if(diff>=2){
+                diffInMillies = Math.abs(currentDate.getTime() - modificationDate.getTime());
+                diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                if(diff>=2){
+                    Post inactivePost = new Post();
+                    inactivePost.setId(post.getId());
+                    inactivePost.setAlive(0);
+                    inactivePostList.add(inactivePost);
+                }
+            }
+        }
+        return inactivePostList;
     }
 }

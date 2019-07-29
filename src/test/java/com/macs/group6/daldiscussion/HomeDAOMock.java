@@ -67,7 +67,7 @@ public class HomeDAOMock implements IHomeDAO {
         post1.setPost_description("This is post 1 description");
         post1.setUpVote(12);
         post1.setDownVote(10);
-        post1.setAlive(true);
+        post1.setAlive(1);
         post1.setDate(new Date());
         post1.setGroup(5);
         post1.setComments(commentList);
@@ -91,7 +91,7 @@ public class HomeDAOMock implements IHomeDAO {
         post2.setPost_description("This is post 2 description");
         post2.setUpVote(121);
         post2.setDownVote(102);
-        post2.setAlive(true);
+        post2.setAlive(1);
         post2.setDate(new Date());
         post2.setComments(commentList);
 
@@ -113,7 +113,7 @@ public class HomeDAOMock implements IHomeDAO {
         post3.setPost_description("This is new post description");
         post3.setUpVote(129);
         post3.setDownVote(12);
-        post3.setAlive(true);
+        post3.setAlive(1);
         post3.setDate(new Date());
         post3.setComments(commentList);
 

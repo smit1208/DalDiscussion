@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,9 +57,11 @@ public class PostController {
                            @RequestParam("postDesc") String postDesc,
                            @RequestParam("category") Integer category,
                            @RequestParam("group") Integer group,
-                           @RequestParam("image") List<MultipartFile> file, Model model, HttpSession session) {
+                           @RequestParam(value = "image", required = false) MultipartFile file,
+                           @ModelAttribute ("addPost") Post filePost, Model model, HttpSession session) {
+                           /*@RequestParam("image") List<MultipartFile> file, Model model, HttpSession session) {*/
 
-        Post post = new Post();
+            Post post = new Post();
         int user_id = (Integer) session.getAttribute("id");
         String imageMessage = "";
 
@@ -79,19 +82,16 @@ public class PostController {
             post.setGroup(group);
         }
 
-        List<String> fileNames = new ArrayList<String>();
-        if (null != file && file.size() > 0)
-        {
-            for (MultipartFile multipartFile : file) {
 
-                String fileName = multipartFile.getOriginalFilename();
-                fileNames.add(fileName);
+            if (null != file && file.getSize() > 0)
+            {
+                post.setIsImage(1);
+                postService.createPostWithImage(post,file, user_id);
+
             }
-            postService.createPostWithImage(post,file, user_id);
 
-        }
         else{
-
+            post.setIsImage(0);
             postService.create(post,user_id);
         }
         logger.info("Post added successfully");

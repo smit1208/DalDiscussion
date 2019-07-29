@@ -71,27 +71,26 @@ public class AmazonClient {
         return convFile;
     }
 
-  public List<String> uploadImage(List<MultipartFile> files, int postId)throws AmazonServiceException, SdkClientException, IOException{
+  public List<String> uploadImage(MultipartFile files, int postId)throws AmazonServiceException, SdkClientException, IOException{
 
       List<String> imageUrls = new ArrayList<String>();
-      for (MultipartFile file: files
-           ) {
+
           ObjectMetadata data = new ObjectMetadata();
-          data.setContentType(file.getContentType());
-          data.setContentLength(file.getSize());
+          data.setContentType(files.getContentType());
+          data.setContentLength(files.getSize());
           DESTINATION_FOLDER = "dev/"+postId+"/";
-          String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(file);
+          String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(files);
 
 
           try {
 
-              PutObjectResult putObjectResult =  this.getS3client().putObject(bucketName,destinationPath,file.getInputStream(),data);
+              PutObjectResult putObjectResult =  this.getS3client().putObject(bucketName,destinationPath,files.getInputStream(),data);
               this.getS3client().setObjectAcl(bucketName, destinationPath, CannedAccessControlList.PublicRead);
               imageUrls.add(destinationPath);
           } catch (IOException e) {
               e.printStackTrace();
           }
-      }
+
       return imageUrls;
   }
 
