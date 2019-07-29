@@ -35,7 +35,7 @@
                                         <h4>Add Post</h4>
                                     </div>
                                     <div class="card-body text-info">
-                                        <form method="post" action="/savePost" enctype="multipart/form-data">
+                                        <form method="post" action="/savePost"  enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label>Post Title</label>
                                                 <input type="text" name="postTitle" class="form-control" required><br>
