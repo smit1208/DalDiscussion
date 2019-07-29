@@ -33,7 +33,7 @@ public class HomeServiceTest {
         assertEquals("This is post 1 description",post1.getPost_description());
         assertEquals(12,post1.getUpVote());
         assertEquals(10,post1.getDownVote());
-        assertTrue(post1.isAlive());
+        assertEquals(1,post1.getIsAlive());
         assertNotNull(post1.getDate());
 
         Post post2 = (Post)postMap.get("2");
@@ -42,7 +42,7 @@ public class HomeServiceTest {
         assertEquals("This is post 2 description",post2.getPost_description());
         assertEquals(121,post2.getUpVote());
         assertEquals(102,post2.getDownVote());
-        assertTrue(post2.isAlive());
+        assertEquals(1,post2.getIsAlive());
         assertNotNull(post2.getDate());
 
         Post post3 = (Post)postMap.get("3");
@@ -51,7 +51,7 @@ public class HomeServiceTest {
         assertEquals("This is new post description",post3.getPost_description());
         assertEquals(129,post3.getUpVote());
         assertEquals(12,post3.getDownVote());
-        assertTrue(post3.isAlive());
+        assertEquals(1,post3.getIsAlive());
         assertNotNull(post3.getDate());
 
     }

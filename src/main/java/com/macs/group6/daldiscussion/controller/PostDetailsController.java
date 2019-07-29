@@ -73,6 +73,7 @@ public class PostDetailsController {
         int user_id = (Integer) session.getAttribute("id");
         c.setComment_description(comment);
         iServiceFactory.createPostService().addComment(c, post_id,user_id,name);
+        List<PostImage> images = iServiceFactory.createPostService().getImageByPostId(post_id);
         commentMap = iServiceFactory.createPostService().getComments(post_id);
         post = iServiceFactory.createPostService().getPostById(post_id);
         List<Reply> replyList = new ArrayList<>();
@@ -82,7 +83,7 @@ public class PostDetailsController {
             replyList = iServiceFactory.createPostService().getReplies(commentList.get(i).getId());
             commentList.get(i).setReplies(replyList);
         }
-
+        model.addAttribute("images",iServiceFactory.createPostService().getImageByPostId(post_id));
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
         logger.info("Comment successfully added");
@@ -100,7 +101,7 @@ public class PostDetailsController {
         post = iServiceFactory.createPostService().getPostById(post_id);
         commentMap = iServiceFactory.createPostService().getComments(post_id);
         replies.setReply_description(reply);
-        iServiceFactory.createPostService().addReply(replies, comment_id,user_id,name);
+        iServiceFactory.createPostService().addReply(replies, comment_id,user_id,name, post_id);
         List<Reply> replyList = new ArrayList<>();
         List<Comment> commentList = (List<Comment>) commentMap.get("commentList");
 

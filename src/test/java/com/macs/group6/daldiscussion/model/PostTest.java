@@ -46,8 +46,8 @@ public class PostTest {
 
     @Test
     public void isAlive() {
-        post.setAlive(true);
-        assertEquals(true,post.isAlive());
+        post.setAlive(1);
+        assertEquals(true,post.getIsAlive());
     }
 
 
