@@ -26,9 +26,23 @@ public class PersonalGroupController {
     public String getAllPersonalPosts(Model model, @PathVariable("id") int groupId){
         Map<String,Object> privatePostMap = new HashMap<>();
         privatePostMap = iServiceFactory.createPersonalGroupService().getPrivatePostsByGroupID(groupId);
-        if(groupId == 5){
-            return "redirect:/home";
+        switch (groupId){
+            case 1:
+                model.addAttribute("QA","Quality Assurance");
+                break;
+            case 2:
+                model.addAttribute("Web","Web Development");
+                break;
+            case 3:
+                model.addAttribute("Cloud","Cloud Computing");
+                break;
+            case 4:
+                model.addAttribute("Data","Data Science");
+                break;
+            case 5:
+                return "redirect:/home";
         }
+
         List<Post> posts = (List<Post>) privatePostMap.get("privatePosts");
         model.addAttribute("privatePosts",posts);
         logger.info("Private Posts rendered successfully");

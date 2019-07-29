@@ -73,6 +73,8 @@
 
 
     </script>
+    
+    <style type="text/css" href></style>
 </head>
 
 <body id="page-top">
@@ -84,11 +86,19 @@
     <jsp:include page="sidebar.jsp"></jsp:include>
     <div id="content-wrapper">
 
-        <div class="container-fluid">
+        <div class="container">
 
-            <h3 style="text-align: center">Update profile</h3>
+            
+			<%--this the Update Profile Page div --%>
+            <div class="card shadow p-3 mb-5 bg-white rounded" id="editform" style="text-align: center;margin-top:3%; display:none;">
+           
+           <%-- <h2 style="text-align: center" >Update profile</h2> --%>
+           
+             <div class="card-header text-info" style="text-align:center;margin-bottom:3%" >
+                     <h2><strong>Update profile</strong></h2>        
 
-            <div class="container" id="editform" style="text-align: center; margin-top: 3%; display:none;">
+                </div>
+            
                 <form id="myForm" action="/updateprofile" onsubmit="return validateform()" method="post" name="myform">
 
                     <div class="form-group">
@@ -170,24 +180,36 @@
 
             </div>
 
-            <div class="container" id="info" style="display:block;">
+            <%--this is Profile Page div --%>
+            <div class="card shadow p-3 mb-5 bg-white rounded" id="info" style=" margin-top: 3%;display:block;">
 
-                <div class="form-group text-right">
-                    <input type="button" class="btn btn-primary" value="Edit Profile" onclick="showEditForm()"/>
-                </div>
+					
+<%--class="form-group text-right"--%>
+               
                 <div class="form-group text-center">
                     ${message}
                 </div>
 
-                <p style="text-align: center;"><strong>My Profile</strong></p>
-                <p style="padding-left: 30%; text-align: left;"><strong>Contact Information</strong></p>
+
+                
+                <div class="card-header text-info" style="text-align:center" >
+                     <h2><strong>My Profile</strong></h2>        
+
+                </div>
+                <div style="margine-top:3%">
+                <input type="button" class="btn btn-outline-info shadow-sm p-3 mb-5 rounded" style="display:inline;float:right" value="Edit Profile" onclick="showEditForm()"/>
+                </div>      
+                
+                    
+                 
+                <p class="card-body text-info" style="padding-left: 30%; text-align: left; margin-top: 3%"><strong>Contact Information</strong></p>
                 <p style="padding-left: 34%; text-align: left;">Email Address: ${email}</p>
                 <p style="text-align: center;">&nbsp;</p>
-                <p style="padding-left: 30%; text-align: left;"><strong>General Information:</strong></p>
+                <p class="card-body text-info"style="padding-left: 30%; text-align: left; margin-top: 1%"><strong>General Information:</strong></p>
                 <p style="padding-left: 34%; text-align: left;">First Name: ${firstName}</p>
                 <p style="padding-left: 34%; text-align: left;">Last Name: ${lastName}</p>
                 <p style="padding-left: 34%; text-align: left;">Karma Points: ${karma}</p>
-                <p style="padding-left: 30%; text-align: left;"><strong>Additional Information:</strong></p>
+                <p class="card-body text-info" style="padding-left: 30%; text-align: left; margin-top: 3%"><strong>Additional Information:</strong></p>
 
 
                 <c:if test="${not empty groups}">

@@ -36,7 +36,7 @@
                                         <h4>Add Post</h4>
                                     </div>
                                     <div class="card-body text-info">
-                                        <form:form modelAttribute="addPost" method="post" action="/savePost" enctype="multipart/form-data">
+                                        <form method="post" action="/savePost"  enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label>Post Title</label>
                                                 <input type="text" name="postTitle" class="form-control" required><br>
@@ -70,7 +70,7 @@
                                             <div class="form-group">
                                                 <button class="btn btn-info btn-block" type="submit">POST</button>
                                             </div>
-                                        </form:form>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

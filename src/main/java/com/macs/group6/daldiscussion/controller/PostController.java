@@ -57,11 +57,9 @@ public class PostController {
                            @RequestParam("postDesc") String postDesc,
                            @RequestParam("category") Integer category,
                            @RequestParam("group") Integer group,
-                           @RequestParam(value = "image", required = false) MultipartFile file,
-                           @ModelAttribute ("addPost") Post filePost, Model model, HttpSession session) {
-                           /*@RequestParam("image") List<MultipartFile> file, Model model, HttpSession session) {*/
+                           @RequestParam(value = "image", required = false) MultipartFile file, Model model, HttpSession session) {
 
-            Post post = new Post();
+        Post post = new Post();
         int user_id = (Integer) session.getAttribute("id");
         String imageMessage = "";
 
@@ -81,7 +79,6 @@ public class PostController {
 
             post.setGroup(group);
         }
-
 
             if (null != file && file.getSize() > 0)
             {
