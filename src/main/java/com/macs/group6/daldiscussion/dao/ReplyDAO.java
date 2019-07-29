@@ -1,9 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
-import com.macs.group6.daldiscussion.model.Reply;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.model.Reply;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.sql.CallableStatement;
@@ -21,14 +20,14 @@ public class ReplyDAO implements IReplyDAO {
     Statement statement = null;
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
-    private DatabaseConfig databaseConfig;
+    private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
 
-    private final String ADDREPLY = "{call addReply(?,?,?)}";
+    private final String ADDREPLY = "{call addReply(?,?,?,?)}";
 
-    public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
-        this.databaseConfig = databaseConfig;
-
-    }
+//    public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
+//        this.databaseConfig = databaseConfig;
+//
+//    }
 
     @Override
     public List<Reply> getReplies(int commentId) {
@@ -45,6 +44,7 @@ public class ReplyDAO implements IReplyDAO {
                     Reply reply = new Reply();
                     reply.setId(resultSet.getInt("id"));
                     reply.setReply_description(resultSet.getString("description"));
+                    reply.setReplyBy(resultSet.getString("replyBy"));
                     replyList.add(reply);
                 }
 
@@ -57,13 +57,14 @@ public class ReplyDAO implements IReplyDAO {
         }
 
     @Override
-    public void addReply(Reply reply, int comment_id,int user_id) {
+    public void addReply(Reply reply, int comment_id,int user_id, String name) {
         try{
-            connection = DatabaseConfig.getInstance().loadDatabase();
+            connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDREPLY);
             callableStatement.setString(1,reply.getReply_description());
             callableStatement.setInt(2,user_id);
             callableStatement.setInt(3,comment_id);
+            callableStatement.setString(4,name);
             callableStatement.executeQuery();
         }catch (Exception e){
             logger.error("Error in ReplyDAO while adding replies " +e.getMessage());

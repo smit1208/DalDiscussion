@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,23 +10,58 @@ public class Post {
     private int id;
     private String post_title;
     private String post_description;
-    private Date date;
-    private boolean isAlive;
-    private boolean report;
+    private Date creationDate;
+    private Date lastModificationDate;
+    private int isAlive;
+    private int report;
     private int upVote;
     private int downVote;
     private int category;
     private List<Comment> comments;
     private int groupId;
-    private byte[] file;
+    private int isImage;
     private int user_id;
+    private List<MultipartFile> files;
 
-    public byte[] getFile() {
-        return file;
+
+    public List<MultipartFile> getFiles() {
+        return files;
     }
 
-    public void setFile(byte[] file) {
-        this.file = file;
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastModificationDate() {
+        return lastModificationDate;
+    }
+
+    public void setLastModificationDate(Date lastModificationDate) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
+
+    public int getIsImage() {
+        return isImage;
+    }
+
+    public void setIsImage(int isImage) {
+        this.isImage = isImage;
     }
 
     public int getGroup() {
@@ -76,26 +113,26 @@ public class Post {
     }
 
     public Date getDate() {
-        return date;
+        return creationDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.creationDate = date;
     }
 
-    public boolean isAlive() {
+    public int getIsAlive() {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
+    public void setAlive(int alive) {
         isAlive = alive;
     }
 
-    public boolean isReport() {
+    public int getReport() {
         return report;
     }
 
-    public void setReport(boolean report) {
+    public void setReport(int report) {
         this.report = report;
     }
 

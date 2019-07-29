@@ -1,31 +1,30 @@
 package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.service.HomeService;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.*;
 
 public class HomeServiceTest {
 
-    private HomeDAOMock homeDAOMock;
-    private HomeService homeService;
+    private IHomeDAO homeDAOMock;
 
     @Before
     public void setUp() throws Exception {
         homeDAOMock = new HomeDAOMock();
-        homeService = new HomeService(homeDAOMock);
     }
 
     @Test
     public void getAllPostsTest() {
         Map<String,Object> postMap = new HashMap<>();
-        postMap = homeService.getAllPosts();
-
+        postMap = homeDAOMock.getAllPosts();
 
         Post post1 = (Post) postMap.get("1");
 
@@ -34,8 +33,7 @@ public class HomeServiceTest {
         assertEquals("This is post 1 description",post1.getPost_description());
         assertEquals(12,post1.getUpVote());
         assertEquals(10,post1.getDownVote());
-        assertTrue(post1.isAlive());
-        assertFalse(post1.isReport());
+        assertEquals(1,post1.getIsAlive());
         assertNotNull(post1.getDate());
 
         Post post2 = (Post)postMap.get("2");
@@ -44,8 +42,7 @@ public class HomeServiceTest {
         assertEquals("This is post 2 description",post2.getPost_description());
         assertEquals(121,post2.getUpVote());
         assertEquals(102,post2.getDownVote());
-        assertTrue(post2.isAlive());
-        assertFalse(post2.isReport());
+        assertEquals(1,post2.getIsAlive());
         assertNotNull(post2.getDate());
 
         Post post3 = (Post)postMap.get("3");
@@ -54,9 +51,23 @@ public class HomeServiceTest {
         assertEquals("This is new post description",post3.getPost_description());
         assertEquals(129,post3.getUpVote());
         assertEquals(12,post3.getDownVote());
-        assertTrue(post3.isAlive());
-        assertFalse(post3.isReport());
+        assertEquals(1,post3.getIsAlive());
         assertNotNull(post3.getDate());
 
     }
+
+    @Test
+    public void getSearchedPostTest(){
+        List<Post> postList = new ArrayList<>();
+        postList = homeDAOMock.getSearchedPost("This is Post 1 title");
+        assertNotNull(postList);
+    }
+
+    @Test
+    public void getPostByGroupIdTest(){
+        List<Post> postList = new ArrayList<>();
+        postList = homeDAOMock.getPostsByGroupId(5);
+        assertNotNull(postList);
+    }
+
 }

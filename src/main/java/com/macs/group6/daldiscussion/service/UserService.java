@@ -12,11 +12,20 @@ import java.util.List;
 public class UserService implements IUserService{
 
     private UserDAO userDAO;
+    private static UserService __instance;
 
     @Autowired
     public UserService(@Qualifier("UserDAO") UserDAO userDAO){
         this.userDAO = userDAO;
     }
+
+    public static UserService getInstance() {
+        if (__instance == null) {
+            __instance = new UserService(new UserDAO());
+        }
+        return __instance;
+    }
+
 
 
     @Override

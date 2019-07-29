@@ -46,16 +46,10 @@ public class PostTest {
 
     @Test
     public void isAlive() {
-        post.setAlive(true);
-        assertEquals(true,post.isAlive());
+        post.setAlive(1);
+        assertEquals(1,post.getIsAlive());
     }
 
-
-    @Test
-    public void isReport() {
-       post.setReport(false);
-       assertEquals(false,post.isReport());
-    }
 
     @Test
     public void getUpVote() {

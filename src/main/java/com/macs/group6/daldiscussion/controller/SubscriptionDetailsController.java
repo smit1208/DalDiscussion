@@ -1,11 +1,10 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.factory.IServiceFactory;
+import com.macs.group6.daldiscussion.factory.ServiceFactory;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
-import com.macs.group6.daldiscussion.service.ISubscriptionService;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +18,10 @@ import java.util.List;
 @Controller
 public class SubscriptionDetailsController {
     private static final Logger logger = Logger.getLogger(SubscriptionDetailsController.class);
-    private ISubscriptionService iSubscriptionService;
+    private IServiceFactory iServiceFactory;
 
-
-    @Autowired
-    public SubscriptionDetailsController(@Qualifier("SubscriptionService") ISubscriptionService iSubscriptionService){
-        this.iSubscriptionService = iSubscriptionService;
+    public SubscriptionDetailsController(){
+        iServiceFactory = new ServiceFactory();
     }
 
     @GetMapping("/subscriptionDetails")
@@ -35,7 +32,7 @@ public class SubscriptionDetailsController {
             logger.error("Minimum 1000 Karma points required");
             return Views.SUBSCRIPTIONDETAILS;
         }
-        List<SubscriptionGroup> subscriptionGroupList = iSubscriptionService.getAllSubscriptions();
+        List<SubscriptionGroup> subscriptionGroupList = iServiceFactory.createSubscriptionService().getAllSubscriptions();
         model.addAttribute("subscription",subscriptionGroupList);
         logger.info("All private groups");
         return Views.SUBSCRIPTIONDETAILS;
@@ -45,7 +42,7 @@ public class SubscriptionDetailsController {
     public String addGroupRequest(ModelMap modelMap, HttpSession session, @PathVariable("group_id") int group_id){
         int userid = (Integer) session.getAttribute("id");
         boolean checked = false;
-        List<Subscription> subscriptions = iSubscriptionService.fetchSubscriptionByUserID(userid);
+        List<Subscription> subscriptions = iServiceFactory.createSubscriptionService().fetchSubscriptionByUserID(userid);
         for (int i = 0; i <subscriptions.size() ; i++) {
            int groupId = subscriptions.get(i).getGroup_id();
            if(groupId == group_id){
@@ -58,7 +55,7 @@ public class SubscriptionDetailsController {
             logger.error("Already registered or requested for this group");
             return Views.SUBSCRIPTIONDETAILS;
         }else {
-            iSubscriptionService.addSubscriptionRequest(userid, group_id);
+            iServiceFactory.createSubscriptionService().addSubscriptionRequest(userid, group_id);
             logger.info("Request send to admin for approval");
             return "redirect:/subscription";
         }

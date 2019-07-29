@@ -18,7 +18,6 @@
             <th>Group ID</th>
             <th>Status</th>
             <th>Approve</th>
-            <th>Reject</th>
 
         </tr>
         <c:forEach items="${subscriptions}" var="subscriptions">
@@ -30,17 +29,11 @@
                     <c:out value="${subscriptions.group_id}" />
                 </td>
                 <td>
-                    <c:out value="${subscriptions.status}" />
+                    Pending
                 </td>
                 <td>
                     <form class="form" action="/admin/allRequests/${subscriptions.id}" method="post">
                         <button type="submit" class="btn btn-success">Approve</button>
-
-                    </form>
-                </td>
-                <td>
-                    <form class="form" action="#" method="post">
-                        <button type="submit" class="btn btn-danger">Reject</button>
                     </form>
                 </td>
             </tr>

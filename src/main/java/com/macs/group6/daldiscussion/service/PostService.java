@@ -1,87 +1,67 @@
 package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.AppConfig;
-import com.macs.group6.daldiscussion.dao.*;
+import com.macs.group6.daldiscussion.factory.DAOFactory;
+import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import javax.sql.rowset.serial.SerialException;
+
 import java.io.IOException;
-import java.sql.Blob;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service("PostService")
 
 public class PostService implements IPostService, ISubject {
-
+    private static final String CLOUD_URL = "https://daldiscussion.s3.ca-central-1.amazonaws.com/";
     private static final int maxFileSize = 65535;
+
     private static int karmaPoints;
     private static int commentSize;
     private static int postIDforNotify;
-
-    private IReplyDAO iReplyDAO;
-    private ICommentDAO iCommentDAO;
-    private IPostDAO iPostDAO;
     private ArrayList<IObserver> observers;
-    AppConfig appConfig = AppConfig.getInstance();
+    private AmazonClient amazonClient = AmazonClient.getInstance();
+    private IDAOFactory idaoFactory;
 
-    @Autowired
-    public PostService(@Qualifier("CommentDAO") ICommentDAO iCommentDAO, @Qualifier("PostDAO") IPostDAO iPostDAO, @Qualifier("ReplyDAO")IReplyDAO iReplyDAO ){
-        this.iCommentDAO = iCommentDAO;
-        this.iPostDAO = iPostDAO;
-        this.iReplyDAO = iReplyDAO;
+    public PostService(){
+        idaoFactory = new DAOFactory();
         observers = new ArrayList<IObserver>();
     }
+
     @Override
     public void create(Post post,int user_id) {
-        iPostDAO.create(post,user_id);
+        idaoFactory.createPostDAO().createPost(post, user_id);
     }
 
     @Override
-    public void createPostWithImage(Post post, MultipartFile file) {
-       double size = (double) file.getSize();
-        byte[] imageBytes;
-
-        try{
-            imageBytes = file.getBytes();
-            post.setFile(imageBytes);
-            Blob postImageBlob = new javax.sql.rowset.serial.SerialBlob(imageBytes);
-            iPostDAO.createPostWithImage(post, postImageBlob);
-        } catch (SerialException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void createPostWithImage(Post post, MultipartFile files, int user_id) {
+            int post_id = idaoFactory.createPostDAO().createPost(post, user_id);
+            List<String> imageUrls = uploadImageToCloud(files, post_id);
+            saveImagetoDB(imageUrls, post_id);
     }
 
     @Override
     public Map<String, Object> getComments(int postId) {
-        return iCommentDAO.getComments(postId);
+        return idaoFactory.createCommentDAO().getComments(postId);
     }
 
     @Override
     public List<Reply> getReplies(int commentId) {
-        return iReplyDAO.getReplies(commentId);
+        return idaoFactory.createReplyDAO().getReplies(commentId);
     }
 
     @Override
     public Post getPostById(int postId) {
-        return iCommentDAO.getPostById(postId);
+        return idaoFactory.createCommentDAO().getPostById(postId);
     }
 
     @Override
-    public void addComment(Comment c, int post_id, int user_id) {
-        iCommentDAO.addComment(c,post_id,user_id);
+    public void addComment(Comment c, int post_id, int user_id,String name) {
+        idaoFactory.createCommentDAO().addComment(c,post_id,user_id,name);
         commentSize = getCommentSize(post_id);
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
@@ -89,11 +69,13 @@ public class PostService implements IPostService, ISubject {
             this.postIDforNotify = post_id;
             notifyObserver();
         }
+        updatePostMoificationDate(post_id);
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id) {
-        iReplyDAO.addReply(reply,comment_id,user_id);
+    public void addReply(Reply reply, int comment_id, int user_id, String name, int post_id) {
+        idaoFactory.createReplyDAO().addReply(reply,comment_id,user_id,name);
+        updatePostMoificationDate(post_id);
     }
 
     @Override
@@ -105,9 +87,32 @@ public class PostService implements IPostService, ISubject {
         }
     }
 
+    @Override
+    public List<String> uploadImageToCloud(MultipartFile files, int post_id) {
+        List<String> imageUrls = new ArrayList<String>();
+        try {
+            imageUrls = amazonClient.uploadImage(files,post_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return imageUrls;
+    }
+
+    @Override
+    public void saveImagetoDB(List<String> imageLinks, int post_id) {
+        for(String imageLink: imageLinks){
+            idaoFactory.createPostImageDAO().addImage(CLOUD_URL+imageLink, post_id);
+        }
+    }
+
+    @Override
+    public List<PostImage> getImageByPostId(int post_id) {
+         return idaoFactory.createPostImageDAO().getImageByPostId(post_id);
+    }
+
     private int getCommentSize(int post_id){
         Map<String,Object> commentMap = new HashMap<>();
-        commentMap = iCommentDAO.getComments(post_id);
+        commentMap = idaoFactory.createCommentDAO().getComments(post_id);
         List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
         return commentList.size();
     }
@@ -134,6 +139,41 @@ public class PostService implements IPostService, ISubject {
         for(IObserver observer : observers){
             observer.update(karmaPoints, postIDforNotify);
         }
+    }
+    @Override
+    public void updatePostMoificationDate(int post_id) {
+        idaoFactory.createPostDAO().updatePostModificationDate(post_id);
+    }
 
+    @Override
+    public void updatePostStatus() {
+    List<Post> postList = idaoFactory.createPostDAO().getAllActivePosts();
+    List<Post> inactivePostList = getInactivePosts(postList);
+        for (Post post: inactivePostList){
+        idaoFactory.createPostDAO().updatePostStatus(post);
+        }
+    }
+
+    public List<Post> getInactivePosts(List<Post> postList){
+        List<Post> inactivePostList = new ArrayList<>();
+        for(Post post: postList){
+            Date currentDate = new Date();
+            Date creationDate = post.getCreationDate();
+            Date modificationDate = post.getLastModificationDate();
+
+            long diffInMillies = Math.abs(currentDate.getTime() - creationDate.getTime());
+            long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+            if(diff>=2){
+                diffInMillies = Math.abs(currentDate.getTime() - modificationDate.getTime());
+                diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+                if(diff>=2){
+                    Post inactivePost = new Post();
+                    inactivePost.setId(post.getId());
+                    inactivePost.setAlive(0);
+                    inactivePostList.add(inactivePost);
+                }
+            }
+        }
+        return inactivePostList;
     }
 }

@@ -41,9 +41,9 @@
             </div>
         </div>
     </c:forEach>
-    <p>
+    <h2>
         ${message}
-    </p>
+    </h2>
     <div class="container d-flex flex-row-reverse" style="text-align: center; margin-top: 3%">
         <a href="/home">Back to Dal Discussion</a>
     </div>

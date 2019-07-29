@@ -40,7 +40,6 @@ public class DashboardController {
 
     @RequestMapping("/dashboard/delete/{id}")
     public String deletePost(ModelMap model, @PathVariable("id")int post_id){
-        System.out.println(post_id);
         dashboardService.deletePostById(post_id);
         LOGGER.info("Post deleted successfully");
         return "redirect:/dashboard";

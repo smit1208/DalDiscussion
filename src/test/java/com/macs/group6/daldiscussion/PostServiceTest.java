@@ -1,8 +1,13 @@
 package com.macs.group6.daldiscussion;
 
+import com.macs.group6.daldiscussion.dao.ICommentDAO;
+import com.macs.group6.daldiscussion.dao.IPostDAO;
+import com.macs.group6.daldiscussion.dao.IPostImageDAO;
+import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.model.Comment;
+import com.macs.group6.daldiscussion.model.Post;
+import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
-import com.macs.group6.daldiscussion.service.PostService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,70 +19,64 @@ import java.util.Map;
 import static junit.framework.TestCase.assertEquals;
 
 public class PostServiceTest {
-    private CommentDAOMock commentDAOMock;
-    private PostDAOMock postDAOMock;
-    private ReplyDAOMock replyDAOMock;
-    private PostService postService;
+    private ICommentDAO commentDAOMock;
+    private IPostDAO postDAOMock;
+    private IReplyDAO replyDAOMock;
+    private IPostImageDAO postImageDAOMock;
 
     @Before
     public void setUp() throws Exception {
         commentDAOMock = new CommentDAOMock();
         replyDAOMock = new ReplyDAOMock();
         postDAOMock = new PostDAOMock();
-        postService = new PostService(commentDAOMock,postDAOMock,replyDAOMock);
+        postImageDAOMock = new PostImageDAOMock();
+
     }
 
     @Test
     public void getComments() {
-        Map<String,Object> commentMap = new HashMap<>();
-        commentMap = postService.getComments(1);
+        Map<String, Object> commentMap = new HashMap<>();
+        commentMap = commentDAOMock.getComments(1);
 
 
         Comment comment = (Comment) commentMap.get("1");
-        assertEquals(1,comment.getId());
-        assertEquals("Testing of Comment Service",comment.getComment_description());
-        assertEquals(11,comment.getCommentUp());
-        assertEquals(10,comment.getCommentDown());
+        assertEquals(1, comment.getId());
+        assertEquals("Testing of Comment Service", comment.getComment_description());
+        assertEquals(11, comment.getCommentUp());
+        assertEquals(10, comment.getCommentDown());
 
-        Comment comment1 = (Comment)commentMap.get("2");
-        assertEquals(2,comment1.getId());
-        assertEquals("Testing of Comment Service 1",comment1.getComment_description());
-        assertEquals(12,comment1.getCommentUp());
-        assertEquals(122,comment1.getCommentDown());
+        Comment comment1 = (Comment) commentMap.get("2");
+        assertEquals(2, comment1.getId());
+        assertEquals("Testing of Comment Service 1", comment1.getComment_description());
+        assertEquals(12, comment1.getCommentUp());
+        assertEquals(122, comment1.getCommentDown());
 
     }
 
     @Test
-    public void getReplies(){
+    public void getRepliesTest() {
         List<Reply> replyList = new ArrayList<>();
-        for(Reply reply: replyList){
-            reply = (Reply) postService.getReplies(1);
-            assertEquals(1,reply.getId());
-            assertEquals("Testing for replies",reply.getReply_description());
+        for (Reply reply : replyList) {
+            reply = (Reply) replyDAOMock.getReplies(1);
+            assertEquals(1, reply.getId());
+            assertEquals("Testing for replies", reply.getReply_description());
         }
 
     }
 
-    public static class SubscriptionServiceTest {
-
-        @Test
-        public void getAllSubscriptions() {
-        }
-
-        @Test
-        public void addSubscriptionRequest() {
-        }
-
-        @Test
-        public void fetchSubscriptionByUserID() {
-        }
-
-        @Test
-        public void approvedSubscriptions() {
-        }
-
-        @Test
-        public void fetchSubscriptionByID() {
+    @Test
+    public void getImagesTest() {
+        List<PostImage> images = new ArrayList<>();
+        images = postImageDAOMock.getImageByPostId(1);
+        for (PostImage image : images) {
+            assertEquals(1, image.getId());
+            assertEquals("https://daldiscussion.s3.ca-central-1.amazonaws.com/dev/1/image1", image.getImageLink());
         }
     }
+    @Test
+    public void getPostByIdTest(){
+        Post post = commentDAOMock.getPostById(1);
+        assertEquals(1,post.getId());
+    }
+
 }

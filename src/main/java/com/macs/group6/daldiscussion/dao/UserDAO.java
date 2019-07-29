@@ -4,6 +4,7 @@ import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,10 +15,16 @@ import java.util.List;
 
 /**
  * DAO class for User entity.
+ *
  * @author Kush Rao
  */
 @Component("UserDAO")
 public class UserDAO {
+    Connection connection = null;
+    Statement statement = null;
+    CallableStatement callableStatement = null;
+    ResultSet resultSet = null;
+    PreparedStatement preparedStatement = null;
     private static final Logger logger = Logger.getLogger(UserDAO.class);
 
     private DatabaseConfig databaseConfig;
@@ -52,14 +59,16 @@ public class UserDAO {
 
     private static final String SQL_GET_USER_ID_BY_POST = "SELECT user_id from `post` where id =?";
 
-    private static final String SQL_PROCEDURE_UPDATE_USER_BY_EMAIL=    "{call updateUser(?, ?, ?, ?, ?)}";
-    
-    private static final String SQL_PROCEDURE_FIND_USER_GROUPS=    "SELECT g.id, g.name FROM `groups` g WHERE g.id IN (" +
-    		"	" + 
-    		"	SELECT group_id FROM subscription WHERE user_id = ?);";
+    private static final String SQL_PROCEDURE_UPDATE_USER_BY_EMAIL = "{call updateUser(?, ?, ?, ?, ?)}";
+
+    private static final String SQL_PROCEDURE_FIND_USER_GROUPS = "SELECT g.id, g.name FROM `groups` g WHERE g.id IN (" +
+            "	" +
+            "	SELECT group_id FROM subscription WHERE user_id = ?);";
     private static UserDAO __instance;
+
     /**
      * Singleton implementation of DAO class of User entity
+     *
      * @return a DAO instance of User entity
      */
     public static UserDAO getInstance() {
@@ -71,14 +80,15 @@ public class UserDAO {
 
     /**
      * Delete user row by usercode
+     *
      * @param id an id
      * @return a DAO instance of User entity
      * @throws Exception is thrown when deleting user failed
      */
     public UserDAO delete(int id) throws Exception {
-       /* createIfNotExists();*/
-        Connection connection =  DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
+        /* createIfNotExists();*/
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_DELETE_RECORD);
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
         preparedStatement.close();
@@ -88,17 +98,18 @@ public class UserDAO {
 
     /**
      * Find user row by id
+     *
      * @param id an id
      * @return a NULL if not found, User instance if found
      * @throws Exception is thrown when finding user failed
      */
     public User findById(int id) throws Exception {
-       /* createIfNotExists();*/
+        /* createIfNotExists();*/
 
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID);
         preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             User target = parse(resultSet);
             resultSet.close();
@@ -115,6 +126,7 @@ public class UserDAO {
 
     /**
      * Find user row by email
+     *
      * @param email a email
      * @return a list of User instance found
      * @throws Exception is thrown if finding user failed
@@ -123,10 +135,10 @@ public class UserDAO {
         /*createIfNotExists();*/
         List<User> target = new ArrayList<>();
 
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_EMAIL);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_FIND_BY_EMAIL);
         preparedStatement.setString(1, email);
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             User user = parse(resultSet);
             target.add(user);
@@ -139,6 +151,7 @@ public class UserDAO {
 
     /**
      * Parse result set to User instance
+     *
      * @param resultSet a result set
      * @return a User instance
      * @throws Exception is thrown if parsing failed
@@ -160,17 +173,18 @@ public class UserDAO {
 
     /**
      * Insert or update User instance
+     *
      * @param data a User instance
      * @return a DAO instance of User entity
      * @throws Exception is thrown if upserting failed
      */
     public UserDAO save(User data) throws Exception {
-       /* createIfNotExists();*/
+        /* createIfNotExists();*/
 
-        Connection connection = DatabaseConfig.getInstance().loadDatabase();
-        PreparedStatement preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
+        connection = DatabaseConfig.getInstance().loadDatabase();
+        preparedStatement = connection.prepareStatement(SQL_RECORD_EXISTS);
         preparedStatement.setInt(1, data.getId());
-        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet = preparedStatement.executeQuery();
         if (resultSet.next()) {
             resultSet.close();
             preparedStatement.close();
@@ -179,7 +193,7 @@ public class UserDAO {
             preparedStatement.setString(2, data.getLastName());
             preparedStatement.setString(3, data.getEmail());
             preparedStatement.setString(4, data.getPassword());
-            preparedStatement.setInt(5,data.getId());
+            preparedStatement.setInt(5, data.getId());
             preparedStatement.executeUpdate();
             preparedStatement.close();
             connection.close();
@@ -203,143 +217,112 @@ public class UserDAO {
         return this;
     }
 
-    public int getUserIdByPostID(int postID){
-        Connection connection = null;
-        CallableStatement callableStatement = null;
-        ResultSet resultSet = null;
+    public int getUserIdByPostID(int postID) {
         int userId = 0;
         try {
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(SQL_GET_USER_ID_BY_POST);
-            callableStatement.setInt(1,postID);
+            callableStatement.setInt(1, postID);
             resultSet = callableStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 userId = resultSet.getInt(1);
             }
 
         } catch (SQLException e) {
-            logger.error("Error in UserDAO while fetching user by post id " +e.getMessage());
-        }
-        finally {
-            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
+            logger.error("Error in UserDAO while fetching user by post id " + e.getMessage());
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
         return userId;
     }
 
-   public int getOriginalKarmaPoints(int userId){
-       Connection connection = null;
-       CallableStatement callableStatement = null;
-       ResultSet resultSet = null;
-       int karmaPoints = 0;
-       try {
-           connection = DatabaseConfig.getInstance().loadDatabase();
-           callableStatement = connection.prepareCall(SQL_FETCH_USER_KARMA_POINTS);
-           callableStatement.setInt(1,userId);
-           resultSet = callableStatement.executeQuery();
-           while (resultSet.next()){
-               karmaPoints = resultSet.getInt(1);
-           }
-
-       } catch (SQLException e) {
-           logger.error("Error in UserDAO while fetching user karma points" +e.getMessage());
-       }
-       finally {
-           DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
-       }
-       return karmaPoints;
-   }
-
-    public void updateUserKarmaPoints(int karmaPoints, int postid){
-        int userId = getUserIdByPostID(postid);
-        int originalKarmaPoints = getOriginalKarmaPoints(userId);
-        int updatedKarmaPoints = originalKarmaPoints + karmaPoints;
-        Connection connection = null;
-        CallableStatement callableStatement = null;
-
+    public int getOriginalKarmaPoints(int userId) {
+        int karmaPoints = 0;
         try {
             connection = DatabaseConfig.getInstance().loadDatabase();
-            callableStatement = connection.prepareCall(SQL_UPDATE_KARMA_POINTS);
-            callableStatement.setInt(1,updatedKarmaPoints);
-            callableStatement.setInt(2,userId);
-            int result = callableStatement.executeUpdate();
-            if(result > 0){
-                logger.info(" Karma points updated for user" +userId+" karma points " +updatedKarmaPoints);
+            callableStatement = connection.prepareCall(SQL_FETCH_USER_KARMA_POINTS);
+            callableStatement.setInt(1, userId);
+            resultSet = callableStatement.executeQuery();
+            while (resultSet.next()) {
+                karmaPoints = resultSet.getInt(1);
             }
 
         } catch (SQLException e) {
-            logger.error("Error in UserDAO  in updating karmapoints " +e.getMessage());
+            logger.error("Error in UserDAO while fetching user karma points" + e.getMessage());
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
-        finally {
-            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
-        }
+        return karmaPoints;
     }
-    /**
-     * Create tested user if there is not
-     */
-    public void createTestUsers() {
+
+    public void updateUserKarmaPoints(int karmaPoints, int postid) {
+        int userId = getUserIdByPostID(postid);
+        int originalKarmaPoints = getOriginalKarmaPoints(userId);
+        int updatedKarmaPoints = originalKarmaPoints + karmaPoints;
         try {
-            List<User> userList = findByEmail("support@geetopod.com");
-            if (userList.size() == 0) {
-                User user = new User();
-                user.setPassword("geetopod");
-                user.setEmail("support@geetopod.com");
-                user.setFirstName("geeto");
-                user.setLastName("Pod");
-                save(user);
+            connection = DatabaseConfig.getInstance().loadDatabase();
+            callableStatement = connection.prepareCall(SQL_UPDATE_KARMA_POINTS);
+            callableStatement.setInt(1, updatedKarmaPoints);
+            callableStatement.setInt(2, userId);
+            int result = callableStatement.executeUpdate();
+            if (result > 0) {
+                logger.info(" Karma points updated for user" + userId + " karma points " + updatedKarmaPoints);
             }
-        } catch (Exception e) {
-            logger.error("Error in UserDAO  in creating test user" +e.getMessage());
+
+        } catch (SQLException e) {
+            logger.error("Error in UserDAO  in updating karmapoints " + e.getMessage());
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection, callableStatement, null);
         }
     }
 
-    public boolean updateUser(int id,String fname,String lname,String email, String password) {
+    public boolean updateUser(int id, String fname, String lname, String email, String password) {
 
-   	 Connection connection = DatabaseConfig.getInstance().loadDatabase();
+        connection = DatabaseConfig.getInstance().loadDatabase();
 
-   	 try {
-   	 CallableStatement cStatement = connection.prepareCall(SQL_PROCEDURE_UPDATE_USER_BY_EMAIL);
-   	 cStatement.setInt(1, id);
-   	 cStatement.setString(2, email);
-   	cStatement.setString(3, fname);
-   	cStatement.setString(4, lname);
-   	cStatement.setString(5, password);
-   	cStatement.executeUpdate();
+        try {
+            callableStatement = connection.prepareCall(SQL_PROCEDURE_UPDATE_USER_BY_EMAIL);
+            callableStatement.setInt(1, id);
+            callableStatement.setString(2, email);
+            callableStatement.setString(3, fname);
+            callableStatement.setString(4, lname);
+            callableStatement.setString(5, password);
+            callableStatement.executeUpdate();
+            return true;
 
-   	 System.out.println("profile updated");
-   	 return true;
+        } catch (Exception e) {
+            logger.error("Error in UserDAO  in updating user profile " + e.getMessage());
+            return false;
+        }finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
+        }
 
-   	 }catch (Exception e) {
-         logger.error("Error in UserDAO  in updating user profile " +e.getMessage());
-   		 System.out.println("profile cannot be updated");
-   		 return false;
-		}
+    }
 
-   }
+    public List<String> getUserGroups(int id) {
 
+        List<String> groups = new ArrayList<String>();
+        connection = DatabaseConfig.getInstance().loadDatabase();
 
-   public List<String> getUserGroups(int id) {
+        try {
 
-   	List<String> groups=new ArrayList<String>();
-  	 Connection connection = DatabaseConfig.getInstance().loadDatabase();
+            preparedStatement = connection.prepareStatement(SQL_PROCEDURE_FIND_USER_GROUPS);
+            preparedStatement.setInt(1, id);
 
-  	 try {
+            preparedStatement.execute();
+            ResultSet result = preparedStatement.getResultSet();
 
-    PreparedStatement preparedStatement = connection.prepareStatement(SQL_PROCEDURE_FIND_USER_GROUPS);
-    preparedStatement.setInt(1, id);
+            while (result.next()) {
+                groups.add(result.getString(2));
+            }
 
-    preparedStatement.execute();
-    ResultSet result =preparedStatement.getResultSet();
+            return groups;
 
-  	 while(result.next()) {
-  		 groups.add(result.getString(2));
-  	 }
-
-  	 return groups;
-
-  	 }catch (Exception e) {
-         logger.error("Error in UserDAO in retriving group data" +e.getMessage());
-  		return new ArrayList<String>();
-		}
-
-  }
+        } catch (Exception e) {
+            logger.error("Error in UserDAO in retriving group data" + e.getMessage());
+            return new ArrayList<String>();
+        } finally {
+            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
+        }
+    }
 }
