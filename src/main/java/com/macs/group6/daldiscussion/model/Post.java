@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +10,9 @@ public class Post {
     private int id;
     private String post_title;
     private String post_description;
-    private Date date;
-    private boolean isAlive;
+    private Date creationDate;
+    private Date lastModificationDate;
+    private int isAlive;
     private int report;
     private int upVote;
     private int downVote;
@@ -18,6 +21,40 @@ public class Post {
     private int groupId;
     private int isImage;
     private int user_id;
+    private List<MultipartFile> files;
+
+
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Date getLastModificationDate() {
+        return lastModificationDate;
+    }
+
+    public void setLastModificationDate(Date lastModificationDate) {
+        this.lastModificationDate = lastModificationDate;
+    }
+
+    public int getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
+    }
 
     public int getIsImage() {
         return isImage;
@@ -76,18 +113,18 @@ public class Post {
     }
 
     public Date getDate() {
-        return date;
+        return creationDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.creationDate = date;
     }
 
-    public boolean isAlive() {
+    public int getIsAlive() {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
+    public void setAlive(int alive) {
         isAlive = alive;
     }
 

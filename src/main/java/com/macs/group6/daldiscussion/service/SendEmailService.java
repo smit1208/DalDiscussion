@@ -44,7 +44,7 @@ public class SendEmailService {
             props.put("mail.smtp.auth", "true"); //enable authentication
             props.put("mail.smtp.starttls.enable", "true"); //enable STARTTLS
 
-            //create Authenticator object to pass in Session.getInstance argument
+            //createPost Authenticator object to pass in Session.getInstance argument
             final String smtpUsernameF = request.getSmtpUsername();
             final String smtpPasswordF = request.getSmtpPassword();
             Authenticator auth = new Authenticator() {
