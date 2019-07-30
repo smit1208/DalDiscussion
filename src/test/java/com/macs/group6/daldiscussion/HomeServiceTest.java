@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.model.Post;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,6 +20,11 @@ public class HomeServiceTest {
     @Before
     public void setUp() throws Exception {
         homeDAOMock = new HomeDAOMock();
+    }
+
+    @After
+    public void tearDown() {
+        homeDAOMock =null;
     }
 
     @Test

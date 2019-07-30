@@ -8,6 +8,7 @@ import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,6 +32,14 @@ public class PostServiceTest {
         postDAOMock = new PostDAOMock();
         postImageDAOMock = new PostImageDAOMock();
 
+    }
+
+    @After
+    public void tearDown() {
+        commentDAOMock = null;
+        replyDAOMock =null;
+        postDAOMock =null;
+        postImageDAOMock =null;
     }
 
     @Test
