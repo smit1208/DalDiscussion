@@ -6,6 +6,8 @@ import com.macs.group6.daldiscussion.database.DatabaseConfig;
 
 import com.macs.group6.daldiscussion.entities.User;
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +29,7 @@ public class RegisterDAO implements IRegisterDAO {
     int result = 0;
 
     @Override
-    public int create(User userRegister ) {
+    public int create(User userRegister ) throws DAOException {
 
         connection = DatabaseConfig.getInstance().loadDatabase();
         try {
@@ -42,7 +44,7 @@ public class RegisterDAO implements IRegisterDAO {
             result = callableStatement.executeUpdate();
 
             } catch (SQLException e) {
-            logger.error("Error in RegisterDAO while creating user " +e.getMessage());
+            throw  new DAOException("<RegisterDAO> - CREATE USER - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
@@ -50,7 +52,7 @@ public class RegisterDAO implements IRegisterDAO {
         return result;
     }
 
-    public boolean userExists(User userRegister){
+    public boolean userExists(User userRegister) throws DAOException {
         boolean isPresent = false;
         connection = DatabaseConfig.getInstance().loadDatabase();
         try {
@@ -63,7 +65,7 @@ public class RegisterDAO implements IRegisterDAO {
             }
          }
         catch (SQLException e){
-            logger.error("Error in RegisterDAO while checking if user exists" +e.getMessage());
+            throw  new DAOException("<RegisterDAO> - USER EXITS "+userRegister.getEmail()+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }
 
         finally {

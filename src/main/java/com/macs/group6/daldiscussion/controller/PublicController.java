@@ -158,16 +158,18 @@ public class PublicController {
 
         try {
             request.login(email, password);
+            this.iUserObserver = UserServiceObserver.getInstance(ipostService);
             session.setAttribute("email",email);
             session.setAttribute("firstName",users.get(0).getFirstName());
             session.setAttribute("karma",users.get(0).getKarmaPoints());
             session.setAttribute("id",users.get(0).getId());
 
-            this.iUserObserver = UserServiceObserver.getInstance(ipostService);
+
             return "redirect:/";
         } catch (Exception e) {
             LOGGER.error("Error in log in");
             message = e.getMessage();
+            e.printStackTrace();
         }
         LOGGER.info("Successfully logged in");
         model.addAttribute("message", message);

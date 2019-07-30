@@ -78,7 +78,7 @@ public class AmazonClient {
           ObjectMetadata data = new ObjectMetadata();
           data.setContentType(files.getContentType());
           data.setContentLength(files.getSize());
-          DESTINATION_FOLDER = "dev/"+postId+"/";
+          DESTINATION_FOLDER = "prod/"+postId+"/";
           String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(files);
 
 

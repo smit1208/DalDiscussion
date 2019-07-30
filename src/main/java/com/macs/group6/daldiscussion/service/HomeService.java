@@ -1,5 +1,6 @@
 package com.macs.group6.daldiscussion.service;
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import com.macs.group6.daldiscussion.model.Post;
@@ -18,27 +19,27 @@ public class HomeService implements IHomeService {
        idaoFactory = new DAOFactory();
     }
     @Override
-    public Map<String, Object> getAllPosts() {
+    public Map<String, Object> getAllPosts() throws DAOException {
         return idaoFactory.createHomeDAO().getAllPosts();
     }
 
     @Override
-    public void addReportingPost(int user_id, int post_id) {
+    public void addReportingPost(int user_id, int post_id) throws DAOException {
         idaoFactory.createHomeDAO().addReportingPost(user_id, post_id);
     }
 
     @Override
-    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
+    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) throws DAOException {
         return idaoFactory.createHomeDAO().fetchReportedPostByUserId(reportedUser_id);
     }
 
     @Override
-    public List<Post> getSearchedPost(String search) {
+    public List<Post> getSearchedPost(String search) throws DAOException {
         return idaoFactory.createHomeDAO().getSearchedPost(search);
     }
 
     @Override
-    public List<Post> getPostsByGroupId(int group_id) {
+    public List<Post> getPostsByGroupId(int group_id) throws DAOException {
         return idaoFactory.createHomeDAO().getPostsByGroupId(group_id);
     }
 }

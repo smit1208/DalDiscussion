@@ -1,14 +1,13 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Reply;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,13 +23,9 @@ public class ReplyDAO implements IReplyDAO {
 
     private final String ADDREPLY = "{call addReply(?,?,?,?)}";
 
-//    public ReplyDAO(@Qualifier("DatabaseConfig")DatabaseConfig databaseConfig){
-//        this.databaseConfig = databaseConfig;
-//
-//    }
 
     @Override
-    public List<Reply> getReplies(int commentId) {
+    public List<Reply> getReplies(int commentId) throws DAOException {
 
             List<Reply> replyList = new ArrayList<>();
 
@@ -48,8 +43,8 @@ public class ReplyDAO implements IReplyDAO {
                     replyList.add(reply);
                 }
 
-            }catch (Exception e){
-                logger.error("Error in ReplyDAO while fetching replies " +e.getMessage());
+            }catch (SQLException e){
+                throw  new DAOException("<ReplyDAO> - GET ALL REPLIES FOR COMMENT"+commentId+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
             }finally {
                 DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
             }
@@ -57,7 +52,7 @@ public class ReplyDAO implements IReplyDAO {
         }
 
     @Override
-    public void addReply(Reply reply, int comment_id,int user_id, String name) {
+    public void addReply(Reply reply, int comment_id,int user_id, String name) throws DAOException {
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDREPLY);
@@ -66,8 +61,8 @@ public class ReplyDAO implements IReplyDAO {
             callableStatement.setInt(3,comment_id);
             callableStatement.setString(4,name);
             callableStatement.executeQuery();
-        }catch (Exception e){
-            logger.error("Error in ReplyDAO while adding replies " +e.getMessage());
+    }catch (SQLException e){
+            throw  new DAOException("<ReplyDAO> - ADD REPLY FOR COMMENT"+comment_id+" - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }

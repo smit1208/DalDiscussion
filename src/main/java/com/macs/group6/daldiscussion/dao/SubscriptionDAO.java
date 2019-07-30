@@ -1,6 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import org.apache.log4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +25,6 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     CallableStatement callableStatement = null;
     ResultSet resultSet = null;
 
-//    public SubscriptionDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig){
-//        this.databaseConfig = databaseConfig;
-//    }
     private static final String GETSUBSCRIPTIONGROUPS = "{call getSubscriptionGroupList()}";
     private static final String ADDSUBSCRIPTIONREQUEST = "{call addSubscriptionRequest(?,?,?)}";
     private static final String FETCHSUBSCRIPTIONBYUSERID = "{call fetchSubscriptionByUserId(?)}";
@@ -32,7 +32,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     private static final String FETCHSUBSCRIPTIONBYID = "{call fetchSubscriptionByID(?)}";
 
     @Override
-    public List<SubscriptionGroup> getAllSubscription() {
+    public List<SubscriptionGroup> getAllSubscription() throws DAOException {
         List<SubscriptionGroup> subscriptionGroupList = new ArrayList<>();
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -47,8 +47,8 @@ public class SubscriptionDAO implements ISubscriptionDAO {
 
                 subscriptionGroupList.add(subscriptionGroup);
             }
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while fetching subscriptions " +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - GET ALL SUBSCRIPTION - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -56,7 +56,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     }
 
     @Override
-    public void addSubscriptionRequest(int user_id, int group_id) {
+    public void addSubscriptionRequest(int user_id, int group_id) throws DAOException {
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDSUBSCRIPTIONREQUEST);
@@ -64,14 +64,15 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             callableStatement.setInt(2,user_id);
             callableStatement.setInt(3,group_id);
             callableStatement.executeQuery();
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while adding subscriptions " +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - ADD SUBSCRIPTION FOR USER"+user_id+" FOR GROUP "
+                    +group_id+"- ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
     @Override
-    public void addDefaultSubscriptionRequest(int user_id) {
+    public void addDefaultSubscriptionRequest(int user_id) throws DAOException {
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDSUBSCRIPTIONREQUEST);
@@ -79,14 +80,14 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             callableStatement.setInt(2,user_id);
             callableStatement.setInt(3,5);// Group 5 is general discussion , all users have access to it
             callableStatement.executeQuery();
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while adding default subscriptions " +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - GET DEFAULT SUBSCRIPTION - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
     }
     @Override
-    public List<Subscription> fetchSubscriptionByUserID(int user_id) {
+    public List<Subscription> fetchSubscriptionByUserID(int user_id) throws DAOException {
         List<Subscription> subscriptions = new ArrayList<>();
         try{
             connection = this.databaseConfig.loadDatabase();
@@ -101,8 +102,8 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscription.setGroup_id(resultSet.getInt("group_id"));
                 subscriptions.add(subscription);
             }
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while fetching subscriptions by user id " +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY USERID "+user_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -110,7 +111,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     }
 
     @Override
-    public Map<String,Object> approvedSubscriptions(int user_id) {
+    public Map<String,Object> approvedSubscriptions(int user_id) throws DAOException {
         Map<String,Object> approvedSubscriptionMap = new HashMap<>();
         List<Subscription> subscriptions = new ArrayList<>();
         try{
@@ -127,8 +128,8 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscriptions.add(subscription);
             }
             approvedSubscriptionMap.put("displayApprovedSubscriptions",subscriptions);
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while fetching approved subscriptions " +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - FETCH ALL APPROVED SUBSCRIPTIONS FOR USER "+user_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -136,7 +137,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
     }
 
     @Override
-    public Subscription fetchSubscriptionByID(int subscription_id) {
+    public Subscription fetchSubscriptionByID(int subscription_id) throws DAOException {
         Subscription subscription = new Subscription();
         try{
             connection = this.databaseConfig.loadDatabase();
@@ -151,8 +152,8 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscription.setGroup_id(resultSet.getInt("group_id"));
 
             }
-        }catch (Exception e){
-            logger.error("Error in SubscriptionDAO while fetching subscriptions by id" +e.getMessage());
+        }catch (SQLException e){
+            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY ID "+subscription_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
