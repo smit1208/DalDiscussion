@@ -1,6 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.ReportedPost;
 import org.springframework.stereotype.Component;
@@ -26,14 +28,9 @@ public class HomeDAO implements IHomeDAO {
     private static final String GETSEARCHPOST = "{call getSearchPost(?)}";
     private static final String GETPOSTBYGROUPID = "{call getPostsByGroupId(?)}";
 
-//    @Autowired
-//    public HomeDAO(@Qualifier("DatabaseConfig") DatabaseConfig databaseConfig) {
-//        this.databaseConfig = databaseConfig;
-//
-//    }
 
     @Override
-    public Map<String, Object> getAllPosts() {
+    public Map<String, Object> getAllPosts() throws DAOException {
         Map<String, Object> postMap = new HashMap<>();
 
         try {
@@ -51,7 +48,7 @@ public class HomeDAO implements IHomeDAO {
             }
             postMap.put("posts", posts);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new DAOException("<HomeDAO> - GET ALL POSTS - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -59,7 +56,7 @@ public class HomeDAO implements IHomeDAO {
     }
 
     @Override
-    public void addReportingPost(int user_id, int post_id) {
+    public void addReportingPost(int user_id, int post_id) throws DAOException {
         try {
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(ADDREPORTINGPOST);
@@ -67,14 +64,14 @@ public class HomeDAO implements IHomeDAO {
             callableStatement.setInt(2, post_id);
             resultSet = callableStatement.executeQuery();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new DAOException("<HomeDAO> - ADD REPORTED POST - ERROR", e, ErrorCode.INSERT_INTO_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
     }
 
     @Override
-    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) {
+    public List<ReportedPost> fetchReportedPostByUserId(int reportedUser_id) throws DAOException {
         List<ReportedPost> reportedPosts = new ArrayList<>();
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -89,7 +86,7 @@ public class HomeDAO implements IHomeDAO {
                 reportedPosts.add(reportedPost);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new DAOException("<HomeDAO> - GET ALL REPOSTED POSTS BY "+reportedUser_id+"- ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -97,7 +94,7 @@ public class HomeDAO implements IHomeDAO {
     }
 
     @Override
-    public List<Post> getSearchedPost(String search) {
+    public List<Post> getSearchedPost(String search) throws DAOException {
         List<Post> posts = new ArrayList<>();
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -115,7 +112,7 @@ public class HomeDAO implements IHomeDAO {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new DAOException("<HomeDAO> - GET SEARCHED POSTS "+search+" - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -123,7 +120,7 @@ public class HomeDAO implements IHomeDAO {
     }
 
     @Override
-    public List<Post> getPostsByGroupId(int group_id) {
+    public List<Post> getPostsByGroupId(int group_id) throws DAOException {
         List<Post> posts = new ArrayList<>();
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -140,7 +137,7 @@ public class HomeDAO implements IHomeDAO {
                 posts.add(post);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new DAOException("<HomeDAO> - GET ALL POSTS BY GROUP ID "+group_id+"- ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

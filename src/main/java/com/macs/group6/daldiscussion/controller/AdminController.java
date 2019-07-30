@@ -1,6 +1,7 @@
 package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.entities.User;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.IServiceFactory;
 import com.macs.group6.daldiscussion.factory.ServiceFactory;
 import com.macs.group6.daldiscussion.model.Post;
@@ -36,7 +37,13 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/allRequests", method = RequestMethod.GET)
     public String fetchAllSubscriptionRequests(Model model) {
-        List<Subscription> subscriptions = iServiceFactory.createAdminService().fetchAllSubscriptionRequests();
+        List<Subscription> subscriptions = null;
+        try {
+            subscriptions = iServiceFactory.createAdminService().fetchAllSubscriptionRequests();
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         model.addAttribute("subscriptions", subscriptions);
         logger.info("Pending requests list fetched");
         return Views.PENDINGREQUESTADMIN;
@@ -44,11 +51,23 @@ public class AdminController {
 
     @RequestMapping(value = "/admin/allRequests/{id}", method = RequestMethod.POST)
     public String approveRequest(@PathVariable("id") int subscription_id) {
-        Subscription subscription = iServiceFactory.createSubscriptionService().fetchSubscriptionByID(subscription_id);
+        Subscription subscription = null;
+        try {
+            subscription = iServiceFactory.createSubscriptionService().fetchSubscriptionByID(subscription_id);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         int user_id = subscription.getUser_id();
         User user = iUserService.getUserById(user_id);
         String email = user.getEmail();
-        iServiceFactory.createAdminService().approveSubscription(subscription_id);
+        try {
+            iServiceFactory.createAdminService().approveSubscription(subscription_id);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+
+            return "customError";
+        }
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(email);
         simpleMailMessage.setSubject("Approval to your Subscription request");
@@ -61,7 +80,12 @@ public class AdminController {
     @RequestMapping(value = "/admin/reported", method = RequestMethod.GET)
     public String getPostsByMaxReports(Model model) {
         Map<String, Object> reportedMap = new HashMap<>();
-        reportedMap = iServiceFactory.createAdminService().getPostsByMaxReports();
+        try {
+            reportedMap = iServiceFactory.createAdminService().getPostsByMaxReports();
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         List<Post> posts = (List<Post>) reportedMap.get("post");
         List<User> users = (List<User>) reportedMap.get("user");
         model.addAttribute("userList", users);

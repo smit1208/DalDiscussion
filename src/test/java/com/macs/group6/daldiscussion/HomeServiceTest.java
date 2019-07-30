@@ -1,6 +1,7 @@
 package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.IHomeDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
 import org.junit.After;
 import org.junit.Before;
@@ -28,7 +29,7 @@ public class HomeServiceTest {
     }
 
     @Test
-    public void getAllPostsTest() {
+    public void getAllPostsTest() throws DAOException {
         Map<String,Object> postMap = new HashMap<>();
         postMap = homeDAOMock.getAllPosts();
 
@@ -63,14 +64,14 @@ public class HomeServiceTest {
     }
 
     @Test
-    public void getSearchedPostTest(){
+    public void getSearchedPostTest() throws DAOException {
         List<Post> postList = new ArrayList<>();
         postList = homeDAOMock.getSearchedPost("This is Post 1 title");
         assertNotNull(postList);
     }
 
     @Test
-    public void getPostByGroupIdTest(){
+    public void getPostByGroupIdTest() throws DAOException {
         List<Post> postList = new ArrayList<>();
         postList = homeDAOMock.getPostsByGroupId(5);
         assertNotNull(postList);

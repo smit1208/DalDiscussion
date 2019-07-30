@@ -1,6 +1,7 @@
 package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.ISubscriptionDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import org.junit.After;
@@ -31,7 +32,7 @@ public class SubscriptionServiceTest {
 
     private List<SubscriptionGroup> subscriptionGroupList = new ArrayList<>();
     @Test
-    public void getAllSubscriptions() {
+    public void getAllSubscriptions() throws DAOException {
 
 
         for (int i = 0; i < subscriptionGroupList.size() ; i++) {
@@ -48,7 +49,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void fetchSubscriptionByUserID() {
+    public void fetchSubscriptionByUserID() throws DAOException {
         List<Subscription> subscriptions = new ArrayList<>();
         subscriptions = subscriptionDAOMock.fetchSubscriptionByUserID(1);
         assertEquals("Quality Assurance",subscriptions.get(0).getGroupName());
@@ -56,7 +57,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void approvedSubscriptions() {
+    public void approvedSubscriptions() throws DAOException {
         Map<String, Object> subscriptionMap = new HashMap<>();
         subscriptionMap = subscriptionDAOMock.approvedSubscriptions(1);
         List<Subscription> subscriptionList = (List<Subscription>) subscriptionMap.get("approved");
@@ -65,7 +66,7 @@ public class SubscriptionServiceTest {
     }
 
     @Test
-    public void fetchSubscriptionByID() {
+    public void fetchSubscriptionByID() throws DAOException {
         Subscription subscription = new Subscription();
         subscription = subscriptionDAOMock.fetchSubscriptionByID(2);
         assertEquals(12,subscription.getUser_id());

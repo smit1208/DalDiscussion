@@ -1,5 +1,6 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.IServiceFactory;
 import com.macs.group6.daldiscussion.factory.ServiceFactory;
 import com.macs.group6.daldiscussion.model.Subscription;
@@ -25,10 +26,21 @@ public class SubscriptionController {
     public String Subscription(Model model, HttpSession session){
         Map<String,Object> displaySubMap = new HashMap<>();
         int userID = (Integer)session.getAttribute("id");
-        displaySubMap = iServiceFactory.createSubscriptionService().approvedSubscriptions(userID);
+        try {
+            displaySubMap = iServiceFactory.createSubscriptionService().approvedSubscriptions(userID);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
-        List<Subscription> subscriptionGroupList = iServiceFactory.createSubscriptionService().fetchSubscriptionByUserID(userID);
+        List<Subscription> subscriptionGroupList = null;
+        try {
+            subscriptionGroupList = iServiceFactory.createSubscriptionService().fetchSubscriptionByUserID(userID);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         String message="";
         if(subscriptionGroupList.size() == 4){
             message = "max subscriptions reached";

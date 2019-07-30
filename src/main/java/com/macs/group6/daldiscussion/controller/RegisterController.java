@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.controller;
 
 import com.macs.group6.daldiscussion.Validator.RegistrationValidator;
 import com.macs.group6.daldiscussion.entities.User;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.service.IRegisterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,16 +52,21 @@ public class RegisterController {
             String message = "";
 
 
-            if (registerService.userExists(userReg)) {
-                logger.error("User already exists");
-                model.addAttribute("errorMessage","User already exists");
-                message = "Email already present! Register with another email id";
-                model.addAttribute("message", message);
-                return Views.REGISTER;
-            }
+            try {
+                if (registerService.userExists(userReg)) {
+                    logger.error("User already exists");
+                    model.addAttribute("errorMessage","User already exists");
+                    message = "Email already present! Register with another email id";
+                    model.addAttribute("message", message);
+                    return Views.REGISTER;
+                }
 
-            else {
-                registerService.create(userReg);
+                else {
+                    registerService.create(userReg);
+                }
+            } catch (DAOException e) {
+                logger.error(e.getMessage());
+                return "customError";
             }
             logger.info("User registered successfully!");
         }

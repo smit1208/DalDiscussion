@@ -1,5 +1,6 @@
 package com.macs.group6.daldiscussion.controller;
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.IServiceFactory;
 import com.macs.group6.daldiscussion.factory.ServiceFactory;
 import com.macs.group6.daldiscussion.model.Post;
@@ -25,7 +26,12 @@ public class PersonalGroupController {
     @RequestMapping(value = "/subscriptionDetails/{id}", method = RequestMethod.GET)
     public String getAllPersonalPosts(Model model, @PathVariable("id") int groupId){
         Map<String,Object> privatePostMap = new HashMap<>();
-        privatePostMap = iServiceFactory.createPersonalGroupService().getPrivatePostsByGroupID(groupId);
+        try {
+            privatePostMap = iServiceFactory.createPersonalGroupService().getPrivatePostsByGroupID(groupId);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         switch (groupId){
             case 1:
                 model.addAttribute("QA","Quality Assurance");

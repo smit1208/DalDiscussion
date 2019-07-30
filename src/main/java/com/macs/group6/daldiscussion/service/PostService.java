@@ -1,16 +1,21 @@
 package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.AppConfig;
+import com.macs.group6.daldiscussion.dao.UserDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -33,47 +38,52 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public void create(Post post,int user_id) {
-        idaoFactory.createPostDAO().createPost(post, user_id);
+    public void create(Post post)throws DAOException {
+        idaoFactory.createPostDAO().createPost(post);
     }
 
     @Override
-    public void createPostWithImage(Post post, MultipartFile files, int user_id) {
-            int post_id = idaoFactory.createPostDAO().createPost(post, user_id);
+    public void createPostWithImage(Post post, MultipartFile files, int user_id) throws DAOException {
+            int post_id = idaoFactory.createPostDAO().createPost(post);
             List<String> imageUrls = uploadImageToCloud(files, post_id);
-            saveImagetoDB(imageUrls, post_id);
+            if(imageUrls.size()>0){
+                saveImagetoDB(imageUrls, post_id);
+            }
+
     }
 
     @Override
-    public Map<String, Object> getComments(int postId) {
+    public Map<String, Object> getComments(int postId) throws DAOException {
         return idaoFactory.createCommentDAO().getComments(postId);
     }
 
     @Override
-    public List<Reply> getReplies(int commentId) {
+    public List<Reply> getReplies(int commentId) throws DAOException {
         return idaoFactory.createReplyDAO().getReplies(commentId);
     }
 
     @Override
-    public Post getPostById(int postId) {
+    public Post getPostById(int postId) throws DAOException {
         return idaoFactory.createCommentDAO().getPostById(postId);
     }
 
     @Override
-    public void addComment(Comment c, int post_id, int user_id,String name) {
+    public void addComment(Comment c, int post_id, int user_id,String name) throws DAOException {
         idaoFactory.createCommentDAO().addComment(c,post_id,user_id,name);
+        System.out.println();
         commentSize = getCommentSize(post_id);
         int limit = AppConfig.getInstance().get_postCommentSize();
         if(isLimitReached(commentSize,limit)){
             this.karmaPoints = 100;
             this.postIDforNotify = post_id;
+            UserDAO.getInstance().updateUserKarmaPoints(karmaPoints, postIDforNotify);
             notifyObserver();
         }
         updatePostMoificationDate(post_id);
     }
 
     @Override
-    public void addReply(Reply reply, int comment_id, int user_id, String name, int post_id) {
+    public void addReply(Reply reply, int comment_id, int user_id, String name, int post_id) throws DAOException {
         idaoFactory.createReplyDAO().addReply(reply,comment_id,user_id,name);
         updatePostMoificationDate(post_id);
     }
@@ -88,29 +98,30 @@ public class PostService implements IPostService, ISubject {
     }
 
     @Override
-    public List<String> uploadImageToCloud(MultipartFile files, int post_id) {
+    public List<String> uploadImageToCloud(MultipartFile files, int post_id) throws DAOException {
         List<String> imageUrls = new ArrayList<String>();
+
         try {
             imageUrls = amazonClient.uploadImage(files,post_id);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new DAOException("AMAZON CLIENT - FILE UPLOAD ERROR", e, ErrorCode.FILE_IO_ERROR);
         }
         return imageUrls;
     }
 
     @Override
-    public void saveImagetoDB(List<String> imageLinks, int post_id) {
+    public void saveImagetoDB(List<String> imageLinks, int post_id) throws DAOException {
         for(String imageLink: imageLinks){
             idaoFactory.createPostImageDAO().addImage(CLOUD_URL+imageLink, post_id);
         }
     }
 
     @Override
-    public List<PostImage> getImageByPostId(int post_id) {
+    public List<PostImage> getImageByPostId(int post_id) throws DAOException {
          return idaoFactory.createPostImageDAO().getImageByPostId(post_id);
     }
 
-    private int getCommentSize(int post_id){
+    private int getCommentSize(int post_id) throws DAOException {
         Map<String,Object> commentMap = new HashMap<>();
         commentMap = idaoFactory.createCommentDAO().getComments(post_id);
         List<Comment> commentList = ( List<Comment>) commentMap.get("commentList");
@@ -141,17 +152,28 @@ public class PostService implements IPostService, ISubject {
         }
     }
     @Override
-    public void updatePostMoificationDate(int post_id) {
-        idaoFactory.createPostDAO().updatePostModificationDate(post_id);
+    public void updatePostMoificationDate (int post_id) throws DAOException {
+            idaoFactory.createPostDAO().updatePostModificationDate(post_id);
     }
 
     @Override
-    public void updatePostStatus() {
-    List<Post> postList = idaoFactory.createPostDAO().getAllActivePosts();
-    List<Post> inactivePostList = getInactivePosts(postList);
-        for (Post post: inactivePostList){
-        idaoFactory.createPostDAO().updatePostStatus(post);
+    public void updatePostStatus() throws DAOException {
+    List<Post> postList = getAllActivePosts();
+        List<Post> inactivePostList = new ArrayList<>();
+        if(postList.size() > 0){
+            inactivePostList = getInactivePosts(postList);
         }
+        if(inactivePostList.size()>0){
+            for (Post post: inactivePostList){
+                idaoFactory.createPostDAO().updatePostStatus(post);
+            }
+        }
+
+    }
+
+    @Override
+    public List<Post> getAllActivePosts() throws DAOException {
+        return idaoFactory.createPostDAO().getAllActivePosts();
     }
 
     public List<Post> getInactivePosts(List<Post> postList){

@@ -218,13 +218,14 @@ public class UserDAO {
     }
 
     public int getUserIdByPostID(int postID) {
-        int userId = 0;
+        int userId=0;
         try {
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(SQL_GET_USER_ID_BY_POST);
             callableStatement.setInt(1, postID);
             resultSet = callableStatement.executeQuery();
             while (resultSet.next()) {
+                System.out.println(userId);
                 userId = resultSet.getInt(1);
             }
 
