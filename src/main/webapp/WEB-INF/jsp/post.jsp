@@ -39,12 +39,11 @@
                                         <form method="post" action="/savePost"  enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <label>Post Title</label>
-                                                <input type="text" name="postTitle" class="form-control" required><br>
+                                                <input id = "postTitle" type="text" name="postTitle" class="form-control" required><br>
                                             </div>
                                             <div class="form-group">
                                                 <label>Post Description</label>
-                                                <textarea rows="4" cols="50" name="postDesc" class="form-control"
-                                                          required> </textarea>
+                                                <textarea rows="4" cols="50" name="postDesc" class="form-control"required></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Category</label>
@@ -81,6 +80,17 @@
         </div>
     </div>
     <script src="../js/sb-admin.min.js"></script>
+        <script>
+            $("input").on("keypress", function(e) {
+                if (e.which === 32 && !this.value.length)
+                    e.preventDefault();
+            });
+
+            $("textarea").on("keypress", function(e) {
+                if (e.which === 32 && !this.value.length)
+                    e.preventDefault();
+            });
+        </script>
 </div>
 
 </body>

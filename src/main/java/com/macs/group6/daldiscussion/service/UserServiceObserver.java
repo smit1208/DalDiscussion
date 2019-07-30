@@ -1,8 +1,10 @@
 package com.macs.group6.daldiscussion.service;
 import com.macs.group6.daldiscussion.dao.*;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class UserServiceObserver implements IObserver{
+    private static final Logger logger = Logger.getLogger(UserServiceObserver.class);
     private static IObserver iUserServiceObserver;
 
     private UserDAO userDAO;
@@ -20,9 +22,10 @@ public class UserServiceObserver implements IObserver{
         this.postUpdates = ipostService;
         if(postUpdates!=null){
             postUpdates.attach(this);
+            System.out.println("here");
         }
         else {
-            System.out.println("No post service");
+            logger.error("No post service");
         }
     }
 
@@ -33,5 +36,6 @@ public class UserServiceObserver implements IObserver{
     @Override
     public void update(int karmaPoints, int userID) {
         UserDAO.getInstance().updateUserKarmaPoints(karmaPoints, userID);
+
     }
 }
