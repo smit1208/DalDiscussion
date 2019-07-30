@@ -3,6 +3,7 @@ package com.macs.group6.daldiscussion.controller;
 //Multi part file referenced from
 //https://www.baeldung.com/spring-file-upload
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.service.AmazonClient;
@@ -46,7 +47,12 @@ public class PostController {
         int userID = (Integer)session.getAttribute("id");
         String name = (String) session.getAttribute("firstName");
         model.addAttribute("name",name);
-        displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
+        try {
+            displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+            return "customError";
+        }
         List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
         return Views.VIEWPOST;
@@ -61,38 +67,43 @@ public class PostController {
 
         Post post = new Post();
         int user_id = (Integer) session.getAttribute("id");
+        post.setUser_id(user_id);
         String imageMessage = "";
 
         if(postTitle!=null && postTitle.length()>0){
-
             post.setPost_title(postTitle);
         }
         if(postDesc!=null && postDesc.length()>0 ){
-
             post.setPost_description(postDesc);
         }
         if(category!=null && category>0){
-
             post.setCategory(category);
         }
         if(group!=null){
-
             post.setGroup(group);
         }
-
             if (null != file && file.getSize() > 0)
             {
                 post.setIsImage(1);
-                postService.createPostWithImage(post,file, user_id);
+                try{
+                    postService.createPostWithImage(post,file, user_id);
+                } catch (DAOException e) {
+
+                    logger.error(e.getMessage());
+                    return "customError";
+                }
 
             }
-
         else{
             post.setIsImage(0);
-            postService.create(post,user_id);
-        }
+                try {
+                    postService.create(post);
+                } catch (DAOException e) {
+                    logger.error(e.getMessage());
+                    return "customError";
+                }
+            }
         logger.info("Post added successfully");
         return "redirect:/home";
     }
-
 }

@@ -98,5 +98,11 @@
 
 <!-- Custom scripts for all pages-->
 <script src="../js/sb-admin.min.js"></script>
+<script>
+    $("input").on("keypress", function(e) {
+        if (e.which === 32 && !this.value.length)
+            e.preventDefault();
+    });
+</script>
 </body>
 </html>

@@ -4,6 +4,8 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,14 +35,14 @@ public class PostDAO implements IPostDAO {
     ResultSet resultSet = null;
 
     @Override
-    public int createPost(Post post, int user_id) {
+    public int createPost(Post post) throws DAOException{
     int id=0;
         try{
             connection = this.databaseConfig.loadDatabase();
             callableStatement = connection.prepareCall(SQL_INSERT_POST);
             callableStatement.setString(1,post.getPost_title());
             callableStatement.setString(2, post.getPost_description());
-            callableStatement.setInt(3,user_id);
+            callableStatement.setInt(3,post.getUser_id());
             callableStatement.setInt(4,post.getCategory());
             callableStatement.setInt(5,post.getGroup());
             callableStatement.setInt(6,post.getIsImage());
@@ -55,8 +58,9 @@ public class PostDAO implements IPostDAO {
 
             logger.info("createPost post successful! rows updated "+result);
 
-        }catch (Exception e) {
-            logger.error("Error in PostDAO while creating post " +e.getMessage());
+        }catch (SQLException e) {
+           throw  new DAOException("<PostDAO> "+post.getUser_id()+"- CREATE POST - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
+
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -65,7 +69,7 @@ public class PostDAO implements IPostDAO {
 
 
     @Override
-    public List<Post> getAllActivePosts() {
+    public List<Post> getAllActivePosts() throws DAOException {
         List<Post> postList = new ArrayList<>();
         try {
             connection = this.databaseConfig.loadDatabase();
@@ -80,8 +84,8 @@ public class PostDAO implements IPostDAO {
                 postList.add(post);
             }
 
-        } catch (Exception e) {
-            logger.error("Error in PostDAO while getting all post " +e.getMessage());
+        } catch (SQLException e) {
+            throw  new DAOException("GET ALL ACTIVE POST - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -89,7 +93,7 @@ public class PostDAO implements IPostDAO {
     }
 
     @Override
-    public void updatePostModificationDate(int post_id) {
+    public void updatePostModificationDate(int post_id) throws DAOException {
         try{
             connection = DatabaseConfig.getInstance().loadDatabase();
             callableStatement = connection.prepareCall(UPDATEPOSTMODDATE);
@@ -98,15 +102,15 @@ public class PostDAO implements IPostDAO {
             callableStatement.executeQuery();
             logger.info("update post successful! rows updated ");
 
-        }catch (Exception e) {
-            logger.error("Error in PostDAO while updating post modification date" +e.getMessage());
+        }catch (SQLException e) {
+            throw  new DAOException(post_id+" - UPDATE POST MODIFICATION DATE - ERROR", e, ErrorCode.UPDATE_RECORD_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }
     }
 
     @Override
-    public void updatePostStatus(Post post) {
+    public void updatePostStatus(Post post) throws DAOException {
         try{
 
             connection = DatabaseConfig.getInstance().loadDatabase();
@@ -117,8 +121,7 @@ public class PostDAO implements IPostDAO {
             logger.info("update post successful! rows updated ");
 
         }catch (Exception e) {
-            e.printStackTrace();
-            logger.error("Error in PostDAO while updating post modification date" +e.getMessage());
+            throw  new DAOException(post.getId()+" - UPDATE POST STATUS - ERROR", e, ErrorCode.UPDATE_RECORD_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
         }

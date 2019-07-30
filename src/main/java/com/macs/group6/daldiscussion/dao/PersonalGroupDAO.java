@@ -1,6 +1,8 @@
 package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -24,7 +26,7 @@ public class PersonalGroupDAO implements IPersonalGroupDAO {
     private static final String GETPRIVATEPOSTSBYGROUPID = "{call getPrivatePostsByGroupID(?)}";
 
     @Override
-    public Map<String, Object> getPrivatePostsByGroupID(int groupID) {
+    public Map<String, Object> getPrivatePostsByGroupID(int groupID) throws DAOException {
         Map<String,Object> privatePostsMap = new HashMap<>();
         try{
             connection = this.databaseConfig.loadDatabase();
@@ -42,7 +44,7 @@ public class PersonalGroupDAO implements IPersonalGroupDAO {
             }
             privatePostsMap.put("privatePosts",posts);
         }catch (Exception e){
-            logger.error("Error in PersonalGroupDAO while fetching private posts by group id" +e.getMessage());
+            throw  new DAOException("<PersonalGroupDAO> - GET POSTS BY GROUP ID "+groupID+" - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

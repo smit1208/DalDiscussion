@@ -1,5 +1,6 @@
 package com.macs.group6.daldiscussion.service;
 
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class PersonalGroupService implements IPersonalGroupService{
     }
 
     @Override
-    public Map<String, Object> getPrivatePostsByGroupID(int groupID) {
+    public Map<String, Object> getPrivatePostsByGroupID(int groupID) throws DAOException {
         return idaoFactory.createPersonalGroupDAO().getPrivatePostsByGroupID(groupID);
     }
 }
