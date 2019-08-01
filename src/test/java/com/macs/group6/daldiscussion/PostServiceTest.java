@@ -12,6 +12,7 @@ import com.macs.group6.daldiscussion.model.PostImage;
 import com.macs.group6.daldiscussion.model.Reply;
 
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +37,15 @@ public class PostServiceTest {
         postDAOMock = new PostDAOMock();
         postImageDAOMock = new PostImageDAOMock();
         amazonClientMock = new AmazonClientMock();
+    }
+
+    @After
+    public void tearDown() throws Exception{
+        commentDAOMock = null;
+        replyDAOMock = null;
+        postDAOMock = null;
+        postImageDAOMock = null;
+        amazonClientMock = null;
     }
 
     @Test
