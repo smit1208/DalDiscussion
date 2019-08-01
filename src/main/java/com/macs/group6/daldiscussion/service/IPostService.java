@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Service
 public interface IPostService {
-    void create(Post post) throws DAOException;
+    void createPost(Post post) throws DAOException;
 
     void createPostWithImage(Post post, MultipartFile file,int user_id) throws DAOException;
 
@@ -26,9 +26,7 @@ public interface IPostService {
 
     void addComment(Comment c, int post_id, int user_id,String name) throws DAOException;
 
-    void addReply(Reply reply, int comment_id, int user_id, String name, int post_id) throws DAOException;
-
-    boolean fileSizeExceeded(MultipartFile file);
+    void addReply(Reply reply, int comment_id, int user_id, String name) throws DAOException;
 
     List<String> uploadImageToCloud(MultipartFile files, int post_id) throws DAOException;
 

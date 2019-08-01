@@ -1,8 +1,8 @@
+
 package com.macs.group6.daldiscussion.controller;
-
-//Multi part file referenced from
-//https://www.baeldung.com/spring-file-upload
-
+/**
+ * @author Sharon Alva
+ */
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
@@ -14,13 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +41,17 @@ public class PostController {
 
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
     public String postView(Model model, HttpSession session) {
-        Map<String,Object> displaySubMap = new HashMap<>();
+        Map<String,Object> displaySubscriptionMap = new HashMap<>();
         int userID = (Integer)session.getAttribute("id");
         String name = (String) session.getAttribute("firstName");
         model.addAttribute("name",name);
         try {
-            displaySubMap = iSubscriptionService.approvedSubscriptions(userID);
+            displaySubscriptionMap = iSubscriptionService.approvedSubscriptions(userID);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
         }
-        List<Subscription> subscriptions = (List<Subscription>) displaySubMap.get("displayApprovedSubscriptions");
+        List<Subscription> subscriptions = (List<Subscription>) displaySubscriptionMap.get("displayApprovedSubscriptions");
         model.addAttribute("approvedSubscription",subscriptions);
         return Views.VIEWPOST;
     }
@@ -68,7 +66,6 @@ public class PostController {
         Post post = new Post();
         int user_id = (Integer) session.getAttribute("id");
         post.setUser_id(user_id);
-        String imageMessage = "";
 
         if(postTitle!=null && postTitle.length()>0){
             post.setPost_title(postTitle);
@@ -88,7 +85,6 @@ public class PostController {
                 try{
                     postService.createPostWithImage(post,file, user_id);
                 } catch (DAOException e) {
-
                     logger.error(e.getMessage());
                     return "customError";
                 }
@@ -97,7 +93,7 @@ public class PostController {
         else{
             post.setIsImage(0);
                 try {
-                    postService.create(post);
+                    postService.createPost(post);
                 } catch (DAOException e) {
                     logger.error(e.getMessage());
                     return "customError";

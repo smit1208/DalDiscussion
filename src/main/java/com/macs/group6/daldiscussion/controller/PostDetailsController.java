@@ -173,7 +173,7 @@ public class PostDetailsController {
         }
         replies.setReply_description(reply);
         try {
-            iServiceFactory.createPostService().addReply(replies, comment_id,user_id,name, post_id);
+            iServiceFactory.createPostService().addReply(replies, comment_id,user_id,name);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
@@ -194,7 +194,6 @@ public class PostDetailsController {
         model.addAttribute("comments", commentList);
         logger.info("Reply added successfully");
         return "redirect:/getPosts/{id}";
-
     }
 
 }
