@@ -35,13 +35,6 @@ public class CommentDAOMock implements ICommentDAO {
         commentMap.put("1",comment);
         commentMap.put("2",comment1);
 
-
-        post.setId(1);
-        post.setPost_title("Post title");
-        post.setPost_description("Post Description");
-        post.setUser_id(12);
-        post.setGroup(5);
-
     }
 
 
@@ -50,10 +43,6 @@ public class CommentDAOMock implements ICommentDAO {
         return commentMap;
     }
 
-    @Override
-    public Post getPostById(int postId) {
-        return post;
-    }
 
     @Override
     public void addComment(Comment comment, int post_id, int user_id, String name) {

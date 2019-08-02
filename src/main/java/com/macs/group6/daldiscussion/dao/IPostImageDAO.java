@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface IPostImageDAO {
 
-     void addImage(String imageLink, int post_id) throws DAOException;
-     List<PostImage> getImageByPostId(int post_id) throws DAOException;
+    void addImage(String imageLink, int post_id) throws DAOException;
+    List<PostImage> getImageByPostId(int post_id) throws DAOException;
 }

@@ -50,13 +50,13 @@ public class PostDetailsController {
             return "customError";
         }
         try {
-            images = iServiceFactory.createPostService().getImageByPostId(post_id);
+            images = iServiceFactory.createImageService().getImageByPostId(post_id);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
         }
         try {
-            commentMap = iServiceFactory.createPostService().getComments(post_id);
+            commentMap = iServiceFactory.createCommentService().getComments(post_id);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
@@ -65,7 +65,7 @@ public class PostDetailsController {
         List<Comment> commentList = (List<Comment>) commentMap.get("commentList");
         for (int i=0; i<commentList.size();i++) {
             try {
-                replyList = iServiceFactory.createPostService().getReplies(commentList.get(i).getId());
+                replyList = iServiceFactory.createReplyService().getReplies(commentList.get(i).getId());
             } catch (DAOException e) {
                 logger.error(e.getMessage());
                 return "customError";
@@ -79,12 +79,7 @@ public class PostDetailsController {
             }
         }
         if(check){
-            try {
-                model.addAttribute("images",iServiceFactory.createPostService().getImageByPostId(post_id));
-            } catch (DAOException e) {
-                logger.error(e.getMessage());
-                return "customError";
-            }
+            model.addAttribute("images",images);
             model.addAttribute("comments", commentList);
             model.addAttribute("post", post);
         }else{
@@ -100,23 +95,24 @@ public class PostDetailsController {
         Comment c = new Comment();
         Post post = new Post();
         Map<String, Object> commentMap = new HashMap<>();
+        List<PostImage> images = new ArrayList<>();
         String name = (String)session.getAttribute("firstName");
         int user_id = (Integer) session.getAttribute("id");
         c.setComment_description(comment);
         try {
-            iServiceFactory.createPostService().addComment(c, post_id,user_id,name);
+            iServiceFactory.createCommentService().addComment(c, post_id,user_id,name);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
         }
         try {
-            List<PostImage> images = iServiceFactory.createPostService().getImageByPostId(post_id);
+            images = iServiceFactory.createImageService().getImageByPostId(post_id);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
         }
         try {
-            commentMap = iServiceFactory.createPostService().getComments(post_id);
+            commentMap = iServiceFactory.createCommentService().getComments(post_id);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
@@ -132,19 +128,14 @@ public class PostDetailsController {
 
         for (int i = 0; i < commentList.size(); i++) {
             try {
-                replyList = iServiceFactory.createPostService().getReplies(commentList.get(i).getId());
+                replyList = iServiceFactory.createReplyService().getReplies(commentList.get(i).getId());
             } catch (DAOException e) {
                 logger.error(e.getMessage());
                 return "customError";
             }
             commentList.get(i).setReplies(replyList);
         }
-        try {
-            model.addAttribute("images",iServiceFactory.createPostService().getImageByPostId(post_id));
-        } catch (DAOException e) {
-            logger.error(e.getMessage());
-            return "customError";
-        }
+        model.addAttribute("images",images);
         model.addAttribute("post", post);
         model.addAttribute("comments", commentList);
         logger.info("Comment successfully added");
@@ -166,14 +157,14 @@ public class PostDetailsController {
             return "customError";
         }
         try {
-            commentMap = iServiceFactory.createPostService().getComments(post_id);
+            commentMap = iServiceFactory.createCommentService().getComments(post_id);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
         }
         replies.setReply_description(reply);
         try {
-            iServiceFactory.createPostService().addReply(replies, comment_id,user_id,name, post_id);
+            iServiceFactory.createReplyService().addReply(replies, comment_id,user_id,name);
         } catch (DAOException e) {
             logger.error(e.getMessage());
             return "customError";
@@ -183,7 +174,7 @@ public class PostDetailsController {
 
         for (int i = 0; i < commentList.size(); i++) {
             try {
-                replyList = iServiceFactory.createPostService().getReplies(commentList.get(i).getId());
+                replyList = iServiceFactory.createReplyService().getReplies(commentList.get(i).getId());
             } catch (DAOException e) {
                 logger.error(e.getMessage());
                 return "customError";
@@ -194,7 +185,6 @@ public class PostDetailsController {
         model.addAttribute("comments", commentList);
         logger.info("Reply added successfully");
         return "redirect:/getPosts/{id}";
-
     }
 
 }

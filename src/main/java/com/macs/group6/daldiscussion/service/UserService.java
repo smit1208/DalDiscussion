@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.dao.UserDAO;
 import com.macs.group6.daldiscussion.entities.User;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,6 @@ public class UserService implements IUserService{
         return __instance;
     }
 
-
-
     @Override
     public List<User> getUserByEmail(String email) {
         try {
@@ -47,7 +46,12 @@ public class UserService implements IUserService{
         }
         return null;
     }
-    
+
+    @Override
+    public void updateUserKarmaPoints(int karmaPoints, int postid) throws DAOException {
+         userDAO.updateUserKarmaPoints(karmaPoints, postid);
+    }
+
     public boolean updateUser(int id, String fname,String lname,String email, String password) {
         return UserDAO.getInstance().updateUser( id, fname, lname, email, password);
         }

@@ -122,23 +122,23 @@ public class AppConfig {
 
     private static AppConfig __instance;
 
-    private String _smtpHost;
-    private int _smtpPort;
-    private String _smtpUsername;
-    private String _smtpPassword;
-    private String _smtpFromEmail;
-    private String _smtpFromName;
-    private String _webUrl;
-    private String _resetPasswordUrl;
-    private String _securityConfig;
-    private int _defaultKarmaPoints;
-    private int _defaultSubscriptionLimit;
-    private int _defaultCurrentStatus;
-    private int _postCommentSize;
-    private String _awsEndpointUrl;
-    private String _awsAccessKey;
-    private String _awsSecretKey;
-    private String _awsBucketName;
+    private String smtpHost;
+    private int smtpPort;
+    private String smtpUsername;
+    private String smtpPassword;
+    private String smtpFromEmail;
+    private String smtpFromName;
+    private String webUrl;
+    private String resetPasswordUrl;
+    private String securityConfig;
+    private int defaultKarmaPoints;
+    private int defaultSubscriptionLimit;
+    private int defaultCurrentStatus;
+    private int postCommentSize;
+    private String awsEndpointUrl;
+    private String awsAccessKey;
+    private String awsSecretKey;
+    private String awsBucketName;
     /**
      * Singleton implementation for AppConfig
      * @return AppConfig instance
@@ -156,7 +156,7 @@ public class AppConfig {
      * @return a SMTP host
      */
     public String getSmtpHost() {
-        return _smtpHost;
+        return smtpHost;
     }
 
     /**
@@ -164,7 +164,7 @@ public class AppConfig {
      * @return a SMTP port
      */
     public int getSmtpPort() {
-        return _smtpPort;
+        return smtpPort;
     }
 
     /**
@@ -172,7 +172,7 @@ public class AppConfig {
      * @return a SMTP username
      */
     public String getSmtpUsername() {
-        return _smtpUsername;
+        return smtpUsername;
     }
 
     /**
@@ -180,7 +180,7 @@ public class AppConfig {
      * @return a SMTP password
      */
     public String getSmtpPassword() {
-        return _smtpPassword;
+        return smtpPassword;
     }
 
     /**
@@ -188,7 +188,7 @@ public class AppConfig {
      * @return a SMTP sender email
      */
     public String getSmtpFromEmail() {
-        return _smtpFromEmail;
+        return smtpFromEmail;
     }
 
     /**
@@ -196,7 +196,7 @@ public class AppConfig {
      * @return a SMTP sender name
      */
     public String getSmtpFromName() {
-        return _smtpFromName;
+        return smtpFromName;
     }
 
     /**
@@ -204,7 +204,7 @@ public class AppConfig {
      * @return a URL of this web application
      */
     public String getWebUrl() {
-        return _webUrl;
+        return webUrl;
     }
 
     /**
@@ -212,39 +212,39 @@ public class AppConfig {
      * @return a URL for resetting password
      */
     public String getResetPasswordUrl() {
-        return _resetPasswordUrl;
+        return resetPasswordUrl;
     }
 
-    public int get_defaultKarmaPoints() {
-        return _defaultKarmaPoints;
+    public int getDefaultKarmaPoints() {
+        return defaultKarmaPoints;
     }
 
-    public int get_defaultSubscriptionLimit() {
-        return _defaultSubscriptionLimit;
+    public int getDefaultSubscriptionLimit() {
+        return defaultSubscriptionLimit;
     }
 
-    public int get_defaultCurrentStatus() {
-        return _defaultCurrentStatus;
+    public int getDefaultCurrentStatus() {
+        return defaultCurrentStatus;
     }
 
-    public int get_postCommentSize() {
-        return _postCommentSize;
+    public int getPostCommentSize() {
+        return postCommentSize;
     }
 
     public String getEndpointUrl() {
-        return _resetPasswordUrl;
+        return resetPasswordUrl;
     }
 
     public String get_AccessKey() {
-        return _awsAccessKey;
+        return awsAccessKey;
     }
 
     public String get_SecretKey() {
-        return _awsSecretKey;
+        return awsSecretKey;
     }
 
     public String get_BucketName() {
-        return _awsBucketName;
+        return awsBucketName;
     }
 
     /**
@@ -252,7 +252,7 @@ public class AppConfig {
      * @return a true if Spring Boot security must be configured, a false if default security must be configured
      */
     public boolean getSecurityConfig() {
-        return "true".equalsIgnoreCase(_securityConfig) || "yes".equalsIgnoreCase(_securityConfig);
+        return "true".equalsIgnoreCase(securityConfig) || "yes".equalsIgnoreCase(securityConfig);
     }
 
     /**
@@ -265,26 +265,26 @@ public class AppConfig {
             Properties properties = new Properties();
             properties.load(inputStream);
 
-            _smtpHost = readString(PROP_SMTP_HOST, ENV_SMTP_HOST, properties);
-            _smtpPort = readInteger(PROP_SMTP_PORT, ENV_SMTP_PORT, properties, DEF_SMTP_PORT);
-            _smtpUsername = readString(PROP_SMTP_USERNAME, ENV_SMTP_USERNAME, properties);
-            _smtpPassword = readString(PROP_SMTP_PASSWORD, ENV_SMTP_PASSWORD, properties);
-            _smtpFromEmail = readString(PROP_SMTP_FROM_EMAIL, ENV_SMTP_FROM_EMAIL, properties);
-            _smtpFromName = readString(PROP_SMTP_FROM_NAME, ENV_SMTP_FROM_NAME, properties);
+            smtpHost = readString(PROP_SMTP_HOST, ENV_SMTP_HOST, properties);
+            smtpPort = readInteger(PROP_SMTP_PORT, ENV_SMTP_PORT, properties, DEF_SMTP_PORT);
+            smtpUsername = readString(PROP_SMTP_USERNAME, ENV_SMTP_USERNAME, properties);
+            smtpPassword = readString(PROP_SMTP_PASSWORD, ENV_SMTP_PASSWORD, properties);
+            smtpFromEmail = readString(PROP_SMTP_FROM_EMAIL, ENV_SMTP_FROM_EMAIL, properties);
+            smtpFromName = readString(PROP_SMTP_FROM_NAME, ENV_SMTP_FROM_NAME, properties);
 
-            _webUrl = readString(PROP_WEB_URL, ENV_WEB_URL, properties);
-            _resetPasswordUrl = readString(PROP_RESET_PASSWORD_URL, ENV_RESET_PASSWORD_URL, properties);
+            webUrl = readString(PROP_WEB_URL, ENV_WEB_URL, properties);
+            resetPasswordUrl = readString(PROP_RESET_PASSWORD_URL, ENV_RESET_PASSWORD_URL, properties);
 
-            _securityConfig = readString(PROP_SECURITY_CONFIG, ENV_SECURITY_CONFIG, properties);
+            securityConfig = readString(PROP_SECURITY_CONFIG, ENV_SECURITY_CONFIG, properties);
 
-            _defaultKarmaPoints = getIntValue(PROP_USER_DEFAULT_KARMA_POINTS,properties);
-            _defaultCurrentStatus = getIntValue(PROP_USER_DEFAULT_CURRENT_STATUS,properties);
-            _defaultSubscriptionLimit = getIntValue(PROP_USER_DEFAULT_SUBSCRIPTION_LIMIT,properties);
-            _postCommentSize = getIntValue(PROP_POST_COMMENT_SIZE,properties);
-            _awsEndpointUrl = getValue(PROP_AWS_ENDPOINTURL, properties);
-            _awsAccessKey = getValue(PROP_AWS_ACCESSKEY, properties);
-            _awsSecretKey = getValue(PROP_AWS_SECRETKEY, properties);
-            _awsBucketName = getValue(PROP_AWS_BUCKETNAME, properties);
+            defaultKarmaPoints = getIntValue(PROP_USER_DEFAULT_KARMA_POINTS,properties);
+            defaultCurrentStatus = getIntValue(PROP_USER_DEFAULT_CURRENT_STATUS,properties);
+            defaultSubscriptionLimit = getIntValue(PROP_USER_DEFAULT_SUBSCRIPTION_LIMIT,properties);
+            postCommentSize = getIntValue(PROP_POST_COMMENT_SIZE,properties);
+            awsEndpointUrl = getValue(PROP_AWS_ENDPOINTURL, properties);
+            awsAccessKey = getValue(PROP_AWS_ACCESSKEY, properties);
+            awsSecretKey = getValue(PROP_AWS_SECRETKEY, properties);
+            awsBucketName = getValue(PROP_AWS_BUCKETNAME, properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
