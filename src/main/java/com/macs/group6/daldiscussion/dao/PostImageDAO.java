@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.PostImage;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class PostImageDAO implements IPostImageDAO {
             callableStatement.setInt(2,post_id);
             callableStatement.executeQuery();
         }catch (SQLException e){
-            throw  new DAOException("<PostImageDAO> - INSERT IMAGE BY POST"+post_id+" - ERROR", e, ErrorCode.INSERT_INTO_DB_ERROR);
+            throw  new DAOException("<PostImageDAO> - INSERT IMAGE BY POST"+post_id+" - ERROR", e);
 
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
@@ -57,7 +56,7 @@ public class PostImageDAO implements IPostImageDAO {
                 postImages.add(image);
             }
         }catch (SQLException e){
-            throw  new DAOException("<PostImageDAO> - GET IMAGE BY POST"+post_id+" - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<PostImageDAO> - GET IMAGE BY POST"+post_id+" - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

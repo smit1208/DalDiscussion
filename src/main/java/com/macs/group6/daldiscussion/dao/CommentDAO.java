@@ -2,9 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Comment;
-import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +24,6 @@ public class CommentDAO implements ICommentDAO {
 
     private DatabaseConfig databaseConfig = DatabaseConfig.getInstance();
     private static final String GETCOMMENTSBYPOSTID = "{call getCommentsByPostId(?)}";
-    private static final String GETPOSTBYID = "{call getPostById(?)}";
     private static final String ADDCOMMENT = "{call addComment(?,?,?,?)}";
     private static final String COMMENTBYNAME = "{call getCommentByName()}";
 
@@ -55,7 +52,7 @@ public class CommentDAO implements ICommentDAO {
 
         }catch (SQLException e){
             commentMap.put("Error","Error in fetching the comments");
-            throw  new DAOException("<CommentDAO> - "+postId+" - GET COMMENTS - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<CommentDAO> - "+postId+" - GET COMMENTS - ERROR", e);
 
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
@@ -63,31 +60,6 @@ public class CommentDAO implements ICommentDAO {
         return commentMap;
     }
 
-    @Override
-    public Post getPostById(int postId) throws DAOException {
-        Post post = new Post();
-        try{
-            connection = this.databaseConfig.loadDatabase();
-            callableStatement = connection.prepareCall(GETPOSTBYID);
-            callableStatement.setInt(1,postId);
-            resultSet = callableStatement.executeQuery();
-
-            while (resultSet.next()){
-
-                post.setId(resultSet.getInt("id"));
-                post.setPost_title(resultSet.getString("post_title"));
-                post.setPost_description(resultSet.getString("post_desc"));
-
-            }
-
-        }catch (SQLException e) {
-            throw  new DAOException("<CommentDAO> - "+postId+" - GET POST - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
-
-        }finally {
-            DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
-        }
-        return post;
-    }
 
     @Override
     public void addComment(Comment comment, int post_id, int user_id, String name) throws DAOException {
@@ -99,8 +71,8 @@ public class CommentDAO implements ICommentDAO {
             callableStatement.setInt(3,user_id);
             callableStatement.setString(4,name);
             callableStatement.executeQuery();
-        }catch (Exception e){
-            throw  new DAOException("<CommentDAO> - "+post_id+" - ADD COMMENT - ERROR", e, ErrorCode.INSERT_INTO_DB_ERROR);
+        }catch (SQLException e){
+            throw  new DAOException("<CommentDAO> - "+post_id+" - ADD COMMENT - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

@@ -20,6 +20,21 @@ public class ServiceFactory implements IServiceFactory {
     }
 
     @Override
+    public ICommentService createCommentService() {
+        return new CommentService();
+    }
+
+    @Override
+    public IReplyService createReplyService() {
+        return new ReplyService();
+    }
+
+    @Override
+    public IImageService createImageService() {
+        return new ImageService();
+    }
+
+    @Override
     public ISubscriptionService createSubscriptionService() {
         return new SubscriptionService();
     }
