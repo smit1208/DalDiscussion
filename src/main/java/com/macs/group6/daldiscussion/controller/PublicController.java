@@ -1,5 +1,10 @@
 package com.macs.group6.daldiscussion.controller;
 
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import com.macs.group6.daldiscussion.dao.UserDAO;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.model.ResetPasswordRequest;

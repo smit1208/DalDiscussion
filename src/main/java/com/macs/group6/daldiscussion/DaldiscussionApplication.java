@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion;
-
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import com.macs.group6.daldiscussion.service.CheckPostStatus;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;

@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.model;
-
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 public class LoginRequest {
     private String _email = "";
     private String _password = "";

@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.model;
-
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import java.util.HashMap;
 import java.util.Map;
 

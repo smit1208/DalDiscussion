@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.service;
-
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import com.macs.group6.daldiscussion.model.SendEmailRequest;
 import com.macs.group6.daldiscussion.model.SendEmailResponse;
 import org.apache.velocity.VelocityContext;

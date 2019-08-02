@@ -1,5 +1,10 @@
 package com.macs.group6.daldiscussion.model;
 
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import java.util.ArrayList;
 import java.util.List;
 

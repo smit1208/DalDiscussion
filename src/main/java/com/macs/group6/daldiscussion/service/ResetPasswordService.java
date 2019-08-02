@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.service;
-
+/**
+ * 
+ *
+ * @author Kush Rao
+ */
 import com.macs.group6.daldiscussion.dao.UserDAO;
 import com.macs.group6.daldiscussion.dao.VerificationDAO;
 import com.macs.group6.daldiscussion.entities.User;

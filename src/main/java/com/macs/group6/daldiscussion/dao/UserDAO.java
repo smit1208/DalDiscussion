@@ -277,7 +277,7 @@ public class UserDAO {
         }
     }
 
-    public boolean updateUser(int id, String fname, String lname, String email, String password) {
+    public boolean updateUser(int id, String fname, String lname, String email, String password) throws DAOException{
 
         connection = DatabaseConfig.getInstance().loadDatabase();
 
@@ -290,14 +290,14 @@ public class UserDAO {
             callableStatement.setString(5, password);
             callableStatement.executeUpdate();
             return true;
-
-        } catch (Exception e) {
-            logger.error("Error in UserDAO  in updating user profile " + e.getMessage());
-            return false;
+        } catch (SQLException e) {
+        	throw  new DAOException("<UserDAO> - UserID: "+ id +" - Error in UserDAO  in updating user profile", e);
+           
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
 
+   
     }
 
     public List<String> getUserGroups(int id) {
