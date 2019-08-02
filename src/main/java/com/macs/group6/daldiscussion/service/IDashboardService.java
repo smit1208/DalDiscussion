@@ -4,6 +4,9 @@ import com.macs.group6.daldiscussion.exceptions.DAOException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+/**
+ * @author Vivek Shah
+ */
 
 @Service
 public interface IDashboardService {

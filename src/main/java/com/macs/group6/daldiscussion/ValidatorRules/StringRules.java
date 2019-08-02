@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.ValidatorRules;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class StringRules {
 
 	private StringRules() {

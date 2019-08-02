@@ -10,6 +10,10 @@ import com.macs.group6.daldiscussion.service.UserService;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class RegistrationValidator implements Validator {
 
     public static final String EMAIL = "email";

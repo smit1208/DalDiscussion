@@ -7,11 +7,13 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
+
+/**
+ * @author Vivek Shah
+ */
 
 public class DashboardServiceTest {
     private static final Logger logger = Logger.getLogger(DashboardServiceTest.class);

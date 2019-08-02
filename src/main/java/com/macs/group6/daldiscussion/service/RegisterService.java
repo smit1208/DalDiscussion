@@ -10,6 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Vivek Shah
+ */
+
 @Service("RegisterService")
 public class RegisterService implements IRegisterService {
     private ISubscriptionService iSubscriptionService;

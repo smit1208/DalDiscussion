@@ -8,6 +8,10 @@ import com.macs.group6.daldiscussion.model.ReportedPost;
 
 import java.util.*;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class HomeDAOMock implements IHomeDAO {
 
     private Map<String,Object> postMap;
