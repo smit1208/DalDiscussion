@@ -29,14 +29,13 @@ public class PostController {
     private static final Logger logger = Logger.getLogger(PostController.class);
     private ISubscriptionService iSubscriptionService;
     private IPostService postService;
-    private AmazonClient amazonClient;
 
     @Autowired
     public PostController(@Qualifier("PostService") IPostService iPostService, @Qualifier("SubscriptionService")ISubscriptionService iSubscriptionService){
         this.postService = iPostService;
         this.iSubscriptionService = iSubscriptionService;
-        this.amazonClient = amazonClient;
     }
+
     @RequestMapping(value = "/addPost", method = RequestMethod.GET)
     public String postView(Model model, HttpSession session) {
         Map<String,Object> displaySubscriptionMap = new HashMap<>();

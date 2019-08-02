@@ -1,6 +1,7 @@
 package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.IDashboardDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +27,7 @@ public class DashboardServiceTest {
     }
 
     @Test
-    public void testGetPosts() {
+    public void testGetPosts() throws DAOException {
         Map<String, Object> postMap = new HashMap<>();
         postMap = dashboardDAOMock.getPostsByUserID(1);
         Post post1 = (Post) postMap.get("1");

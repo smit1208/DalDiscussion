@@ -9,6 +9,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.macs.group6.daldiscussion.AppConfig;
+import com.macs.group6.daldiscussion.dao.PersonalGroupDAO;
+import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AmazonClient {
-
+    private static final Logger logger = Logger.getLogger(AmazonClient.class);
     private static AmazonClient amazonClientInstance;
 
     private AmazonS3 s3client;
@@ -72,7 +74,6 @@ public class AmazonClient {
             data.setContentLength(file.getSize());
             DESTINATION_FOLDER = "prod/"+postId+"/";
             String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(file);
-
             this.getS3client().setObjectAcl(bucketName, destinationPath, CannedAccessControlList.PublicRead);
             imageUrls.add(destinationPath);
         }
@@ -81,15 +82,12 @@ public class AmazonClient {
 
     private static String getFileNameWithoutExtension(MultipartFile file) {
         String fileName = "";
-        try {
+
             if (file != null && file.getSize()>0) {
                 String name = file.getOriginalFilename();
                 fileName = name.replaceFirst("[.][^.]+$", "");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            fileName = "";
-        }
+
         return fileName;
     }
 }

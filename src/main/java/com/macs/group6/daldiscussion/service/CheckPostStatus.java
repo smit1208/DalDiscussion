@@ -1,4 +1,8 @@
 package com.macs.group6.daldiscussion.service;
+/**
+ * @author Sharon Alva
+ * 
+ */
 
 import com.macs.group6.daldiscussion.dao.PostDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
@@ -27,7 +31,7 @@ public class CheckPostStatus implements Runnable{
         this.iPostService = iPostService;
     }
 
-
+    /*Deactives all posts that have no activity for a specified period*/
     @Override
     public void run() {
         try {
