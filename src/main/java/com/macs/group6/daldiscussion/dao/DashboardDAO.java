@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ public class DashboardDAO implements IDashboardDAO {
             }
             personalPostMap.put("personalPosts", personalPosts);
         } catch (SQLException e) {
-            throw  new DAOException("<DashboardDAO>"+user_id+" - GET POST - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<DashboardDAO>"+user_id+" - GET POST - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -72,7 +71,7 @@ public class DashboardDAO implements IDashboardDAO {
             resultSet = callableStatement.executeQuery();
 
         } catch (SQLException e) {
-            throw  new DAOException("<DashboardDAO>"+post_id+" - DELETE POST - ERROR", e, ErrorCode.DELETE_RECORD_DB_ERROR);
+            throw  new DAOException("<DashboardDAO>"+post_id+" - DELETE POST - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -89,7 +88,7 @@ public class DashboardDAO implements IDashboardDAO {
             resultSet = callableStatement.executeQuery();
 
         } catch (SQLException e) {
-            throw  new DAOException("<DashboardDAO>"+id+" - UPDATE POST - ERROR", e, ErrorCode.UPDATE_RECORD_DB_ERROR);
+            throw  new DAOException("<DashboardDAO>"+id+" - UPDATE POST - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
