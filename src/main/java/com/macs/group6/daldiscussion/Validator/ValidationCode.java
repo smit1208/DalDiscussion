@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.Validator;
 
+/**
+ * @author Vivek Shah
+ */
+
 public enum ValidationCode {
 
 	// Registration Error

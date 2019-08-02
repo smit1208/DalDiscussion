@@ -7,6 +7,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class UserTest {
 
     User user;

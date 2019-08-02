@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.ValidatorRules;
 
+/**
+ * @author Vivek Shah
+ */
+
 import java.util.stream.Stream;
 
 import com.macs.group6.daldiscussion.Validator.ValidationCode;

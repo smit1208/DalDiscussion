@@ -1,5 +1,9 @@
 package com.macs.group6.daldiscussion.ValidatorRules;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class UpperCaseRule implements PasswordRule {
     @Override
     public boolean isCriteriaSatisfied(String password) {

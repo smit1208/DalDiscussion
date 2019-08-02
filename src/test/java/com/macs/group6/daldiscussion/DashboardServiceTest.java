@@ -1,18 +1,22 @@
 package com.macs.group6.daldiscussion;
 
 import com.macs.group6.daldiscussion.dao.IDashboardDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
 
-public class DashboardServiceTest {
+/**
+ * @author Vivek Shah
+ */
 
+public class DashboardServiceTest {
+    private static final Logger logger = Logger.getLogger(DashboardServiceTest.class);
     private IDashboardDAO dashboardDAOMock;
 
     @Before
@@ -28,7 +32,11 @@ public class DashboardServiceTest {
     @Test
     public void testGetPosts() {
         Map<String, Object> postMap = new HashMap<>();
-        postMap = dashboardDAOMock.getPostsByUserID(1);
+        try {
+            postMap = dashboardDAOMock.getPostsByUserID(1);
+        } catch (DAOException e) {
+            logger.error(e.getMessage());
+        }
         Post post1 = (Post) postMap.get("1");
 
         assertEquals(1, post1.getId());
