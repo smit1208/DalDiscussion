@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("DatabaseConfig")
 public class DatabaseConfig {
     private static DatabaseConfig databaseConfigInstance;

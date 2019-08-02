@@ -2,6 +2,9 @@ package com.macs.group6.daldiscussion.factory;
 
 import com.macs.group6.daldiscussion.service.*;
 
+/**
+ * @author Smit Saraiya
+ */
 public interface IServiceFactory {
     IHomeService createHomeService();
     IAdminService createAdminService();

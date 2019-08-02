@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Controller
 public class SubscriptionController {
     private static final Logger logger = Logger.getLogger(SubscriptionController.class);

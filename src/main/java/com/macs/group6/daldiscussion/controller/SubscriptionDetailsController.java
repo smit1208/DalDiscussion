@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+/**
+ * @author Smit Saraiya
+ */
 @Controller
 public class SubscriptionDetailsController {
     private static final Logger logger = Logger.getLogger(SubscriptionDetailsController.class);
