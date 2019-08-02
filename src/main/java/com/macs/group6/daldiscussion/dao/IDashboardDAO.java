@@ -4,6 +4,10 @@ import com.macs.group6.daldiscussion.exceptions.DAOException;
 
 import java.util.Map;
 
+/**
+ * @author Vivek Shah
+ */
+
 public interface IDashboardDAO {
     Map<String,Object> getPostsByUserID(int user_id) throws DAOException;
 

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Vivek Shah
+ */
 
 public class DashboardDAOMock implements IDashboardDAO {
     private Map<String,Object> personalPostMap;

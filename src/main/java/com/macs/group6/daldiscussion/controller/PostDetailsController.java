@@ -21,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Controller
 public class PostDetailsController {
     private IServiceFactory iServiceFactory;

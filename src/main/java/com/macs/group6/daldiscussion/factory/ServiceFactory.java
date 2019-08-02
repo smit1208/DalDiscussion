@@ -2,6 +2,9 @@ package com.macs.group6.daldiscussion.factory;
 
 import com.macs.group6.daldiscussion.service.*;
 
+/**
+ * @author Smit Saraiya
+ */
 public class ServiceFactory implements IServiceFactory {
     @Override
     public IHomeService createHomeService() {

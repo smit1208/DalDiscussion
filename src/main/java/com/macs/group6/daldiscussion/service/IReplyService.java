@@ -5,6 +5,9 @@ import com.macs.group6.daldiscussion.model.Reply;
 
 import java.util.List;
 
+/**
+ * @author Smit Saraiya
+ */
 public interface IReplyService {
 
     List<Reply> getReplies(int commentId) throws DAOException;

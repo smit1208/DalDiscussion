@@ -12,6 +12,10 @@ import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
+/**
+ * @author Vivek Shah
+ */
+
 @Component("RegisterDAO")
 public class RegisterDAO implements IRegisterDAO {
     private static final Logger logger = Logger.getLogger(RegisterDAO.class);

@@ -5,6 +5,9 @@ import com.macs.group6.daldiscussion.model.Comment;
 
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 public interface ICommentService {
     Map<String,Object> getComments(int postId) throws DAOException;
 

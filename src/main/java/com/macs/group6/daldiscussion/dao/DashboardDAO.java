@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Vivek Shah
+ */
+
 @Component("DashboardDAO")
 public class DashboardDAO implements IDashboardDAO {
     private static final Logger logger = Logger.getLogger(DashboardDAO.class);

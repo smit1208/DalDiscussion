@@ -7,6 +7,9 @@ import com.macs.group6.daldiscussion.model.Subscription;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 public interface IAdminDAO {
   User getAdmin() throws DAOException;
   List<Subscription> fetchAllSubscriptionRequests() throws DAOException;

@@ -2,7 +2,9 @@ package com.macs.group6.daldiscussion.ValidatorRules;
 
 import org.apache.log4j.Logger;
 
-
+/**
+ * @author Vivek Shah
+ */
 
 public class LengthRule implements PasswordRule {
 	

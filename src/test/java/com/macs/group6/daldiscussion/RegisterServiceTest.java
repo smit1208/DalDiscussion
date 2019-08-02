@@ -11,6 +11,10 @@ import javax.validation.constraints.AssertTrue;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class RegisterServiceTest {
 
     RegisterService registerService;

@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("PersonalGroupDAO")
 public class PersonalGroupDAO implements IPersonalGroupDAO {
     private static final Logger logger = Logger.getLogger(PersonalGroupDAO.class);
