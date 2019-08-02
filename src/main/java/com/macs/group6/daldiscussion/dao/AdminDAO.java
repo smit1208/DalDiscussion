@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("AdminDAO")
 public class AdminDAO implements IAdminDAO {
     private static final Logger logger = Logger.getLogger(AdminDAO.class);

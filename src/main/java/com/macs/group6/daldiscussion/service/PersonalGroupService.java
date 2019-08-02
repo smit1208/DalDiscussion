@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Service("PersonalGroupService")
 public class PersonalGroupService implements IPersonalGroupService{
 

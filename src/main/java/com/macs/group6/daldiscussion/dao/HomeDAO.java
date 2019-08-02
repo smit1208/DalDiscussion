@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("HomeDAO")
 public class HomeDAO implements IHomeDAO {
     Connection connection = null;

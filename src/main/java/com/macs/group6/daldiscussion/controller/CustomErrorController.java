@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.controller;
-
+/**
+ * @author Smit Saraiya
+ */
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

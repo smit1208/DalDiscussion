@@ -7,6 +7,9 @@ import com.macs.group6.daldiscussion.model.Reply;
 
 import java.util.List;
 
+/**
+ * @author Smit Saraiya
+ */
 public class ReplyService implements IReplyService {
 
     private IDAOFactory idaoFactory;

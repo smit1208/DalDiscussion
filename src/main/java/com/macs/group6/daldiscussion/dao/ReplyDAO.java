@@ -10,6 +10,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("ReplyDAO")
 public class ReplyDAO implements IReplyDAO {
     private static final Logger logger = Logger.getLogger(ReplyDAO.class);
