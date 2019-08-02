@@ -97,9 +97,9 @@ public class PostServiceTest {
 
     }
 
-   /* This test checks that the
-    Posts that have been last modified 3 days before current date are marked as inactive
-    */
+    /* This test checks that the
+     Posts that have been last modified 3 days before current date are marked as inactive
+     */
     @Test
     public void  getInactivePostsLastUpdateIsDaysBefore(){
         List<Post> postList = new ArrayList<>();

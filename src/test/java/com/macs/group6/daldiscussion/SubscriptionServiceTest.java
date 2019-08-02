@@ -4,6 +4,7 @@ import com.macs.group6.daldiscussion.dao.ISubscriptionDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,6 +24,12 @@ public class SubscriptionServiceTest {
     public void setUp() throws Exception {
         subscriptionDAOMock = new SubscriptionDAOMock();
     }
+
+    @After
+    public void tearDown() {
+        subscriptionDAOMock =null;
+    }
+
     private List<SubscriptionGroup> subscriptionGroupList = new ArrayList<>();
     @Test
     public void getAllSubscriptions() throws DAOException {

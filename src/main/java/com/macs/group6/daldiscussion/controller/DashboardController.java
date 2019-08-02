@@ -59,7 +59,7 @@ public class DashboardController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String postView(Model model, HttpSession session, @PathVariable("id") int id) {
 
-       return "redirect:/dashboard";
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/updatedData/{id}", method = RequestMethod.POST)

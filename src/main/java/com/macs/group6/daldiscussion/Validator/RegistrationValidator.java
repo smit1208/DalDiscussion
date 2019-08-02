@@ -12,13 +12,13 @@ import org.springframework.validation.Validator;
 
 public class RegistrationValidator implements Validator {
 
-	public static final String EMAIL = "email";
-	public static final String FIRST_NAME = "firstName";
+    public static final String EMAIL = "email";
+    public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
-	public static final String PASSWORD = "password";
-	public static final String NOTEMPTY = "NotEmpty";
-	public static final String PASSWORD_CONFIRM = "passwordConfirm";
-	private static RegistrationValidator instance;
+    public static final String PASSWORD = "password";
+    public static final String NOTEMPTY = "NotEmpty";
+    public static final String PASSWORD_CONFIRM = "passwordConfirm";
+    private static RegistrationValidator instance;
 
 
     public static RegistrationValidator getInstance() {
@@ -39,10 +39,10 @@ public class RegistrationValidator implements Validator {
         User user = (User) o;
 
 
-         if (StringRules.isNullOrEmpty(user.getFirstName())){
-             errors.rejectValue(FIRST_NAME,ValidationCode.NOTEMPTY.getPropertyName());
-             return ;
-         }
+        if (StringRules.isNullOrEmpty(user.getFirstName())){
+            errors.rejectValue(FIRST_NAME,ValidationCode.NOTEMPTY.getPropertyName());
+            return ;
+        }
 
 
         if (StringRules.isNullOrEmpty(user.getLastName())){
