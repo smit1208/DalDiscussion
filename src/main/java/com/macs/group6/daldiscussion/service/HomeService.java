@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Service("HomeService")
 public class HomeService implements IHomeService {
 

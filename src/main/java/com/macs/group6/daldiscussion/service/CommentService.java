@@ -1,7 +1,6 @@
 package com.macs.group6.daldiscussion.service;
 
 import com.macs.group6.daldiscussion.AppConfig;
-import com.macs.group6.daldiscussion.dao.UserDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
@@ -11,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 public class CommentService implements ICommentService {
     private static int commentSize;
     private static int karmaPoints = 100;

@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("SubscriptionDAO")
 public class SubscriptionDAO implements ISubscriptionDAO {
     private static final Logger logger = Logger.getLogger(SubscriptionDAO.class);

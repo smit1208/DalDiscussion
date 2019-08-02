@@ -17,6 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Smit Saraiya
+ */
 @Controller
 public class HomepageController {
     private static final Logger logger = Logger.getLogger(HomepageController.class);

@@ -7,6 +7,9 @@ import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 public interface ISubscriptionDAO {
     List<SubscriptionGroup> getAllSubscription() throws DAOException;
     void addSubscriptionRequest(int user_id, int group_id) throws DAOException;
