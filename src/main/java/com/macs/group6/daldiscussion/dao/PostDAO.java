@@ -1,8 +1,7 @@
+package com.macs.group6.daldiscussion.dao;
 /*
 @author Sharon Alva
 */
-package com.macs.group6.daldiscussion.dao;
-
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;

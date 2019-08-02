@@ -18,8 +18,7 @@ public class ServiceFactory implements IServiceFactory {
 
     @Override
     public IPostService createPostService() {
-       return new PostService();
-
+        return new PostService();
     }
 
     @Override

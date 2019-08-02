@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.service;
-
+/*
+@author Sharon Alva
+*/
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
@@ -25,12 +27,7 @@ public class ImageService implements IImageService {
     @Override
     public List<String> uploadImageToCloud(List<MultipartFile> files, int post_id) throws DAOException {
         List<String> imageUrls = new ArrayList<String>();
-
-        try {
-            imageUrls = amazonClient.uploadImage(files,post_id);
-        } catch (IOException e) {
-            throw new DAOException("AMAZON CLIENT - FILE UPLOAD ERROR", e);
-        }
+        imageUrls = amazonClient.uploadImage(files,post_id);
         return imageUrls;
     }
 

@@ -9,7 +9,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.macs.group6.daldiscussion.AppConfig;
-import com.macs.group6.daldiscussion.dao.PersonalGroupDAO;
+import com.macs.group6.daldiscussion.dao.PostDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
@@ -65,7 +66,7 @@ public class AmazonClient {
     }
 
 
-  public List<String> uploadImage(List<MultipartFile> files, int postId)throws AmazonServiceException, SdkClientException, IOException{
+  public List<String> uploadImage(List<MultipartFile> files, int postId) throws DAOException {
 
       List<String> imageUrls = new ArrayList<String>();
         for(MultipartFile file: files){
@@ -74,20 +75,30 @@ public class AmazonClient {
             data.setContentLength(file.getSize());
             DESTINATION_FOLDER = "prod/"+postId+"/";
             String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(file);
-            this.getS3client().setObjectAcl(bucketName, destinationPath, CannedAccessControlList.PublicRead);
-            imageUrls.add(destinationPath);
-        }
+
+
+          try {
+              PutObjectResult putObjectResult =  this.getS3client().putObject(bucketName,destinationPath,file.getInputStream(),data);
+              this.getS3client().setObjectAcl(bucketName, destinationPath, CannedAccessControlList.PublicRead);
+              imageUrls.add(destinationPath);
+          } catch (IOException e) {
+              throw new DAOException("<AmazonClient>-UPLOAD IMAGE FOR POST ID "+postId+" - ERROR",e);
+          }
+      }
       return imageUrls;
   }
 
     private static String getFileNameWithoutExtension(MultipartFile file) {
         String fileName = "";
-
+        try {
             if (file != null && file.getSize()>0) {
                 String name = file.getOriginalFilename();
                 fileName = name.replaceFirst("[.][^.]+$", "");
             }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            fileName = "";
+        }
         return fileName;
     }
 }

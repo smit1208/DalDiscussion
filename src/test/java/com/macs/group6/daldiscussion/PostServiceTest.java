@@ -1,31 +1,18 @@
 package com.macs.group6.daldiscussion;
-
-import com.macs.group6.daldiscussion.ValidationTest.AmazonClientMock;
-import com.macs.group6.daldiscussion.dao.ICommentDAO;
+/*
+@author Sharon Alva
+*/
 import com.macs.group6.daldiscussion.dao.IPostDAO;
-import com.macs.group6.daldiscussion.dao.IPostImageDAO;
-import com.macs.group6.daldiscussion.dao.IReplyDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.model.Comment;
 import com.macs.group6.daldiscussion.model.Post;
-import com.macs.group6.daldiscussion.model.PostImage;
-import com.macs.group6.daldiscussion.model.Reply;
-import com.macs.group6.daldiscussion.service.AmazonClient;
 import com.macs.group6.daldiscussion.service.IPostService;
 import com.macs.group6.daldiscussion.service.PostService;
-import javafx.geometry.Pos;
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
 import static junit.framework.TestCase.assertEquals;
-
 public class PostServiceTest {
 
     private IPostDAO postDAOMock;
@@ -36,7 +23,6 @@ public class PostServiceTest {
         postDAOMock = new PostDAOMock();
         postService = new PostService();
     }
-
 
     @After
     public void tearDown() {
@@ -58,7 +44,6 @@ public class PostServiceTest {
         postMock.setGroup(5);
         postMock.setIsImage(0);
         postMock.setReport(0);
-
         assertEquals(1, postDAOMock.createPost(postMock));
 
     }

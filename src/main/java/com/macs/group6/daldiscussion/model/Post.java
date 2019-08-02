@@ -4,7 +4,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
-
+/*
+@author Sharon Alva
+*/
 
 public class Post {
     private int id;

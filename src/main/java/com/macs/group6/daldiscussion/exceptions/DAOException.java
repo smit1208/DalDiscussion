@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.exceptions;
-
+/*
+@author Sharon Alva
+*/
 public class DAOException extends Exception {
 
     public DAOException(String message, Throwable cause){
