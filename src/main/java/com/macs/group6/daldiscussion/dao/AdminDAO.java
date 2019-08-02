@@ -3,7 +3,6 @@ package com.macs.group6.daldiscussion.dao;
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.Subscription;
 import org.apache.log4j.Logger;
@@ -42,7 +41,7 @@ public class AdminDAO implements IAdminDAO {
                 user.setRole(resultSet.getInt("role"));
             }
         } catch (SQLException e) {
-            throw  new DAOException("<AdminDAO> - GET ADMIN - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<AdminDAO> - GET ADMIN - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -67,7 +66,7 @@ public class AdminDAO implements IAdminDAO {
                 subscriptions.add(subscription);
             }
         } catch (SQLException e) {
-            throw  new DAOException("AdminDAO> - GET ALL SUBSCRIPTIONS - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("AdminDAO> - GET ALL SUBSCRIPTIONS - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -82,7 +81,7 @@ public class AdminDAO implements IAdminDAO {
             callableStatement.setInt(1,subscription_id);
             callableStatement.executeQuery();
         }catch (SQLException e){
-            throw  new DAOException("AdminDAO> "+subscription_id+"- APPROVE SUBSCRIPTION - ERROR", e, ErrorCode.INSERT_INTO_DB_ERROR);
+            throw  new DAOException("AdminDAO> "+subscription_id+"- APPROVE SUBSCRIPTION - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -111,7 +110,7 @@ public class AdminDAO implements IAdminDAO {
                 maxReportMap.put("post",posts);
             }
         } catch (SQLException e) {
-            throw  new DAOException("AdminDAO> - GET POSTS BY REPORTS - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("AdminDAO> - GET POSTS BY REPORTS - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

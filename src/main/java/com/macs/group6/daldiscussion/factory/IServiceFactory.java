@@ -6,6 +6,9 @@ public interface IServiceFactory {
     IHomeService createHomeService();
     IAdminService createAdminService();
     IPostService createPostService();
+    ICommentService createCommentService();
+    IReplyService createReplyService();
+    IImageService createImageService();
     ISubscriptionService createSubscriptionService();
     IPersonalGroupService createPersonalGroupService();
 }

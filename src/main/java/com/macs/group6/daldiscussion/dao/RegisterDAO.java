@@ -7,7 +7,6 @@ import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
 
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,9 @@ public class RegisterDAO implements IRegisterDAO {
 
     private static final String SQL_INSERT_RECORD = "INSERT INTO ` user` (first_name, last_name, email, password, karma_points, subscription_limit, current_status) VALUES (?, ?, ?, ?, ?, ?, ?);";
     private static final String SQL_SELECT_USER_BY_EMAIL = "SELECT id from  ` user` where email = ?";
-    private int  d_karma_points = AppConfig.getInstance().get_defaultKarmaPoints();
-    private int  d_subscription_limit = AppConfig.getInstance().get_defaultSubscriptionLimit();
-    private int  d_current_status = AppConfig.getInstance().get_defaultCurrentStatus();
+    private int  d_karma_points = AppConfig.getInstance().getDefaultKarmaPoints();
+    private int  d_subscription_limit = AppConfig.getInstance().getDefaultSubscriptionLimit();
+    private int  d_current_status = AppConfig.getInstance().getDefaultCurrentStatus();
 
     Connection connection = null;
     CallableStatement callableStatement = null;
@@ -44,7 +43,7 @@ public class RegisterDAO implements IRegisterDAO {
             result = callableStatement.executeUpdate();
 
             } catch (SQLException e) {
-            throw  new DAOException("<RegisterDAO> - CREATE USER - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
+            throw  new DAOException("<RegisterDAO> - CREATE USER - ERROR ", e);
         }
         finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,null);
@@ -65,7 +64,7 @@ public class RegisterDAO implements IRegisterDAO {
             }
          }
         catch (SQLException e){
-            throw  new DAOException("<RegisterDAO> - USER EXITS "+userRegister.getEmail()+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<RegisterDAO> - USER EXITS "+userRegister.getEmail()+" - ERROR ", e);
         }
 
         finally {

@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Reply;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -44,7 +43,7 @@ public class ReplyDAO implements IReplyDAO {
                 }
 
             }catch (SQLException e){
-                throw  new DAOException("<ReplyDAO> - GET ALL REPLIES FOR COMMENT"+commentId+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+                throw  new DAOException("<ReplyDAO> - GET ALL REPLIES FOR COMMENT"+commentId+" - ERROR ", e);
             }finally {
                 DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
             }
@@ -62,7 +61,7 @@ public class ReplyDAO implements IReplyDAO {
             callableStatement.setString(4,name);
             callableStatement.executeQuery();
     }catch (SQLException e){
-            throw  new DAOException("<ReplyDAO> - ADD REPLY FOR COMMENT"+comment_id+" - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
+            throw  new DAOException("<ReplyDAO> - ADD REPLY FOR COMMENT"+comment_id+" - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,statement,resultSet);
         }

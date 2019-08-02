@@ -25,11 +25,7 @@ public class PublicController {
 
     private static final Logger LOGGER = LogManager.getLogger(PublicController.class);
     private IUserService iUserService;
-
-    private IObserver iUserObserver;
-    private ISubject ipostService;
-    public PublicController(@Qualifier("PostService") ISubject iPostService){
-        this.ipostService = iPostService;
+    public PublicController(){
         this.iUserService = new UserService(new UserDAO());
     }
 
@@ -158,7 +154,7 @@ public class PublicController {
 
         try {
             request.login(email, password);
-            this.iUserObserver = UserServiceObserver.getInstance(ipostService);
+
             session.setAttribute("email",email);
             session.setAttribute("firstName",users.get(0).getFirstName());
             session.setAttribute("karma",users.get(0).getKarmaPoints());
