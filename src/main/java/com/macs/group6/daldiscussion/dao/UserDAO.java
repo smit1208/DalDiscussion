@@ -269,7 +269,6 @@ public class UserDAO {
             if (result > 0) {
                 logger.info(" Karma points updated for user" + userId + " karma points " + updatedKarmaPoints);
             }
-
         } catch (SQLException e) {
             throw new DAOException("<UserDAO> - UPDATE KARMA POINTS FOR USER:"+userId+" - ERROR- ",e);
         } finally {
@@ -290,14 +289,12 @@ public class UserDAO {
             callableStatement.setString(5, password);
             callableStatement.executeUpdate();
             return true;
-
         } catch (Exception e) {
             logger.error("Error in UserDAO  in updating user profile " + e.getMessage());
             return false;
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
-
     }
 
     public List<String> getUserGroups(int id) {
@@ -306,18 +303,14 @@ public class UserDAO {
         connection = DatabaseConfig.getInstance().loadDatabase();
 
         try {
-
             preparedStatement = connection.prepareStatement(SQL_PROCEDURE_FIND_USER_GROUPS);
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             ResultSet result = preparedStatement.getResultSet();
-
             while (result.next()) {
                 groups.add(result.getString(2));
             }
-
             return groups;
-
         } catch (SQLException e) {
             logger.error("Error in UserDAO in retriving group data" + e.getMessage());
             return new ArrayList<String>();

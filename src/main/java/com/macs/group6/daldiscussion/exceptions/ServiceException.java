@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.exceptions;
-
+/*
+@author Sharon Alva
+*/
 public class ServiceException extends Exception{
 
     public ServiceException(String message, Throwable cause)

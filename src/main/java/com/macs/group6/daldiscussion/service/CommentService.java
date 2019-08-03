@@ -5,6 +5,7 @@ import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.factory.DAOFactory;
 import com.macs.group6.daldiscussion.factory.IDAOFactory;
 import com.macs.group6.daldiscussion.model.Comment;
+import com.sun.org.apache.bcel.internal.generic.IUSHR;
 
 import java.util.HashMap;
 import java.util.List;

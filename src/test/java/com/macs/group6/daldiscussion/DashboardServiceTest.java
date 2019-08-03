@@ -30,7 +30,7 @@ public class DashboardServiceTest {
     }
 
     @Test
-    public void testGetPosts() {
+    public void testGetPosts() throws DAOException {
         Map<String, Object> postMap = new HashMap<>();
         try {
             postMap = dashboardDAOMock.getPostsByUserID(1);

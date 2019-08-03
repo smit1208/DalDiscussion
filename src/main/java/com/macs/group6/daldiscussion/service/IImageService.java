@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.service;
-
+/*
+@author Sharon Alva
+*/
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.PostImage;
 import org.springframework.web.multipart.MultipartFile;

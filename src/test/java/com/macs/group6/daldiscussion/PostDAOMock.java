@@ -1,10 +1,10 @@
 package com.macs.group6.daldiscussion;
-
+/*
+@author Sharon Alva
+*/
 import com.macs.group6.daldiscussion.dao.IPostDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 import java.util.List;
 

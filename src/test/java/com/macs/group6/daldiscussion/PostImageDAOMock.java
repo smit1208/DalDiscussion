@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion;
-
+/*
+@author Sharon Alva
+*/
 import com.macs.group6.daldiscussion.dao.IPostImageDAO;
 import com.macs.group6.daldiscussion.model.PostImage;
 
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PostImageDAOMock implements IPostImageDAO {
+
     @Override
     public void addImage(String imageLink, int post_id) {
 
