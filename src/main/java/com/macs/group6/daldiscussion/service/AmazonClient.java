@@ -9,6 +9,9 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.macs.group6.daldiscussion.AppConfig;
+import com.macs.group6.daldiscussion.dao.PostDAO;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
+import org.apache.log4j.Logger;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AmazonClient {
-
+    private static final Logger logger = Logger.getLogger(AmazonClient.class);
     private static AmazonClient amazonClientInstance;
 
     private AmazonS3 s3client;
@@ -63,40 +66,30 @@ public class AmazonClient {
     }
 
 
-
-    public File convertMultiPartToFile(MultipartFile multipartFile) throws IOException {
-        File convFile = new File(System.getProperty("java.io.tmpdir") + System.getProperty("file.separator") +
-                multipartFile.getOriginalFilename());
-        multipartFile.transferTo(convFile);
-        return convFile;
-    }
-
-  public List<String> uploadImage(MultipartFile files, int postId)throws AmazonServiceException, SdkClientException, IOException{
+  public List<String> uploadImage(List<MultipartFile> files, int postId) throws DAOException {
 
       List<String> imageUrls = new ArrayList<String>();
-
-          ObjectMetadata data = new ObjectMetadata();
-          data.setContentType(files.getContentType());
-          data.setContentLength(files.getSize());
-          DESTINATION_FOLDER = "prod/"+postId+"/";
-          String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(files);
+        for(MultipartFile file: files){
+            ObjectMetadata data = new ObjectMetadata();
+            data.setContentType(file.getContentType());
+            data.setContentLength(file.getSize());
+            DESTINATION_FOLDER = "prod/"+postId+"/";
+            String destinationPath = DESTINATION_FOLDER + getFileNameWithoutExtension(file);
 
 
           try {
-
-              PutObjectResult putObjectResult =  this.getS3client().putObject(bucketName,destinationPath,files.getInputStream(),data);
+              PutObjectResult putObjectResult =  this.getS3client().putObject(bucketName,destinationPath,file.getInputStream(),data);
               this.getS3client().setObjectAcl(bucketName, destinationPath, CannedAccessControlList.PublicRead);
               imageUrls.add(destinationPath);
           } catch (IOException e) {
-              e.printStackTrace();
+              throw new DAOException("<AmazonClient>-UPLOAD IMAGE FOR POST ID "+postId+" - ERROR",e);
           }
-
+      }
       return imageUrls;
   }
 
     private static String getFileNameWithoutExtension(MultipartFile file) {
         String fileName = "";
-
         try {
             if (file != null && file.getSize()>0) {
                 String name = file.getOriginalFilename();
@@ -106,8 +99,6 @@ public class AmazonClient {
             e.printStackTrace();
             fileName = "";
         }
-
         return fileName;
-
     }
 }

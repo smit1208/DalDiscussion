@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -10,11 +9,15 @@ import org.springframework.stereotype.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("PersonalGroupDAO")
 public class PersonalGroupDAO implements IPersonalGroupDAO {
     private static final Logger logger = Logger.getLogger(PersonalGroupDAO.class);
@@ -43,8 +46,8 @@ public class PersonalGroupDAO implements IPersonalGroupDAO {
                 posts.add(post);
             }
             privatePostsMap.put("privatePosts",posts);
-        }catch (Exception e){
-            throw  new DAOException("<PersonalGroupDAO> - GET POSTS BY GROUP ID "+groupID+" - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+        }catch (SQLException e){
+            throw  new DAOException("<PersonalGroupDAO> - GET POSTS BY GROUP ID "+groupID+" - ERROR", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

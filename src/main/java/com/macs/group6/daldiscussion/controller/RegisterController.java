@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-//import com.oracle.webservices.internal.api.databinding.DatabindingMode;
+/**
+ * @author Vivek Shah
+ */
 
 @Controller
 public class RegisterController {
@@ -38,9 +40,9 @@ public class RegisterController {
 
     @PostMapping(value = "/register")
     public String register(
-                           @ModelAttribute("registrationForm") User userReg,
-                           BindingResult bindingResult,
-                           Model model) {
+            @ModelAttribute("registrationForm") User userReg,
+            BindingResult bindingResult,
+            Model model) {
 
         //userReg.set_confirmPassword();
         registrationValidator.validate(userReg, bindingResult);
@@ -50,7 +52,6 @@ public class RegisterController {
             return Views.REGISTER;
         } else {
             String message = "";
-
 
             try {
                 if (registerService.userExists(userReg)) {

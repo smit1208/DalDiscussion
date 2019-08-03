@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -22,9 +23,7 @@
 <div id="wrapper">
     <jsp:include page="sidebar.jsp"></jsp:include>
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
             <div class="d-flex justify-content-center">
                 <div class="col-md-5 ">
                     <div class="container">
@@ -36,40 +35,40 @@
                                         <h4>Add Post</h4>
                                     </div>
                                     <div class="card-body text-info">
-                                        <form method="post" action="/savePost"  enctype="multipart/form-data">
+                                        <form:form method="post" action="/addPost"   enctype="multipart/form-data" modelAttribute="addPost">
                                             <div class="form-group">
                                                 <label>Post Title</label>
-                                                <input id = "postTitle" type="text" name="postTitle" class="form-control" required><br>
+                                                <form:input id = "postTitle" type="text" name="postTitle" path="post_title" class="form-control" required="required" ></form:input><br>
                                             </div>
                                             <div class="form-group">
                                                 <label>Post Description</label>
-                                                <textarea rows="4" cols="50" name="postDesc" class="form-control"required></textarea>
+                                                <form:textarea rows="4" cols="50" name="postDesc" path="post_description" class="form-control" required="required"></form:textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label>Category</label>
-                                                <select name="category" class="form-control">
-                                                    <option value="1" selected>Discussion</option>
-                                                </select>
+                                                <form:select name="category" path="category" class="form-control">
+                                                    <form:option value="1">Discussion</form:option>
+                                                </form:select>
                                             </div>
                                             <div class="form-group">
                                                 <label>Group</label>
-                                                <select name="group" class="form-control">
+                                                <form:select name="group" path="groupId" class="form-control">
                                                     <c:forEach items="${approvedSubscription}" var="sub">
-                                                        <option value=${sub.group_id}>${sub.groupName}</option>
+                                                        <form:option value="${sub.group_id}">${sub.groupName}</form:option>
                                                     </c:forEach>
-                                                </select>
+                                                </form:select>
                                             </div>
                                             <div class="form-group">
                                                 <div style="color: red;">
                                                     ${message}
                                                 </div>
                                                 <label>Add an image</label>
-                                                <input type="file" class="form-control" name="image" accept="image/*" multiple>
+                                                <form:input type="file" path="files" class="form-control" name="image" accept="image/*"  multiple="multiple"></form:input>
                                             </div>
                                             <div class="form-group">
-                                                <button class="btn btn-info btn-block" type="submit">POST</button>
+                                                <form:button class="btn btn-info btn-block" type="submit">POST</form:button>
                                             </div>
-                                        </form>
+                                        </form:form>
                                     </div>
                                 </div>
                             </div>

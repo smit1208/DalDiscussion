@@ -2,6 +2,9 @@ package com.macs.group6.daldiscussion.factory;
 
 import com.macs.group6.daldiscussion.dao.*;
 
+/**
+ * @author Smit Saraiya
+ */
 public class DAOFactory implements IDAOFactory {
     @Override
     public IHomeDAO createHomeDAO() {

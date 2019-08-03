@@ -2,6 +2,7 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.entities.User;
+import com.macs.group6.daldiscussion.exceptions.DAOException;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -228,7 +229,6 @@ public class UserDAO {
                 System.out.println(userId);
                 userId = resultSet.getInt(1);
             }
-
         } catch (SQLException e) {
             logger.error("Error in UserDAO while fetching user by post id " + e.getMessage());
         } finally {
@@ -256,7 +256,7 @@ public class UserDAO {
         return karmaPoints;
     }
 
-    public void updateUserKarmaPoints(int karmaPoints, int postid) {
+    public void updateUserKarmaPoints(int karmaPoints, int postid) throws DAOException {
         int userId = getUserIdByPostID(postid);
         int originalKarmaPoints = getOriginalKarmaPoints(userId);
         int updatedKarmaPoints = originalKarmaPoints + karmaPoints;
@@ -269,9 +269,8 @@ public class UserDAO {
             if (result > 0) {
                 logger.info(" Karma points updated for user" + userId + " karma points " + updatedKarmaPoints);
             }
-
         } catch (SQLException e) {
-            logger.error("Error in UserDAO  in updating karmapoints " + e.getMessage());
+            throw new DAOException("<UserDAO> - UPDATE KARMA POINTS FOR USER:"+userId+" - ERROR- ",e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, null);
         }
@@ -290,14 +289,12 @@ public class UserDAO {
             callableStatement.setString(5, password);
             callableStatement.executeUpdate();
             return true;
-
         } catch (Exception e) {
             logger.error("Error in UserDAO  in updating user profile " + e.getMessage());
             return false;
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
-
     }
 
     public List<String> getUserGroups(int id) {
@@ -306,20 +303,15 @@ public class UserDAO {
         connection = DatabaseConfig.getInstance().loadDatabase();
 
         try {
-
             preparedStatement = connection.prepareStatement(SQL_PROCEDURE_FIND_USER_GROUPS);
             preparedStatement.setInt(1, id);
-
             preparedStatement.execute();
             ResultSet result = preparedStatement.getResultSet();
-
             while (result.next()) {
                 groups.add(result.getString(2));
             }
-
             return groups;
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             logger.error("Error in UserDAO in retriving group data" + e.getMessage());
             return new ArrayList<String>();
         } finally {

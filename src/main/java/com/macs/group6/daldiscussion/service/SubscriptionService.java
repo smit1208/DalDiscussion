@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Service("SubscriptionService")
 public class SubscriptionService implements ISubscriptionService{
     private IDAOFactory idaoFactory;

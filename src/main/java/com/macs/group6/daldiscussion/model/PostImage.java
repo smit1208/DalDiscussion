@@ -1,5 +1,7 @@
 package com.macs.group6.daldiscussion.model;
-
+/*
+@author Sharon Alva
+*/
 public class PostImage {
     private int id;
     private String imageLink;

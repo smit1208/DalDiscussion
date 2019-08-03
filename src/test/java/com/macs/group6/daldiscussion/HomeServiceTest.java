@@ -3,6 +3,7 @@ package com.macs.group6.daldiscussion;
 import com.macs.group6.daldiscussion.dao.IHomeDAO;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
 import com.macs.group6.daldiscussion.model.Post;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 import static junit.framework.TestCase.*;
+/**
+ * @author Vivek Shah
+ */
 
 public class HomeServiceTest {
 
@@ -20,6 +24,11 @@ public class HomeServiceTest {
     @Before
     public void setUp() throws Exception {
         homeDAOMock = new HomeDAOMock();
+    }
+
+    @After
+    public void tearDown() {
+        homeDAOMock =null;
     }
 
     @Test

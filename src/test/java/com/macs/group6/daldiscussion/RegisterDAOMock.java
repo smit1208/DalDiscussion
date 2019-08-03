@@ -3,6 +3,10 @@ package com.macs.group6.daldiscussion;
 import com.macs.group6.daldiscussion.dao.IRegisterDAO;
 import com.macs.group6.daldiscussion.entities.User;
 
+/**
+ * @author Vivek Shah
+ */
+
 public class RegisterDAOMock implements IRegisterDAO {
 
     @Override

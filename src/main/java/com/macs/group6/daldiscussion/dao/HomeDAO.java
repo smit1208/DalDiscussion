@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Post;
 import com.macs.group6.daldiscussion.model.ReportedPost;
 import org.springframework.stereotype.Component;
@@ -10,11 +9,15 @@ import org.springframework.stereotype.Component;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("HomeDAO")
 public class HomeDAO implements IHomeDAO {
     Connection connection = null;
@@ -47,8 +50,8 @@ public class HomeDAO implements IHomeDAO {
                 posts.add(post);
             }
             postMap.put("posts", posts);
-        } catch (Exception e) {
-            throw  new DAOException("<HomeDAO> - GET ALL POSTS - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+        } catch (SQLException e) {
+            throw  new DAOException("<HomeDAO> - GET ALL POSTS - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -63,8 +66,8 @@ public class HomeDAO implements IHomeDAO {
             callableStatement.setInt(1, user_id);
             callableStatement.setInt(2, post_id);
             resultSet = callableStatement.executeQuery();
-        } catch (Exception e) {
-            throw  new DAOException("<HomeDAO> - ADD REPORTED POST - ERROR", e, ErrorCode.INSERT_INTO_DB_ERROR);
+        } catch (SQLException e) {
+            throw  new DAOException("<HomeDAO> - ADD REPORTED POST - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -85,8 +88,8 @@ public class HomeDAO implements IHomeDAO {
                 reportedPost.setPost_id(resultSet.getInt("post_id"));
                 reportedPosts.add(reportedPost);
             }
-        } catch (Exception e) {
-            throw  new DAOException("<HomeDAO> - GET ALL REPOSTED POSTS BY "+reportedUser_id+"- ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+        } catch (SQLException e) {
+            throw  new DAOException("<HomeDAO> - GET ALL REPOSTED POSTS BY "+reportedUser_id+"- ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -111,8 +114,8 @@ public class HomeDAO implements IHomeDAO {
                 posts.add(post);
             }
 
-        } catch (Exception e) {
-            throw  new DAOException("<HomeDAO> - GET SEARCHED POSTS "+search+" - ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+        } catch (SQLException e) {
+            throw  new DAOException("<HomeDAO> - GET SEARCHED POSTS "+search+" - ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }
@@ -136,8 +139,8 @@ public class HomeDAO implements IHomeDAO {
                 post.setPost_description(resultSet.getString("post_desc"));
                 posts.add(post);
             }
-        } catch (Exception e) {
-            throw  new DAOException("<HomeDAO> - GET ALL POSTS BY GROUP ID "+group_id+"- ERROR", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+    } catch (SQLException e) {
+            throw  new DAOException("<HomeDAO> - GET ALL POSTS BY GROUP ID "+group_id+"- ERROR", e);
         } finally {
             DatabaseConfig.getInstance().closeConnection(connection, callableStatement, resultSet);
         }

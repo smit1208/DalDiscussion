@@ -2,7 +2,6 @@ package com.macs.group6.daldiscussion.dao;
 
 import com.macs.group6.daldiscussion.database.DatabaseConfig;
 import com.macs.group6.daldiscussion.exceptions.DAOException;
-import com.macs.group6.daldiscussion.exceptions.ErrorCode;
 import com.macs.group6.daldiscussion.model.Subscription;
 import com.macs.group6.daldiscussion.model.SubscriptionGroup;
 import org.apache.log4j.Logger;
@@ -17,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Component("SubscriptionDAO")
 public class SubscriptionDAO implements ISubscriptionDAO {
     private static final Logger logger = Logger.getLogger(SubscriptionDAO.class);
@@ -48,7 +50,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscriptionGroupList.add(subscriptionGroup);
             }
         }catch (SQLException e){
-            throw  new DAOException("<SubscriptionDAO> - GET ALL SUBSCRIPTION - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<SubscriptionDAO> - GET ALL SUBSCRIPTION - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -66,7 +68,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             callableStatement.executeQuery();
         }catch (SQLException e){
             throw  new DAOException("<SubscriptionDAO> - ADD SUBSCRIPTION FOR USER"+user_id+" FOR GROUP "
-                    +group_id+"- ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
+                    +group_id+"- ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -81,7 +83,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             callableStatement.setInt(3,5);// Group 5 is general discussion , all users have access to it
             callableStatement.executeQuery();
         }catch (SQLException e){
-            throw  new DAOException("<SubscriptionDAO> - GET DEFAULT SUBSCRIPTION - ERROR ", e, ErrorCode.INSERT_INTO_DB_ERROR);
+            throw  new DAOException("<SubscriptionDAO> - GET DEFAULT SUBSCRIPTION - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -103,7 +105,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
                 subscriptions.add(subscription);
             }
         }catch (SQLException e){
-            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY USERID "+user_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY USERID "+user_id+" - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -129,7 +131,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
             }
             approvedSubscriptionMap.put("displayApprovedSubscriptions",subscriptions);
         }catch (SQLException e){
-            throw  new DAOException("<SubscriptionDAO> - FETCH ALL APPROVED SUBSCRIPTIONS FOR USER "+user_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<SubscriptionDAO> - FETCH ALL APPROVED SUBSCRIPTIONS FOR USER "+user_id+" - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }
@@ -153,7 +155,7 @@ public class SubscriptionDAO implements ISubscriptionDAO {
 
             }
         }catch (SQLException e){
-            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY ID "+subscription_id+" - ERROR ", e, ErrorCode.RETRIVE_FROM_DB_ERROR);
+            throw  new DAOException("<SubscriptionDAO> - FETCH SUBSCRIPTION BY ID "+subscription_id+" - ERROR ", e);
         }finally {
             DatabaseConfig.getInstance().closeConnection(connection,callableStatement,resultSet);
         }

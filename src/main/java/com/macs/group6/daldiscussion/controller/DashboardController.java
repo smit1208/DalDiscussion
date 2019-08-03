@@ -17,6 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Vivek Shah
+ */
+
 @Controller
 public class DashboardController {
     private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(DashboardController.class);
@@ -59,7 +63,7 @@ public class DashboardController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     public String postView(Model model, HttpSession session, @PathVariable("id") int id) {
 
-       return "redirect:/dashboard";
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value = "/updatedData/{id}", method = RequestMethod.POST)

@@ -22,6 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 // https://www.mkyong.com/spring-boot/spring-boot-how-to-send-email-via-smtp/
 @Controller
 public class AdminController {

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Smit Saraiya
+ */
 @Service
 public interface ISubscriptionService {
     List<SubscriptionGroup> getAllSubscriptions() throws DAOException;
